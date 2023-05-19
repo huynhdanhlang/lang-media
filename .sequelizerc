@@ -1,0 +1,8 @@
+var path = require('path');
+
+module.exports = {
+  config: path.resolve('./apps/backend/src/database/db', 'config/config.js'),
+  'migrations-path': path.resolve('./apps/backend/src/database/db', 'migrations'),
+  'models-path': path.resolve('./apps/backend/src/database/db', 'models'),
+  'seeders-path': path.resolve('./apps/backend/src/database/db', 'seeders'),
+};
