@@ -5,14 +5,16 @@ const Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "users", deps: []
+ * dropTable "users"
+ * createTable "category", deps: []
+ * createTable "user", deps: []
  *
  **/
 
 const info = {
-    "revision": 1,
-    "name": "add-awesome-field-in-my-table",
-    "created": "2023-05-10T08:21:33.486Z",
+    "revision": 3,
+    "name": "init model",
+    "created": "2023-05-19T08:03:49.794Z",
     "comment": ""
 };
 
@@ -56,7 +58,7 @@ const migrationCommands = [
             [{
                 revision: info.revision,
                 name: info.name,
-                state: '{"revision":1,"tables":{"users":{"tableName":"users","schema":{"id":{"seqType":"Sequelize.INTEGER","allowNull":false,"primaryKey":true,"autoIncrement":true},"username":{"seqType":"Sequelize.STRING","allowNull":false,"unique":true},"password":{"seqType":"Sequelize.STRING","allowNull":false},"fullname":{"seqType":"Sequelize.STRING","allowNull":false},"email":{"seqType":"Sequelize.STRING","allowNull":false,"unique":true},"address":{"seqType":"Sequelize.STRING","allowNull":true},"phone":{"seqType":"Sequelize.STRING","allowNull":true},"website":{"seqType":"Sequelize.STRING","allowNull":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}}}}'
+                state: '{"revision":3,"tables":{"category":{"tableName":"category","schema":{"id":{"seqType":"Sequelize.INTEGER","allowNull":false,"primaryKey":true,"autoIncrement":true},"name":{"seqType":"Sequelize.STRING","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}},"user":{"tableName":"user","schema":{"id":{"seqType":"Sequelize.INTEGER","allowNull":false,"primaryKey":true,"autoIncrement":true},"username":{"seqType":"Sequelize.STRING","allowNull":false,"unique":true},"password":{"seqType":"Sequelize.STRING","allowNull":false},"fullname":{"seqType":"Sequelize.STRING","allowNull":false},"email":{"seqType":"Sequelize.STRING","allowNull":false,"unique":true},"address":{"seqType":"Sequelize.STRING","allowNull":true},"phone":{"seqType":"Sequelize.STRING","allowNull":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}}}}'
             }],
             {}
         ]
@@ -64,6 +66,114 @@ const migrationCommands = [
 
 
 
+    {
+        fn: "dropTable",
+        params: ["users"]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "category",
+            {
+                "id": {
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.INTEGER
+                },
+                "name": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "user",
+            {
+                "id": {
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.INTEGER
+                },
+                "username": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING
+                },
+                "password": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING
+                },
+                "fullname": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING
+                },
+                "email": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING
+                },
+                "address": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING
+                },
+                "phone": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    }
+];
+
+const rollbackCommands = [
+
+    {
+        fn: "bulkDelete",
+        params: [
+            "SequelizeMigrationsMeta",
+            [{
+                revision: info.revision,
+            }],
+            {}
+        ]
+    },
+
+
+
+    {
+        fn: "dropTable",
+        params: ["category"]
+    },
+    {
+        fn: "dropTable",
+        params: ["user"]
+    },
 
     {
         fn: "createTable",
@@ -102,10 +212,6 @@ const migrationCommands = [
                     "allowNull": true,
                     "type": Sequelize.STRING
                 },
-                "website": {
-                    "allowNull": true,
-                    "type": Sequelize.STRING
-                },
                 "createdAt": {
                     "allowNull": false,
                     "type": Sequelize.DATE
@@ -117,27 +223,6 @@ const migrationCommands = [
             },
             {}
         ]
-    }
-];
-
-const rollbackCommands = [
-
-    {
-        fn: "bulkDelete",
-        params: [
-            "SequelizeMigrationsMeta",
-            [{
-                revision: info.revision,
-            }],
-            {}
-        ]
-    },
-
-
-
-    {
-        fn: "dropTable",
-        params: ["users"]
     }
 ];
 

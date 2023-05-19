@@ -29,7 +29,7 @@
 - Create new change migration
   `npm run migrate --command="<message your change>"`
 - Apply migrations into db
-  `npm run db:migrate`
+  `npm run db:migrate:apply`
 - Migrate info command
   `npm run db:migrate --help`
 
