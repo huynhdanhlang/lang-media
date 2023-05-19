@@ -9,9 +9,9 @@ import {
   } from "sequelize-typescript";  
   @Table({
     timestamps: true,
-    tableName: "users",
+    tableName: "user",
   })
-  export default class Users extends Model {
+  export default class User extends Model<User> {
     @Column({ type: DataType.STRING, allowNull: false, unique: true })
     public username!: string;
   

@@ -6,3 +6,4 @@
 
 ## Set up
  - [Database](./apps/backend/database.md)
+ - [References](./References.md)
