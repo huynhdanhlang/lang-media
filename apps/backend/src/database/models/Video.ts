@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import Category from './Category';
 import Tag from './Tag';
-import VideoUser from './VideoUser';
+import VideoCategory from './VideoCategory';
 @Table({
   timestamps: true,
   tableName: 'video',
@@ -39,7 +39,7 @@ export default class Video extends Model<Video> {
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
   public view: number;
 
-  @HasMany(() => Category, 'categoryId')
+  @BelongsToMany(() => Category, () => VideoCategory)
   public category: Category[];
 
   @HasMany(() => Tag)

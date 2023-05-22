@@ -15,6 +15,5 @@ const migrationName: string = process.argv.slice(2).join().replace(/[,]/g, ' ');
 bootstrap(migrationName)
   .then(() => sequelize.close())
   .catch((e) => {
-    console.log('🚀 ~ file: db_migrate.ts:20 ~ e:', e);
     return process.exit(1);
   });

@@ -8,19 +8,19 @@ import {
   PrimaryKey,
 } from 'sequelize-typescript';
 import Video from './Video';
-import User from './User';
+import Category from './Category';
 @Table({
   timestamps: true,
-  tableName: 'videouser',
+  tableName: 'videoCategory',
   deletedAt: true,
 })
-export default class VideoUser extends Model<VideoUser> {
-  @BelongsTo(() => User)
-  public user: User;
+export default class VideoCategory extends Model<VideoCategory> {
+  @BelongsTo(() => Category)
+  public category: Category;
 
-  @ForeignKey(() => User)
+  @ForeignKey(() => Category)
   @Column({ type: DataType.INTEGER })
-  public userId: number;
+  public categoryId: number;
 
   @BelongsTo(() => Video)
   public video: Video;
