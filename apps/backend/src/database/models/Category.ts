@@ -1,5 +1,12 @@
-import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  Model,
+  Table,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import Video from './Video';
+import VideoCategory from './VideoCategory';
 
 @Table({
   timestamps: true,
@@ -8,10 +15,13 @@ import Video from './Video';
 })
 export default class Category extends Model<Category> {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  public name: string;
+  name: string;
 
-  @HasMany(() => Video, 'videoId')
-  public video: Video[];
+  @BelongsToMany(() => Video, {
+    through: () => VideoCategory,
+    as: 'videos',
+  })
+  videos: Video[];
 
   @Column({ type: DataType.STRING })
   role: string;

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import UserModel from '../database/models/User';
 import { InjectModel } from '@nestjs/sequelize';
-import User from '../database/models/User';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userService: typeof User) {}
-  async create(createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  constructor(@InjectModel(UserModel) private userService: typeof UserModel) {}
+  async create(createUserInput: CreateUserInput) {
+    return this.userService.create(createUserInput);
   }
 
   async findAll() {
@@ -19,8 +19,8 @@ export class UserService {
     return this.userService.findByPk(id);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userService.update(updateUserDto, {
+  async update(id: number, updateUserInput: UpdateUserInput) {
+    return this.userService.update(updateUserInput, {
       where: {
         id,
       },

@@ -14,14 +14,14 @@ import Video from './Video';
 })
 export default class Tag extends Model<Tag> {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  public name: string;
+  name: string;
 
   @BelongsTo(() => Video)
-  public video: Video;
+  video: Video;
 
   @ForeignKey(() => Video)
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
   })
-  public videoId: number;
+  videoId: number;
 }

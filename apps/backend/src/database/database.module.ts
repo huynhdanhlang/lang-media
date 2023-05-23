@@ -8,11 +8,15 @@ import { resolve } from 'path';
 @Module({
   providers: [DatabaseService],
   exports: [DatabaseService],
-  imports: [ConfigModule, SequelizeModule.forRoot({
-    ...config.development,
-    models: [resolve(__dirname, 'models', '*.ts')],
-    autoLoadModels: true,
-    synchronize: true
-  })],
+  imports: [
+    ConfigModule,
+    SequelizeModule.forRootAsync({
+      useFactory: () => ({
+        ...config.development,
+        models: [resolve(__dirname, 'models', '*.ts')],
+        synchronize: true,        
+      }),
+    }),
+  ],
 })
 export class DatabaseModule {}
