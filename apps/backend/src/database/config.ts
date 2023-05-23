@@ -1,8 +1,12 @@
+import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { resolve } from 'path';
 import { Dialect } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 require('dotenv').config();
-const config = {
+interface SequelizeConfig {
+  [key: string]: SequelizeModuleOptions;
+}
+const config: SequelizeConfig = {
   development: {
     username: process.env['DB_USERNAME'],
     password: process.env['DB_PASSWORD'],

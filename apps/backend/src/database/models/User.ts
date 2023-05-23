@@ -13,21 +13,21 @@ import {
   })
   export default class User extends Model<User> {
     @Column({ type: DataType.STRING, allowNull: false, unique: true })
-    public username!: string;
+    username: string;
   
     @Column({ type: DataType.STRING, allowNull: false })
-    public password!: string;
+    password: string;
   
     @Column({ type: DataType.STRING, allowNull: false })
-    public fullname!: string;
+    fullname: string;
   
     @IsEmail
     @Column({ type: DataType.STRING, allowNull: false, unique: true })
-    public email!: string;
+    email: string;
   
     @Column({ type: DataType.STRING, allowNull: true })
-    public address?: string;
+    address?: string;
   
     @Column({ type: DataType.STRING, allowNull: true })
-    public phone?: string;
+    phone?: string;
   }
