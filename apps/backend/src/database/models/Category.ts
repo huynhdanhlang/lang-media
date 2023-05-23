@@ -15,10 +15,13 @@ import VideoCategory from './VideoCategory';
 })
 export default class Category extends Model<Category> {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  public name: string;
+  name: string;
 
-  @BelongsToMany(() => Video, () => VideoCategory)
-  public video: Video[];
+  @BelongsToMany(() => Video, {
+    through: () => VideoCategory,
+    as: 'videos',
+  })
+  videos: Video[];
 
   @Column({ type: DataType.STRING })
   role: string;

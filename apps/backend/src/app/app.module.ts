@@ -7,6 +7,13 @@ import { DatabaseModule } from '../database/database.module';
 import { HttpCacheInterceptor } from '../utils/cache-manager.interceptor';
 import ms from 'ms';
 import { UserModule } from '../user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver } from '@nestjs/apollo/dist/drivers';
+import { join } from 'path';
+import { VideoModule } from '../video/video.module';
+import { TagModule } from '../tag/tag.module';
+import { CategoryModule } from '../category/category.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -33,7 +40,16 @@ import { UserModule } from '../user/user.module';
       },
       inject: [ConfigService],
     }),
-    UserModule
+    UserModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'apps/backend/src/schema.gql'),
+      // schema.gql will automatically be created
+      playground: true,
+    }),
+    VideoModule,
+    TagModule,
+    CategoryModule
   ],
   controllers: [AppController],
   providers: [

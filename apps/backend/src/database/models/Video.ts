@@ -31,17 +31,20 @@ export default class Video extends Model<Video> {
   trailerUrl: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  public language: string;
+  language: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  public country: string;
+  country: string;
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
-  public view: number;
+  view: number;
 
-  @BelongsToMany(() => Category, () => VideoCategory)
-  public category: Category[];
+  @BelongsToMany(() => Category, {
+    through: () => VideoCategory,
+    as: 'categories'
+  })
+  categories: Category[];
 
   @HasMany(() => Tag)
-  public tag: Tag[];
+  tags: Tag[];
 }

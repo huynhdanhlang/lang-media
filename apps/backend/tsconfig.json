@@ -17,5 +17,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
+    "paths": {
+      "*": ["../../../node_modules/*"]
+    }
   }
 }
