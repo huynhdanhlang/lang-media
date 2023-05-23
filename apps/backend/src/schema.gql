@@ -32,11 +32,8 @@ type Category {
 }
 
 type Query {
-  findAll: [User!]!
-  findOne(id: Int!): User!
-  video(id: Int!): Video!
-  tag(id: Int!): Tag!
-  category(id: Int!): Category!
+  findAll: [Category!]!
+  findOne(id: Int!): Category!
 }
 
 type Mutation {
