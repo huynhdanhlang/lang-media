@@ -13,12 +13,12 @@ export class CategoryResolver {
     return this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [Category], { name: 'category' })
+  @Query(() => [Category])
   findAll() {
     return this.categoryService.findAll();
   }
 
-  @Query(() => Category, { name: 'category' })
+  @Query(() => Category)
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.findOne(id);
   }
