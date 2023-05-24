@@ -22,7 +22,4 @@ export default class Category extends Model<Category> {
     as: 'videos',
   })
   videos: Video[];
-
-  @Column({ type: DataType.STRING })
-  role: string;
 }
