@@ -10,6 +10,7 @@ import {
 import Category from './Category';
 import Tag from './Tag';
 import VideoCategory from './VideoCategory';
+import TagVideo from './TagVideo';
 @Table({
   timestamps: true,
   tableName: 'video',
@@ -41,10 +42,13 @@ export default class Video extends Model<Video> {
 
   @BelongsToMany(() => Category, {
     through: () => VideoCategory,
-    as: 'categories'
+    as: 'categories',
   })
   categories: Category[];
 
-  @HasMany(() => Tag)
+  @BelongsToMany(() => Tag, {
+    through: () => TagVideo,
+    as: 'tags',
+  })
   tags: Tag[];
 }
