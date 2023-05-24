@@ -1,5 +1,4 @@
 'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,6 +11,12 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
+    const user = await queryInterface.select(null, 'user', {
+      where: {
+        username: 'huynhdanhlang',
+      },
+    });
+    if (user.length) return;
     await queryInterface.bulkInsert('user', [
       {
         username: 'huynhdanhlang',
