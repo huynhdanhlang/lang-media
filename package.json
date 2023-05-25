@@ -47,7 +47,6 @@
     "rxjs": "^7.0.0",
     "sequelize": "^6.31.0",
     "sequelize-typescript": "^2.1.5",
-    "sequelize-typescript-migration-lts": "^3.2.5",
     "styled-components": "5.3.6",
     "tslib": "^2.3.0"
   },
@@ -67,7 +66,9 @@
     "@nrwl/webpack": "16.2.1",
     "@nrwl/workspace": "16.2.1",
     "@testing-library/react": "14.0.0",
+    "@types/deep-diff": "^1.0.2",
     "@types/jest": "^29.4.0",
+    "@types/js-beautify": "^1.13.3",
     "@types/node": "^18.14.2",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
