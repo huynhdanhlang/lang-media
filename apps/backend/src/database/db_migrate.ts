@@ -1,14 +1,17 @@
 import { join } from 'path';
-import { SequelizeTypescriptMigration } from 'sequelize-typescript-migration-lts';
 import { sequelize } from './config';
+import { SequelizeTypescriptMigration } from '../utils/migration-tool';
 
 const bootstrap = async (migrationName: string) => {
-  await SequelizeTypescriptMigration.makeMigration(sequelize, {
-    outDir: join(__dirname, './db/migrations'),
-    migrationName: migrationName,
-    preview: false,
-    debug: true,
-    useSnakeCase: false,
+  await sequelize.transaction(async (transaction) => {
+    await SequelizeTypescriptMigration.makeMigration(sequelize, {
+      outDir: join(__dirname, './db/migrations'),
+      migrationName: migrationName,
+      preview: false,
+      debug: true,
+      useSnakeCase: false,
+      transaction,
+    });
   });
 };
 const migrationName: string = process.argv.slice(2).join().replace(/[,]/g, ' ');
