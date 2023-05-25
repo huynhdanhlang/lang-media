@@ -11,22 +11,29 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    const user = await queryInterface.select(null, 'user', {
-      where: {
-        username: 'huynhdanhlang',
-      },
+    await queryInterface.sequelize.transaction(async (transaction) => {
+      const user = await queryInterface.select(null, 'user', {
+        where: {
+          username: 'huynhdanhlang',
+        },
+        transaction,
+      });
+      if (user.length) return;
+      await queryInterface.bulkInsert(
+        'user',
+        [
+          {
+            username: 'huynhdanhlang',
+            password: '12345678',
+            fullname: 'Huynh Danh Lang',
+            email: 'danhlangbmvl@gmail.com',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        ],
+        { transaction }
+      );
     });
-    if (user.length) return;
-    await queryInterface.bulkInsert('user', [
-      {
-        username: 'huynhdanhlang',
-        password: '12345678',
-        fullname: 'Huynh Danh Lang',
-        email: 'danhlangbmvl@gmail.com',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
   },
 
   async down(queryInterface, Sequelize) {
@@ -36,8 +43,14 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('user', {
-      username: 'huynhdanhlang',
+    await queryInterface.sequelize.transaction(async (transaction) => {
+      await queryInterface.bulkDelete(
+        'user',
+        {
+          username: 'huynhdanhlang',
+        },
+        { transaction }
+      );
     });
   },
 };
