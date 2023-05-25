@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseService } from './database.provider';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { config } from './config';
-import { resolve } from 'path';
+import { getModels } from './models';
 
 @Module({
   providers: [DatabaseService],
@@ -13,8 +13,8 @@ import { resolve } from 'path';
     SequelizeModule.forRootAsync({
       useFactory: () => ({
         ...config.development,
-        models: [resolve(__dirname, 'models', '*.ts')],
-        synchronize: true,        
+        models: getModels,
+        synchronize: true,
       }),
     }),
   ],

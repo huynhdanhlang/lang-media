@@ -14,12 +14,12 @@ export class TagResolver {
   }
 
   @Query(() => [Tag])
-  findAll() {
+  findAllTag() {
     return this.tagService.findAll();
   }
 
   @Query(() => Tag)
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOneTag(@Args('id', { type: () => Int }) id: number) {
     return this.tagService.findOne(id);
   }
 
