@@ -47,6 +47,7 @@
     "rxjs": "^7.0.0",
     "sequelize": "^6.31.0",
     "sequelize-typescript": "^2.1.5",
+    "sequelize-typescript-migration-lts": "^3.2.5",
     "styled-components": "5.3.6",
     "tslib": "^2.3.0"
   },
@@ -102,4 +103,3 @@
     "typescript": "5.0.4"
   }
 }
-
