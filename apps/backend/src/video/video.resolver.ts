@@ -14,12 +14,12 @@ export class VideoResolver {
   }
 
   @Query(() => [Video])
-  findAll() {
+  findAllVideo() {
     return this.videoService.findAll();
   }
 
   @Query(() => Video)
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOneVideo(@Args('id', { type: () => Int }) id: number) {
     return this.videoService.findOne(id);
   }
 
