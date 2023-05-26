@@ -19,8 +19,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('demo')
     .build();
-  const document = SwaggerModule.createDocument(app, config,);
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+  app.enableCors({
+    origin: '*',
+  });
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`

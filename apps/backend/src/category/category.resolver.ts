@@ -3,32 +3,40 @@ import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
+import { CategoryClient } from './dto/category.client';
 
-@Resolver(() => Category)
+@Resolver(() => CategoryClient)
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @Mutation(() => Category)
-  createCategory(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
+  @Mutation(() => CategoryClient)
+  createCategory(
+    @Args('createCategoryInput') createCategoryInput: CreateCategoryInput
+  ) {
     return this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [Category])
-  findAll() {
+  @Query(() => [CategoryClient])
+  findAllCategory() {
     return this.categoryService.findAll();
   }
 
-  @Query(() => Category)
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => CategoryClient)
+  findOneCategory(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.findOne(id);
   }
 
-  @Mutation(() => Category)
-  updateCategory(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryService.update(updateCategoryInput.id, updateCategoryInput);
+  @Mutation(() => CategoryClient)
+  updateCategory(
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput
+  ) {
+    return this.categoryService.update(
+      updateCategoryInput.id,
+      updateCategoryInput
+    );
   }
 
-  @Mutation(() => Category)
+  @Mutation(() => CategoryClient)
   removeCategory(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.remove(id);
   }

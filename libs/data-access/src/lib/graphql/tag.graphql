@@ -1,0 +1,5 @@
+query findAllTag {
+  findAllTag{
+    name
+  }
+}

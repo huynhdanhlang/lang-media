@@ -2,6 +2,7 @@ import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { resolve } from 'path';
 import { Dialect } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { getModels } from './models';
 require('dotenv').config();
 interface SequelizeConfig {
   [key: string]: SequelizeModuleOptions;
@@ -26,7 +27,7 @@ const config: SequelizeConfig = {
 };
 const sequelize = new Sequelize({
   ...config.development,
-  models: [resolve(__dirname, 'models', '*.ts')],
+  models: getModels,
 });
 
 export { sequelize, config };
