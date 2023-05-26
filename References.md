@@ -1,1 +1,2 @@
 - [NestJS Caching Globally neatly.](https://dev.to/secmohammed/nestjs-caching-globally-neatly-1e17)
+- [Using Apollo GraphQL with React in an Nx Workspace](https://blog.nrwl.io/using-apollo-graphql-with-react-in-an-nx-workspace-99db8d69cebe)

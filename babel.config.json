@@ -1,3 +1,4 @@
 {
-  "babelrcRoots": ["*"]
+  "babelrcRoots": ["*"],
+  "plugins": [["styled-jsx/babel", { "optimizeForSpeed": true }]]
 }

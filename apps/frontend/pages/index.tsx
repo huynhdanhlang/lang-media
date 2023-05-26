@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { MyHeader } from '../components/layout/Header';
 import ImageSlider from '../components/layout/Carousel';
+import { FeatureSets } from 'libs/feature-sets/src';
 
 const StyledPage = styled.div`
   .page {
@@ -29,24 +30,7 @@ export function Index() {
         <MyHeader style={{ padding: 0, background: colorBgContainer }} />
         <ImageSlider />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div
-            style={{
-              padding: 24,
-              textAlign: 'center',
-              background: colorBgContainer,
-            }}
-          >
-            <p>long content</p>
-            {
-              // indicates very long content
-              Array.from({ length: 50 }, (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 10 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ))
-            }
-          </div>
+          <FeatureSets />
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2023 Created by Ant UED
