@@ -43,7 +43,12 @@ import { CategoryModule } from '../category/category.module';
     UserModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'apps/backend/src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'apps/backend/src/schema.graphql'),
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
+        outputAs: 'interface',
+      },
       // schema.gql will automatically be created
       playground: true,
     }),
