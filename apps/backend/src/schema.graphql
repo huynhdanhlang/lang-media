@@ -19,7 +19,7 @@ type VideoClient {
   url: String!
   trailerUrl: String
   language: String
-  view: String
+  view: Int
   country: String!
 }
 
@@ -83,7 +83,7 @@ input CreateVideoInput {
   url: String!
   trailerUrl: String
   language: String
-  view: String
+  view: Int
   country: String!
 }
 
@@ -92,7 +92,7 @@ input UpdateVideoInput {
   url: String
   trailerUrl: String
   language: String
-  view: String
+  view: Int
   country: String
   id: Int!
 }

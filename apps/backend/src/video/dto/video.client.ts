@@ -1,5 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { CreateVideoInput } from './create-video.input';
+import { CreateVideoInput } from '@graphqlTypes';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class VideoClient implements CreateVideoInput {
@@ -11,7 +11,7 @@ export class VideoClient implements CreateVideoInput {
   trailerUrl: string;
   @Field(() => String, { nullable: true })
   language: string;
-  @Field(() => String, { nullable: true })
+  @Field(() => Int, { nullable: true })
   view: number;
   @Field(() => String)
   country: string;

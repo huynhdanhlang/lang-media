@@ -28,7 +28,7 @@ export interface CreateVideoInput {
     url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
+    view?: Nullable<number>;
     country: string;
 }
 
@@ -37,7 +37,7 @@ export interface UpdateVideoInput {
     url?: Nullable<string>;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
+    view?: Nullable<number>;
     country?: Nullable<string>;
     id: number;
 }
@@ -74,7 +74,7 @@ export interface VideoClient {
     url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
+    view?: Nullable<number>;
     country: string;
 }
 
