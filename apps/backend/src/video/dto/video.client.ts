@@ -1,7 +1,8 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { CreateVideoInput } from './create-video.input';
 
-@InputType()
-export class CreateVideoInput {
+@ObjectType()
+export class VideoClient implements CreateVideoInput {
   @Field(() => String)
   name: string;
   @Field(() => String)
