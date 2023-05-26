@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { MyHeader } from '../components/layout/Header';
 import ImageSlider from '../components/layout/Carousel';
-import { FeatureSets } from 'libs/feature-sets/src';
+import { FeatureSets } from '@training-project/feature-sets';
 
 const StyledPage = styled.div`
   .page {

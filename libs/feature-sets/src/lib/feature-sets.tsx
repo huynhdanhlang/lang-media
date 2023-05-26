@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useFindAllTagQuery } from 'libs/data-access/src';
+import { useFindAllTagQuery } from '@training-project/data-access';
 /* eslint-disable-next-line */
 export interface FeatureSetsProps {}
 
