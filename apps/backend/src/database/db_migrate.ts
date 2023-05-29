@@ -14,6 +14,6 @@ const bootstrap = async (migrationName: string) => {
 const migrationName: string = process.argv.slice(2).join().replace(/[,]/g, ' ');
 bootstrap(migrationName)
   .then(() => sequelize.close())
-  .catch((e) => {
+  .finally(() => {
     return process.exit(1);
   });

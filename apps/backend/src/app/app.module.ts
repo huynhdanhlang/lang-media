@@ -48,6 +48,7 @@ import { CategoryModule } from '../category/category.module';
       definitions: {
         path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
         outputAs: 'interface',
+        
       },
       // schema.gql will automatically be created
       playground: true,

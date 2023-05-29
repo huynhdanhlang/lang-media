@@ -3,6 +3,8 @@
 # ------------------------------------------------------
 
 type UserClient {
+  id: Int!
+
   """user's name"""
   username: String!
 
@@ -15,6 +17,7 @@ type UserClient {
 }
 
 type VideoClient {
+  id: Int!
   name: String!
   url: String!
   trailerUrl: String
@@ -24,10 +27,12 @@ type VideoClient {
 }
 
 type TagClient {
+  id: Int!
   name: String!
 }
 
 type CategoryClient {
+  id: Int!
   name: String!
 }
 
@@ -68,13 +73,10 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  """user's name"""
-  username: String
-
   """user's password"""
-  password: String
-  fullname: String
-  email: String
+  password: String!
+  fullname: String!
+  email: String!
   id: Int!
 }
 
@@ -88,12 +90,11 @@ input CreateVideoInput {
 }
 
 input UpdateVideoInput {
-  name: String
-  url: String
+  url: String!
   trailerUrl: String
   language: String
   view: Int
-  country: String
+  country: String!
   id: Int!
 }
 
@@ -102,7 +103,6 @@ input CreateTagInput {
 }
 
 input UpdateTagInput {
-  name: String
   id: Int!
 }
 
@@ -111,6 +111,5 @@ input CreateCategoryInput {
 }
 
 input UpdateCategoryInput {
-  name: String
   id: Int!
 }

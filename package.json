@@ -10,7 +10,8 @@
     "db": "npm run db:create && npm run db:migrate && npm run db:seed",
     "db:migrate:apply": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "db:help": "npx sequelize --help"
+    "db:help": "npx sequelize --help",
+    "client:generate": "npx nx run data-access:generate"
   },
   "private": true,
   "dependencies": {
