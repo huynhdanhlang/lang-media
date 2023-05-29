@@ -1,5 +1,11 @@
 query findAllTag {
-  findAllTag{
+  findAllTag {
+    name
+  }
+}
+
+query findOneTag($id: Int!) {
+  findOneTag(id: $id) {
     name
   }
 }

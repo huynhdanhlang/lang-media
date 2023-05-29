@@ -1,8 +1,11 @@
 import { CreateCategoryInput } from '@graphqlTypes';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class CategoryClient implements CreateCategoryInput {
+  @Field(() => Int)
+  id: number;
+
   @Field(() => String)
   name: string;
 }

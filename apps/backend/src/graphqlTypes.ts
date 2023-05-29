@@ -16,10 +16,9 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-    username?: Nullable<string>;
-    password?: Nullable<string>;
-    fullname?: Nullable<string>;
-    email?: Nullable<string>;
+    password: string;
+    fullname: string;
+    email: string;
     id: number;
 }
 
@@ -33,12 +32,11 @@ export interface CreateVideoInput {
 }
 
 export interface UpdateVideoInput {
-    name?: Nullable<string>;
-    url?: Nullable<string>;
+    url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
-    country?: Nullable<string>;
+    country: string;
     id: number;
 }
 
@@ -47,7 +45,6 @@ export interface CreateTagInput {
 }
 
 export interface UpdateTagInput {
-    name?: Nullable<string>;
     id: number;
 }
 
@@ -56,11 +53,11 @@ export interface CreateCategoryInput {
 }
 
 export interface UpdateCategoryInput {
-    name?: Nullable<string>;
     id: number;
 }
 
 export interface UserClient {
+    id: number;
     username: string;
     password: string;
     fullname: string;
@@ -70,6 +67,7 @@ export interface UserClient {
 }
 
 export interface VideoClient {
+    id: number;
     name: string;
     url: string;
     trailerUrl?: Nullable<string>;
@@ -79,10 +77,12 @@ export interface VideoClient {
 }
 
 export interface TagClient {
+    id: number;
     name: string;
 }
 
 export interface CategoryClient {
+    id: number;
     name: string;
 }
 

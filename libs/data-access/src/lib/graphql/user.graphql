@@ -1,0 +1,51 @@
+query findAllUser {
+  findAllUser {
+    username
+    email
+    fullname
+    address
+    phone
+  }
+}
+
+query findOneUser($id: Int!) {
+  findOneUser(id: $id) {
+    username
+    email
+    fullname
+    address
+    phone
+  }
+}
+
+mutation createUser($createUserInput: CreateUserInput!) {
+  createUser(createUserInput: $createUserInput) {
+    username
+    fullname
+    email
+  }
+}
+
+mutation updateUser($updateUserInput: UpdateUserInput!) {
+  updateUser(updateUserInput: $updateUserInput) {
+    username
+    fullname
+    email
+    address
+    phone
+    id
+  }
+}
+
+mutation removeUser(
+$id: Int!
+){
+  removeUser(id: $id){
+    username
+    fullname
+    email
+    address
+    phone
+    id
+  }
+}
