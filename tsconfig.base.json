@@ -21,8 +21,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@training-project/data-access": ["libs/data-access/src/index.ts"],
-      "@training-project/feature-sets": ["libs/feature-sets/src/index.ts"]
+      "@training-project/data-access": ["libs/data-access/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
