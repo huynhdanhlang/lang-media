@@ -1,0 +1,33 @@
+/**
+ * Description: Layout's main content component
+ * Author: Hieu Chu
+ */
+
+import { Layout } from 'antd';
+import styled, { css } from 'styled-components';
+
+const MainLayout = styled(({ collapsed: _, ...props }) => (
+  <Layout {...props} />
+))`
+  transition: 0.2s all;
+  ${({ collapsed }) =>
+    collapsed
+      ? css`
+          // margin-left: 0px;
+        `
+      : css`
+          // margin-left: 40px;
+        `};
+
+  @media (max-width: 575.98px) {
+    margin-left: 0;
+  }
+`;
+interface IMain {
+  children: React.ReactNode;
+  collapsed: boolean;
+}
+
+export default ({ children, collapsed }: IMain) => (
+  <MainLayout collapsed={collapsed}>{children}</MainLayout>
+);
