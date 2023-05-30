@@ -15,6 +15,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: any; output: any; }
 };
 
 export type CategoryClient = {
@@ -24,6 +26,11 @@ export type CategoryClient = {
 };
 
 export type CreateCategoryInput = {
+  name: Scalars['String']['input'];
+};
+
+export type CreateRoleInput = {
+  /** Name of role */
   name: Scalars['String']['input'];
 };
 
@@ -52,14 +59,17 @@ export type CreateVideoInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory: CategoryClient;
+  createRole: Role;
   createTag: TagClient;
   createUser: UserClient;
   createVideo: VideoClient;
   removeCategory: CategoryClient;
+  removeRole: Role;
   removeTag: TagClient;
   removeUser: UserClient;
   removeVideo: VideoClient;
   updateCategory: CategoryClient;
+  updateRole: Role;
   updateTag: TagClient;
   updateUser: UserClient;
   updateVideo: VideoClient;
@@ -68,6 +78,11 @@ export type Mutation = {
 
 export type MutationCreateCategoryArgs = {
   createCategoryInput: CreateCategoryInput;
+};
+
+
+export type MutationCreateRoleArgs = {
+  createRoleInput: CreateRoleInput;
 };
 
 
@@ -91,6 +106,11 @@ export type MutationRemoveCategoryArgs = {
 };
 
 
+export type MutationRemoveRoleArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type MutationRemoveTagArgs = {
   id: Scalars['Int']['input'];
 };
@@ -108,6 +128,11 @@ export type MutationRemoveVideoArgs = {
 
 export type MutationUpdateCategoryArgs = {
   updateCategoryInput: UpdateCategoryInput;
+};
+
+
+export type MutationUpdateRoleArgs = {
+  updateRoleInput: UpdateRoleInput;
 };
 
 
@@ -135,6 +160,7 @@ export type Query = {
   findOneTag: TagClient;
   findOneUser?: Maybe<UserClient>;
   findOneVideo: VideoClient;
+  role: Role;
 };
 
 
@@ -157,6 +183,23 @@ export type QueryFindOneVideoArgs = {
   id: Scalars['Int']['input'];
 };
 
+
+export type QueryRoleArgs = {
+  id: Scalars['Int']['input'];
+};
+
+export type Role = {
+  __typename?: 'Role';
+  /** Example field (placeholder) */
+  exampleField: Scalars['Int']['output'];
+};
+
+export type RoleClient = {
+  __typename?: 'RoleClient';
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type TagClient = {
   __typename?: 'TagClient';
   id: Scalars['Int']['output'];
@@ -164,6 +207,10 @@ export type TagClient = {
 };
 
 export type UpdateCategoryInput = {
+  id: Scalars['Int']['input'];
+};
+
+export type UpdateRoleInput = {
   id: Scalars['Int']['input'];
 };
 
@@ -191,12 +238,15 @@ export type UpdateVideoInput = {
 export type UserClient = {
   __typename?: 'UserClient';
   address?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   fullname: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   /** user's password */
   password: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
+  role: RoleClient;
+  roleId: Scalars['Int']['output'];
   /** user's name */
   username: Scalars['String']['output'];
 };
@@ -227,14 +277,14 @@ export type FindOneTagQuery = { __typename?: 'Query', findOneTag: { __typename?:
 export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserClient', username: string, email: string, fullname: string, address?: string | null, phone?: string | null }> | null };
+export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserClient', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleClient', id: number, name: string } }> | null };
 
 export type FindOneUserQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneUserQuery = { __typename?: 'Query', findOneUser?: { __typename?: 'UserClient', username: string, email: string, fullname: string, address?: string | null, phone?: string | null } | null };
+export type FindOneUserQuery = { __typename?: 'Query', findOneUser?: { __typename?: 'UserClient', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleClient', id: number, name: string } } | null };
 
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
@@ -330,11 +380,17 @@ export type FindOneTagQueryResult = Apollo.QueryResult<FindOneTagQuery, FindOneT
 export const FindAllUserDocument = gql`
     query findAllUser {
   findAllUser {
+    id
     username
     email
     fullname
     address
     phone
+    createdAt
+    role {
+      id
+      name
+    }
   }
 }
     `;
@@ -368,11 +424,17 @@ export type FindAllUserQueryResult = Apollo.QueryResult<FindAllUserQuery, FindAl
 export const FindOneUserDocument = gql`
     query findOneUser($id: Int!) {
   findOneUser(id: $id) {
+    id
     username
     email
     fullname
     address
     phone
+    createdAt
+    role {
+      id
+      name
+    }
   }
 }
     `;

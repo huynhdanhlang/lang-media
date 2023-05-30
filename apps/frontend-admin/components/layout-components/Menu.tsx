@@ -1,8 +1,3 @@
-/**
- * Description: Drawer's menu list
- * Author: Hieu Chu
- */
-
 import { Menu } from 'antd';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -64,7 +59,7 @@ interface IMenu {
   closeDrawer: () => void;
 }
 
-export default ({ style, closeDrawer }: IMenu) => {
+const CNMenu = ({ style, closeDrawer }: IMenu) => {
   const router = useRouter();
   const currentPath = router.route;
   let selectedKeys = [];
@@ -91,3 +86,5 @@ export default ({ style, closeDrawer }: IMenu) => {
     </Menu>
   );
 };
+
+export default CNMenu;

@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -27,6 +35,12 @@ export class UserResolver {
     );
 
     return this.userService.findOne(id);
+  }
+
+  @ResolveField()
+  async role(@Parent() parent: UserClient) {
+    const { roleId } = parent;
+    return this.userService.getRole(roleId);
   }
 
   @Mutation(() => UserClient)

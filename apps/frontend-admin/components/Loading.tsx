@@ -1,7 +1,4 @@
-/**
- * Description: Loading indicator component
- * Author: Hieu Chu
- */
+
 
 import { Spin } from 'antd'
 

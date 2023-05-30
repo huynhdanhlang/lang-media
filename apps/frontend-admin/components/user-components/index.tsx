@@ -16,45 +16,35 @@ import Icon from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import { Comment } from '@ant-design/compatible';
+import { useFindAllUserQuery } from '@training-project/data-access';
+import { USER_TYPE } from 'apps/frontend-admin/constant/user.const';
 const UserList = () => {
+  const { data, error: err, loading: isLoading } = useFindAllUserQuery();
+
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        // let users = (await api.get('/user')).data;
-        let users = []
-        users = users
-          .filter((x) => !x.role)
-          .map((x) => ({
-            ...x,
-            key: x.userId,
-            totalLikes: +x.totalLikes,
-            totalComments: +x.totalComments,
-            totalVisits: +x.totalVisits,
-          }));
+      // let users = (await api.get('/user')).data;
 
-        users.sort(
-          (a, b) =>
-            new Date(b.joinDate).getTime() - new Date(a.joinDate).getTime()
-        );
-        console.log(users);
+      const users = data.findAllUser
+        .filter((x) => x.role.name !== USER_TYPE.ADMIN)
+        .map((x) => ({
+          ...x,
+          key: x.id,
+        }));
 
-        setUserList(users);
-      } catch (e) {
-        const { statusCode, message } = e.response.data;
-        setError({
-          statusCode,
-          message,
-        });
-      }
-      setLoading(false);
+      users.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      console.log(users);
+
+      setUserList(users);
     };
-    fetchUsers();
-  }, []);
+    if (data) fetchUsers();
+  }, [data]);
 
   const [userList, setUserList] = useState([]);
   const searchInput = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const getUserSearchProps = () => ({
     filterDropdown: ({
@@ -226,11 +216,8 @@ const UserList = () => {
     //   width: '13.33%',
     // },
   ];
-
-  if (loading) return <Loading />;
-  if (error)
-    return <Error statusCode={error.statusCode} title={error.message} />;
-
+  if (err) return <Error statusCode={500} title={err.message} />;
+  if (isLoading) return <Loading />;
   return (
     <Row gutter={16}>
       <ColStyled xs={24}>

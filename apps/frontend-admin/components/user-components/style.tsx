@@ -4,8 +4,8 @@
  */
 
 import styled from 'styled-components'
-import { Card, Col, Icon, Form, Typography, Empty, Table } from 'antd'
-
+import { Card, Col, Form, Typography, Empty, Table } from 'antd'
+import Icon from '@ant-design/icons';
 const { Text } = Typography
 
 export const CardStyled = props => (

@@ -1,8 +1,3 @@
-/**
- * Description: Main layout component of the app
- * Author: Hieu Chu
- */
-
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 const { Content } = Layout;
@@ -57,7 +52,7 @@ const MyLayout = (props: IMyLayout) => {
         <Header collapsed={collapsed} handleToggle={toggle} />
         <Content
           style={{
-            margin: '20px 16px 15px 16px',
+            margin: '70px 16px 15px 16px',
           }}
         >
           {children}
