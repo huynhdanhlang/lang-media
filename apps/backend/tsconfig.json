@@ -18,7 +18,8 @@
     "experimentalDecorators": true,
     "target": "es6",
     "paths": {
-      "*": ["../../../node_modules/*"]
+      "*": ["../../../node_modules/*"],
+      "@graphqlTypes": ["apps/backend/src/graphqlTypes.ts"]
     }
   }
 }

@@ -2,7 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type RoleClient {
+  id: Int!
+  name: String!
+}
+
 type UserClient {
+  id: Int!
+
   """user's name"""
   username: String!
 
@@ -12,28 +19,45 @@ type UserClient {
   email: String!
   address: String
   phone: String
+  role: RoleClient!
+  roleId: Int!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Role {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 type VideoClient {
+  id: Int!
   name: String!
   url: String!
   trailerUrl: String
   language: String
-  view: String
+  view: Int
   country: String!
 }
 
 type TagClient {
+  id: Int!
   name: String!
 }
 
 type CategoryClient {
+  id: Int!
   name: String!
 }
 
 type Query {
   findAllUser: [UserClient!]
   findOneUser(id: Int!): UserClient
+  role(id: Int!): Role!
   findAllVideo: [VideoClient!]!
   findOneVideo(id: Int!): VideoClient!
   findAllTag: [TagClient!]!
@@ -46,6 +70,9 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): UserClient!
   updateUser(updateUserInput: UpdateUserInput!): UserClient!
   removeUser(id: Int!): UserClient!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Role!
   createVideo(createVideoInput: CreateVideoInput!): VideoClient!
   updateVideo(updateVideoInput: UpdateVideoInput!): VideoClient!
   removeVideo(id: Int!): VideoClient!
@@ -68,13 +95,19 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  """user's name"""
-  username: String
-
   """user's password"""
-  password: String
-  fullname: String
-  email: String
+  password: String!
+  fullname: String!
+  email: String!
+  id: Int!
+}
+
+input CreateRoleInput {
+  """Name of role"""
+  name: String!
+}
+
+input UpdateRoleInput {
   id: Int!
 }
 
@@ -83,17 +116,16 @@ input CreateVideoInput {
   url: String!
   trailerUrl: String
   language: String
-  view: String
+  view: Int
   country: String!
 }
 
 input UpdateVideoInput {
-  name: String
-  url: String
+  url: String!
   trailerUrl: String
   language: String
-  view: String
-  country: String
+  view: Int
+  country: String!
   id: Int!
 }
 
@@ -102,7 +134,6 @@ input CreateTagInput {
 }
 
 input UpdateTagInput {
-  name: String
   id: Int!
 }
 
@@ -111,6 +142,5 @@ input CreateCategoryInput {
 }
 
 input UpdateCategoryInput {
-  name: String
   id: Int!
 }

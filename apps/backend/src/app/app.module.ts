@@ -14,6 +14,7 @@ import { join } from 'path';
 import { VideoModule } from '../video/video.module';
 import { TagModule } from '../tag/tag.module';
 import { CategoryModule } from '../category/category.module';
+import { RoleModule } from '../role/role.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -48,13 +49,15 @@ import { CategoryModule } from '../category/category.module';
       definitions: {
         path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
         outputAs: 'interface',
+        
       },
       // schema.gql will automatically be created
       playground: true,
     }),
     VideoModule,
     TagModule,
-    CategoryModule
+    CategoryModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,8 +1,12 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { CreateUserInput } from './create-user.input';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { CreateUserInput } from '@graphqlTypes';
+import { RoleClient } from '../../role/dto/role.client';
 
 @ObjectType()
 export class UserClient implements CreateUserInput {
+  @Field(() => Int)
+  id: number;
+
   @Field(() => String, { description: "user's name" })
   username: string;
 
@@ -24,4 +28,13 @@ export class UserClient implements CreateUserInput {
     nullable: true,
   })
   phone?: string;
+
+  @Field(() => RoleClient)
+  role: RoleClient;
+
+  @Field(() => Int)
+  roleId: number;
+
+  @Field(() => Date)
+  createdAt: Date;
 }
