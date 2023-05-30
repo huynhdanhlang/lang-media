@@ -1,7 +1,4 @@
-// /**
-//  * Description: A page requiring user to sign in before proceeding.
-//  * Author: Hieu Chu
-//  */
+
 
 // import { Button } from 'antd'
 // import { useAuth0 } from './auth0-components'

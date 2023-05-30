@@ -1,11 +1,8 @@
-/**
- * Description: Responsive sider for mobile's layout
- * Author: Hieu Chu
- */
-
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { Layout } from 'antd';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { siderWidthState } from '../../stores/sider';
 
 const { Sider } = Layout;
 
@@ -16,13 +13,22 @@ const FixedSider = styled(Sider)`
   left: 0;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 
-  @media (max-width: 575.98px) {
-    display: none;
-  }
+  // @media (max-width: 575.98px) {
+  //   display: none;
+  // }
 `;
-
-export default ({ collapsed, setCollapsed, children }) => {
+interface ISider {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+  children: React.ReactNode;
+}
+const CNFixedSider = ({ collapsed, setCollapsed, children }: ISider) => {
   let firstMounted = useRef(false);
+  const [widthSider, setWidthSider] = useRecoilState(siderWidthState);
+
+  useEffect(() => {
+    setWidthSider(collapsed ? 80 : 256);
+  }, [collapsed]);
 
   useEffect(() => {
     firstMounted.current = true;
@@ -31,7 +37,7 @@ export default ({ collapsed, setCollapsed, children }) => {
   return (
     <FixedSider
       trigger={null}
-      width={256}
+      width={widthSider}
       collapsible
       collapsed={collapsed}
       breakpoint="lg"
@@ -47,3 +53,5 @@ export default ({ collapsed, setCollapsed, children }) => {
     </FixedSider>
   );
 };
+
+export default CNFixedSider;

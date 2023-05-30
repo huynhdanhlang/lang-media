@@ -22,6 +22,14 @@ export interface UpdateUserInput {
     id: number;
 }
 
+export interface CreateRoleInput {
+    name: string;
+}
+
+export interface UpdateRoleInput {
+    id: number;
+}
+
 export interface CreateVideoInput {
     name: string;
     url: string;
@@ -56,6 +64,11 @@ export interface UpdateCategoryInput {
     id: number;
 }
 
+export interface RoleClient {
+    id: number;
+    name: string;
+}
+
 export interface UserClient {
     id: number;
     username: string;
@@ -64,6 +77,13 @@ export interface UserClient {
     email: string;
     address?: Nullable<string>;
     phone?: Nullable<string>;
+    role: RoleClient;
+    roleId: number;
+    createdAt: DateTime;
+}
+
+export interface Role {
+    exampleField: number;
 }
 
 export interface VideoClient {
@@ -89,6 +109,7 @@ export interface CategoryClient {
 export interface IQuery {
     findAllUser(): Nullable<UserClient[]> | Promise<Nullable<UserClient[]>>;
     findOneUser(id: number): Nullable<UserClient> | Promise<Nullable<UserClient>>;
+    role(id: number): Role | Promise<Role>;
     findAllVideo(): VideoClient[] | Promise<VideoClient[]>;
     findOneVideo(id: number): VideoClient | Promise<VideoClient>;
     findAllTag(): TagClient[] | Promise<TagClient[]>;
@@ -101,6 +122,9 @@ export interface IMutation {
     createUser(createUserInput: CreateUserInput): UserClient | Promise<UserClient>;
     updateUser(updateUserInput: UpdateUserInput): UserClient | Promise<UserClient>;
     removeUser(id: number): UserClient | Promise<UserClient>;
+    createRole(createRoleInput: CreateRoleInput): Role | Promise<Role>;
+    updateRole(updateRoleInput: UpdateRoleInput): Role | Promise<Role>;
+    removeRole(id: number): Role | Promise<Role>;
     createVideo(createVideoInput: CreateVideoInput): VideoClient | Promise<VideoClient>;
     updateVideo(updateVideoInput: UpdateVideoInput): VideoClient | Promise<VideoClient>;
     removeVideo(id: number): VideoClient | Promise<VideoClient>;
@@ -112,4 +136,5 @@ export interface IMutation {
     removeCategory(id: number): CategoryClient | Promise<CategoryClient>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

@@ -1,8 +1,3 @@
-/**
- * Description: Layout's main content component
- * Author: Hieu Chu
- */
-
 import { Layout } from 'antd';
 import styled, { css } from 'styled-components';
 
@@ -28,6 +23,8 @@ interface IMain {
   collapsed: boolean;
 }
 
-export default ({ children, collapsed }: IMain) => (
+const CNMain = ({ children, collapsed }: IMain) => (
   <MainLayout collapsed={collapsed}>{children}</MainLayout>
 );
+
+export default CNMain;

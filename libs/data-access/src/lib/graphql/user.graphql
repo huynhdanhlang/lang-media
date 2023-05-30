@@ -1,20 +1,32 @@
 query findAllUser {
   findAllUser {
+    id
     username
     email
     fullname
     address
     phone
+    createdAt
+    role {
+      id
+      name
+    }
   }
 }
 
 query findOneUser($id: Int!) {
   findOneUser(id: $id) {
+    id
     username
     email
     fullname
     address
     phone
+    createdAt
+    role {
+      id
+      name
+    }
   }
 }
 
@@ -37,10 +49,8 @@ mutation updateUser($updateUserInput: UpdateUserInput!) {
   }
 }
 
-mutation removeUser(
-$id: Int!
-){
-  removeUser(id: $id){
+mutation removeUser($id: Int!) {
+  removeUser(id: $id) {
     username
     fullname
     email

@@ -3,10 +3,14 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import UserModel from '../database/models/User';
 import { InjectModel } from '@nestjs/sequelize';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(UserModel) private userService: typeof UserModel) {}
+  constructor(
+    @InjectModel(UserModel) private userService: typeof UserModel,
+    private roleService: RoleService
+  ) {}
   async create(createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }
@@ -30,5 +34,9 @@ export class UserService {
   async remove(id: number) {
     const user = await this.userService.findByPk(id);
     await user.destroy();
+  }
+
+  async getRole(id: number) {
+    return this.roleService.findOne(id);
   }
 }

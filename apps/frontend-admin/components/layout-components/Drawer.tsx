@@ -1,8 +1,3 @@
-/**
- * Description: Drawer for page layout
- * Author: Hieu Chu
- */
-
 import { Drawer } from 'antd';
 import styled from 'styled-components';
 
@@ -16,7 +11,7 @@ interface IDrawer {
   closeDrawer: () => void;
   children: React.ReactNode;
 }
-export default ({ drawerVisible, closeDrawer, children }: IDrawer) => (
+const CNDrawer = ({ drawerVisible, closeDrawer, children }: IDrawer) => (
   <StyledDrawer
     placement="left"
     closable={false}
@@ -30,3 +25,5 @@ export default ({ drawerVisible, closeDrawer, children }: IDrawer) => (
     {children}
   </StyledDrawer>
 );
+
+export default CNDrawer;

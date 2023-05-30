@@ -38,6 +38,6 @@ export default class User extends Model<User> {
   role: Role;
 
   @ForeignKey(() => Role)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   roleId: number;
 }

@@ -1,8 +1,3 @@
-/**
- * Description: Header bar of page
- * Author: Hieu Chu
- */
-
 import { Layout, Dropdown, Menu, Button } from 'antd';
 const { Header } = Layout;
 import styled from 'styled-components';
@@ -11,6 +6,8 @@ import Link from 'next/link';
 import nookies from 'nookies';
 import Router from 'next/router';
 import Icon, { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { useRecoilValue } from 'recoil';
+import { siderWidthState } from 'apps/frontend-admin/stores/sider';
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;
@@ -75,9 +72,9 @@ interface IHeader {
   collapsed: boolean;
   handleToggle: () => void;
 }
-export default ({ collapsed, handleToggle }: IHeader) => {
+const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
   // const { isAuthenticated } = useAuth0();
-
+  const siderWidth = useRecoilValue(siderWidthState);
   return (
     <Header
       style={{
@@ -85,17 +82,18 @@ export default ({ collapsed, handleToggle }: IHeader) => {
         padding: 0,
         boxShadow: '0 1px 4px rgba(0,21,41,.08)',
         display: 'flex',
-        // width: 'calc(100% - 246px)',
-        // position: 'fixed',
+        position: 'fixed',
+        zIndex: 100,
+        width: `calc(100% - ${siderWidth}px)`,
       }}
     >
-      <Link legacyBehavior href="/">
+      {/* <Link legacyBehavior href="/">
         <a>
           <StyledImageBlock>
             <MobileLogo src="/static/transparent-logo.png" alt="logo" />
           </StyledImageBlock>
         </a>
-      </Link>
+      </Link> */}
 
       <TriggerBlock className="trigger">
         {collapsed ? (
@@ -126,3 +124,5 @@ export default ({ collapsed, handleToggle }: IHeader) => {
     </Header>
   );
 };
+
+export default CNHeader;

@@ -19,6 +19,12 @@ module.exports = {
         transaction,
       });
       if (user.length) return;
+      const role = await queryInterface.select(null, 'role', {
+        where: {
+          name: 'customer',
+        },
+        transaction,
+      });
       await queryInterface.bulkInsert(
         'user',
         [
@@ -29,6 +35,7 @@ module.exports = {
             email: 'danhlangbmvl@gmail.com',
             createdAt: new Date(),
             updatedAt: new Date(),
+            roleId: role[0].id,
           },
         ],
         { transaction }
