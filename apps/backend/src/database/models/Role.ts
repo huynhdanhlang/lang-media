@@ -13,7 +13,7 @@ import User from './User';
   tableName: 'role',
 })
 export default class Role extends Model<Role> {
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   name: string;
 
   @HasMany(() => User)

@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { MyHeader } from '../components/layout/Header';
 import ImageSlider from '../components/layout/Carousel';
-import { FeatureSets } from 'libs/feature-sets/src';
 
 const StyledPage = styled.div`
   .page {
@@ -30,7 +29,6 @@ export function Index() {
         <MyHeader style={{ padding: 0, background: colorBgContainer }} />
         <ImageSlider />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <FeatureSets />
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2023 Created by Ant UED

@@ -16,10 +16,17 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-    username?: Nullable<string>;
-    password?: Nullable<string>;
-    fullname?: Nullable<string>;
-    email?: Nullable<string>;
+    password: string;
+    fullname: string;
+    email: string;
+    id: number;
+}
+
+export interface CreateRoleInput {
+    name: string;
+}
+
+export interface UpdateRoleInput {
     id: number;
 }
 
@@ -28,17 +35,16 @@ export interface CreateVideoInput {
     url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
+    view?: Nullable<number>;
     country: string;
 }
 
 export interface UpdateVideoInput {
-    name?: Nullable<string>;
-    url?: Nullable<string>;
+    url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
-    country?: Nullable<string>;
+    view?: Nullable<number>;
+    country: string;
     id: number;
 }
 
@@ -47,7 +53,6 @@ export interface CreateTagInput {
 }
 
 export interface UpdateTagInput {
-    name?: Nullable<string>;
     id: number;
 }
 
@@ -56,39 +61,55 @@ export interface CreateCategoryInput {
 }
 
 export interface UpdateCategoryInput {
-    name?: Nullable<string>;
     id: number;
 }
 
+export interface RoleClient {
+    id: number;
+    name: string;
+}
+
 export interface UserClient {
+    id: number;
     username: string;
     password: string;
     fullname: string;
     email: string;
     address?: Nullable<string>;
     phone?: Nullable<string>;
+    role: RoleClient;
+    roleId: number;
+    createdAt: DateTime;
+}
+
+export interface Role {
+    exampleField: number;
 }
 
 export interface VideoClient {
+    id: number;
     name: string;
     url: string;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
-    view?: Nullable<string>;
+    view?: Nullable<number>;
     country: string;
 }
 
 export interface TagClient {
+    id: number;
     name: string;
 }
 
 export interface CategoryClient {
+    id: number;
     name: string;
 }
 
 export interface IQuery {
     findAllUser(): Nullable<UserClient[]> | Promise<Nullable<UserClient[]>>;
     findOneUser(id: number): Nullable<UserClient> | Promise<Nullable<UserClient>>;
+    role(id: number): Role | Promise<Role>;
     findAllVideo(): VideoClient[] | Promise<VideoClient[]>;
     findOneVideo(id: number): VideoClient | Promise<VideoClient>;
     findAllTag(): TagClient[] | Promise<TagClient[]>;
@@ -101,6 +122,9 @@ export interface IMutation {
     createUser(createUserInput: CreateUserInput): UserClient | Promise<UserClient>;
     updateUser(updateUserInput: UpdateUserInput): UserClient | Promise<UserClient>;
     removeUser(id: number): UserClient | Promise<UserClient>;
+    createRole(createRoleInput: CreateRoleInput): Role | Promise<Role>;
+    updateRole(updateRoleInput: UpdateRoleInput): Role | Promise<Role>;
+    removeRole(id: number): Role | Promise<Role>;
     createVideo(createVideoInput: CreateVideoInput): VideoClient | Promise<VideoClient>;
     updateVideo(updateVideoInput: UpdateVideoInput): VideoClient | Promise<VideoClient>;
     removeVideo(id: number): VideoClient | Promise<VideoClient>;
@@ -112,4 +136,5 @@ export interface IMutation {
     removeCategory(id: number): CategoryClient | Promise<CategoryClient>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;
