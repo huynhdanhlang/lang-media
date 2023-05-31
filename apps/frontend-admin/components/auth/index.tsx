@@ -42,7 +42,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { Button, Divider, message, Space, Tabs } from 'antd';
-import type { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import { useState } from 'react';
 
 type LoginType = 'phone' | 'account';
@@ -56,6 +56,25 @@ const iconStyles: CSSProperties = {
 interface IAuthPage {}
 const AuthPage = (props: IAuthPage) => {
   const [loginType, setLoginType] = useState<LoginType>('account');
+  const image =
+    'https://www.pixel4k.com/wp-content/uploads/2019/10/joker-movie-artwork_1570919664.jpg';
+  const [imageUrl, setImageUrl] = useState(image);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     console.log(window.innerHeight, window.innerWidth);
+  //     if (window.innerWidth < 770) {
+  //       console.log(['dadd']);
+
+  //       setImageUrl(
+  //         'https://i0.wp.com/www.3wallpapers.fr/wp-content/uploads/2015/09/DeadPool-dark-3Wallpapers-iPhone-Parallax.jpg?ssl=1'
+  //       );
+  //     } else {
+  //       setImageUrl(image);
+  //     }
+  //   };
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
   return (
     <div
       style={{
@@ -64,7 +83,7 @@ const AuthPage = (props: IAuthPage) => {
       }}
     >
       <LoginFormPage
-        backgroundImageUrl="https://initiate.alphacoders.com/images/653/stretched-1920-1080-653613.jpg?9315"
+        backgroundImageUrl={imageUrl}
         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
         title="Làng Media"
         subTitle="Trang xem video xuyên vũ trụ"
@@ -276,6 +295,11 @@ const AuthPage = (props: IAuthPage) => {
         .ant-tabs-tab-btn {
           color: white !important;
         }
+        {/* @media (max-width: 768px) {
+          .ant-pro-form-login-page {
+            background-size: contain !important;
+          }
+        } */}
       `}</style>
     </div>
   );
