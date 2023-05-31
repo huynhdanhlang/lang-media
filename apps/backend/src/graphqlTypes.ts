@@ -64,12 +64,17 @@ export interface UpdateCategoryInput {
     id: number;
 }
 
-export interface RoleClient {
+export interface LoginInput {
+    username: string;
+    password: string;
+}
+
+export interface RoleEntity {
     id: number;
     name: string;
 }
 
-export interface UserClient {
+export interface UserEntity {
     id: number;
     username: string;
     password: string;
@@ -77,16 +82,12 @@ export interface UserClient {
     email: string;
     address?: Nullable<string>;
     phone?: Nullable<string>;
-    role: RoleClient;
+    role: RoleEntity;
     roleId: number;
     createdAt: DateTime;
 }
 
-export interface Role {
-    exampleField: number;
-}
-
-export interface VideoClient {
+export interface VideoEntity {
     id: number;
     name: string;
     url: string;
@@ -96,44 +97,45 @@ export interface VideoClient {
     country: string;
 }
 
-export interface TagClient {
+export interface TagEntity {
     id: number;
     name: string;
 }
 
-export interface CategoryClient {
+export interface CategoryEntity {
     id: number;
     name: string;
 }
 
 export interface IQuery {
-    findAllUser(): Nullable<UserClient[]> | Promise<Nullable<UserClient[]>>;
-    findOneUser(id: number): Nullable<UserClient> | Promise<Nullable<UserClient>>;
-    role(id: number): Role | Promise<Role>;
-    findAllVideo(): VideoClient[] | Promise<VideoClient[]>;
-    findOneVideo(id: number): VideoClient | Promise<VideoClient>;
-    findAllTag(): TagClient[] | Promise<TagClient[]>;
-    findOneTag(id: number): TagClient | Promise<TagClient>;
-    findAllCategory(): CategoryClient[] | Promise<CategoryClient[]>;
-    findOneCategory(id: number): CategoryClient | Promise<CategoryClient>;
+    findAllUser(): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
+    findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
+    role(id: number): RoleEntity | Promise<RoleEntity>;
+    findAllVideo(): VideoEntity[] | Promise<VideoEntity[]>;
+    findOneVideo(id: number): VideoEntity | Promise<VideoEntity>;
+    findAllTag(): TagEntity[] | Promise<TagEntity[]>;
+    findOneTag(id: number): TagEntity | Promise<TagEntity>;
+    findAllCategory(): CategoryEntity[] | Promise<CategoryEntity[]>;
+    findOneCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
 }
 
 export interface IMutation {
-    createUser(createUserInput: CreateUserInput): UserClient | Promise<UserClient>;
-    updateUser(updateUserInput: UpdateUserInput): UserClient | Promise<UserClient>;
-    removeUser(id: number): UserClient | Promise<UserClient>;
-    createRole(createRoleInput: CreateRoleInput): Role | Promise<Role>;
-    updateRole(updateRoleInput: UpdateRoleInput): Role | Promise<Role>;
-    removeRole(id: number): Role | Promise<Role>;
-    createVideo(createVideoInput: CreateVideoInput): VideoClient | Promise<VideoClient>;
-    updateVideo(updateVideoInput: UpdateVideoInput): VideoClient | Promise<VideoClient>;
-    removeVideo(id: number): VideoClient | Promise<VideoClient>;
-    createTag(createTagInput: CreateTagInput): TagClient | Promise<TagClient>;
-    updateTag(updateTagInput: UpdateTagInput): TagClient | Promise<TagClient>;
-    removeTag(id: number): TagClient | Promise<TagClient>;
-    createCategory(createCategoryInput: CreateCategoryInput): CategoryClient | Promise<CategoryClient>;
-    updateCategory(updateCategoryInput: UpdateCategoryInput): CategoryClient | Promise<CategoryClient>;
-    removeCategory(id: number): CategoryClient | Promise<CategoryClient>;
+    createUser(createUserInput: CreateUserInput): UserEntity | Promise<UserEntity>;
+    updateUser(updateUserInput: UpdateUserInput): UserEntity | Promise<UserEntity>;
+    removeUser(id: number): UserEntity | Promise<UserEntity>;
+    createRole(createRoleInput: CreateRoleInput): RoleEntity | Promise<RoleEntity>;
+    updateRole(updateRoleInput: UpdateRoleInput): RoleEntity | Promise<RoleEntity>;
+    removeRole(id: number): RoleEntity | Promise<RoleEntity>;
+    createVideo(createVideoInput: CreateVideoInput): VideoEntity | Promise<VideoEntity>;
+    updateVideo(updateVideoInput: UpdateVideoInput): VideoEntity | Promise<VideoEntity>;
+    removeVideo(id: number): VideoEntity | Promise<VideoEntity>;
+    createTag(createTagInput: CreateTagInput): TagEntity | Promise<TagEntity>;
+    updateTag(updateTagInput: UpdateTagInput): TagEntity | Promise<TagEntity>;
+    removeTag(id: number): TagEntity | Promise<TagEntity>;
+    createCategory(createCategoryInput: CreateCategoryInput): CategoryEntity | Promise<CategoryEntity>;
+    updateCategory(updateCategoryInput: UpdateCategoryInput): CategoryEntity | Promise<CategoryEntity>;
+    removeCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
+    login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
 }
 
 export type DateTime = any;

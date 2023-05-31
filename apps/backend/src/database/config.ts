@@ -3,17 +3,19 @@ import { resolve } from 'path';
 import { Dialect } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { getModels } from './models';
-require('dotenv').config();
+require('dotenv').config({
+  path: resolve('apps/backend/.env'),
+});
 interface SequelizeConfig {
   [key: string]: SequelizeModuleOptions;
 }
 const config: SequelizeConfig = {
   development: {
-    username: process.env['DB_USERNAME'],
-    password: process.env['DB_PASSWORD'],
-    database: process.env['DB_NAME'],
-    host: process.env['DB_HOST'],
-    dialect: <Dialect>process.env['DB_DIALECT'],
+    username: process.env['NX_DB_USERNAME'],
+    password: process.env['NX_DB_PASSWORD'],
+    database: process.env['NX_DB_NAME'],
+    host: process.env['NX_DB_HOST'],
+    dialect: <Dialect>process.env['NX_DB_DIALECT'],
     logging: true,
     dialectModule: require('pg'),
     timezone: '+07:00',

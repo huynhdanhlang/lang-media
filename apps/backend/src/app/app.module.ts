@@ -10,7 +10,7 @@ import { UserModule } from '../user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloDriver } from '@nestjs/apollo/dist/drivers';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { VideoModule } from '../video/video.module';
 import { TagModule } from '../tag/tag.module';
 import { CategoryModule } from '../category/category.module';
@@ -18,15 +18,18 @@ import { RoleModule } from '../role/role.module';
 import { LoggingPlugin } from '../utils/apollo.logging';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     DatabaseModule,
     CacheModule.register({
       imports: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const cache = config.get('cache');
+        const cache = config.get('NX_CACHE');
         const driver = config.get(cache.driver);
         // Later, if needed, create a cache factory to instantiate different drivers based on config.
         if (cache.driver === 'redis') {
@@ -51,7 +54,7 @@ import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheContr
       inject: [ConfigService],
       driver: ApolloDriver,
       useFactory: (configService: ConfigService) => {
-        const maxAge = parseInt(configService.get('GRAPHQL_CACHE_MAX_AGE'));
+        const maxAge = parseInt(configService.get('NX_GRAPHQL_CACHE_MAX_AGE'));
         const apolloConfig: ApolloDriverConfig = {
           autoSchemaFile: join(
             process.cwd(),
@@ -76,6 +79,7 @@ import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheContr
     TagModule,
     CategoryModule,
     RoleModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [

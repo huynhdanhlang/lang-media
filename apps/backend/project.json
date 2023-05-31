@@ -28,6 +28,13 @@
               "controllerKeyOfComment": "description",
               "introspectComments": true
             }
+          },
+          {
+            "name": "@nestjs/graphql/dist/plugin",
+            "options": {
+              "typeFileNameSuffix": [".input.ts", ".client.ts"],
+              "introspectComments": true
+            }
           }
         ]
       },
