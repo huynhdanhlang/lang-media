@@ -1,2 +1,4 @@
 - [NestJS Caching Globally neatly.](https://dev.to/secmohammed/nestjs-caching-globally-neatly-1e17)
 - [Using Apollo GraphQL with React in an Nx Workspace](https://blog.nrwl.io/using-apollo-graphql-with-react-in-an-nx-workspace-99db8d69cebe)
+- [Issue][NestJS/GraphQL/Passport - getting unauthorised error from guard](https://stackoverflow.com/questions/68390441/nestjs-graphql-passport-getting-unauthorised-error-from-guard)
+- [Authenticating users with bcrypt, Passport, JWT, and cookies](https://wanago.io/2020/05/25/api-nestjs-authenticating-users-bcrypt-passport-jwt-cookies/)
