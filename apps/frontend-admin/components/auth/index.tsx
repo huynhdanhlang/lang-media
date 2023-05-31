@@ -1,0 +1,283 @@
+// import { Button } from 'antd'
+// import { useAuth0 } from './auth0-components'
+
+// export default () => {
+//   const { loginWithRedirect } = useAuth0()
+
+//   return (
+//     <div
+//       style={{
+//         display: 'flex',
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         height: '90%'
+//       }}
+//     >
+//       <Button
+//         type="primary"
+//         size="large"
+//         style={{
+//           width: 250
+//         }}
+//         onClick={() => loginWithRedirect({})}
+//       >
+//         Sign in to continue
+//       </Button>
+//     </div>
+//   )
+// }
+
+import {
+  AlipayOutlined,
+  LockOutlined,
+  MobileOutlined,
+  TaobaoOutlined,
+  UserOutlined,
+  WeiboOutlined,
+} from '@ant-design/icons';
+import {
+  LoginFormPage,
+  ProFormCaptcha,
+  ProFormCheckbox,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Button, Divider, message, Space, Tabs } from 'antd';
+import type { CSSProperties } from 'react';
+import { useState } from 'react';
+
+type LoginType = 'phone' | 'account';
+
+const iconStyles: CSSProperties = {
+  color: 'rgba(0, 0, 0, 0.2)',
+  fontSize: '18px',
+  verticalAlign: 'middle',
+  cursor: 'pointer',
+};
+interface IAuthPage {}
+const AuthPage = (props: IAuthPage) => {
+  const [loginType, setLoginType] = useState<LoginType>('account');
+  return (
+    <div
+      style={{
+        // backgroundColor: 'white',
+        height: 'calc(100vh - 0px)',
+      }}
+    >
+      <LoginFormPage
+        backgroundImageUrl="https://initiate.alphacoders.com/images/653/stretched-1920-1080-653613.jpg?9315"
+        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        title="Làng Media"
+        subTitle="Trang xem video xuyên vũ trụ"
+        size="large"
+        submitter={{
+          searchConfig: {
+            submitText: 'Gét go',
+          },
+        }}
+        // activityConfig={{
+        //   style: {
+        //     boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+        //     color: '#fff',
+        //     borderRadius: 8,
+        //     backgroundColor: '#1677FF',
+        //   },
+        //   title: '活动标题，可配置图片',
+        //   subTitle: '活动介绍说明文字',
+        //   action: (
+        //     <Button
+        //       size="large"
+        //       style={{
+        //         borderRadius: 20,
+        //         background: '#fff',
+        //         color: '#1677FF',
+        //         width: 120,
+        //       }}
+        //     >
+        //       去看看
+        //     </Button>
+        //   ),
+        // }}
+        // actions={
+        //   <div
+        //     style={{
+        //       display: 'flex',
+        //       justifyContent: 'center',
+        //       alignItems: 'center',
+        //       flexDirection: 'column',
+        //     }}
+        //   >
+        //     <Divider plain>
+        //       <span
+        //         style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
+        //       >
+        //         其他登录方式
+        //       </span>
+        //     </Divider>
+        //     <Space align="center" size={24}>
+        //       <div
+        //         style={{
+        //           display: 'flex',
+        //           justifyContent: 'center',
+        //           alignItems: 'center',
+        //           flexDirection: 'column',
+        //           height: 40,
+        //           width: 40,
+        //           border: '1px solid #D4D8DD',
+        //           borderRadius: '50%',
+        //         }}
+        //       >
+        //         <AlipayOutlined style={{ ...iconStyles, color: '#1677FF' }} />
+        //       </div>
+        //       <div
+        //         style={{
+        //           display: 'flex',
+        //           justifyContent: 'center',
+        //           alignItems: 'center',
+        //           flexDirection: 'column',
+        //           height: 40,
+        //           width: 40,
+        //           border: '1px solid #D4D8DD',
+        //           borderRadius: '50%',
+        //         }}
+        //       >
+        //         <TaobaoOutlined style={{ ...iconStyles, color: '#FF6A10' }} />
+        //       </div>
+        //       <div
+        //         style={{
+        //           display: 'flex',
+        //           justifyContent: 'center',
+        //           alignItems: 'center',
+        //           flexDirection: 'column',
+        //           height: 40,
+        //           width: 40,
+        //           border: '1px solid #D4D8DD',
+        //           borderRadius: '50%',
+        //         }}
+        //       >
+        //         <WeiboOutlined style={{ ...iconStyles, color: '#333333' }} />
+        //       </div>
+        //     </Space>
+        //   </div>
+        // }
+      >
+        <Tabs
+          centered
+          activeKey={loginType}
+          onChange={(activeKey) => setLoginType(activeKey as LoginType)}
+        >
+          <Tabs.TabPane key={'account'} tab={'Đăng nhập'} />
+          {/* <Tabs.TabPane key={'phone'} tab={'手机号登录'} /> */}
+        </Tabs>
+        {loginType === 'account' && (
+          <>
+            <ProFormText
+              name="username"
+              fieldProps={{
+                size: 'large',
+                prefix: <UserOutlined className={'prefixIcon'} />,
+              }}
+              placeholder={'Tên người dùng: admin'}
+              rules={[
+                {
+                  required: true,
+                  message: 'Tên người dùng không hợp lệ!',
+                },
+              ]}
+            />
+            <ProFormText.Password
+              name="password"
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className={'prefixIcon'} />,
+              }}
+              placeholder={'Mật khẩu: your password'}
+              rules={[
+                {
+                  required: true,
+                  message: 'Mật khẩu không hợp lệ!',
+                },
+              ]}
+            />
+          </>
+        )}
+        {/* {loginType === 'phone' && (
+          <>
+            <ProFormText
+              fieldProps={{
+                size: 'large',
+                prefix: <MobileOutlined className={'prefixIcon'} />,
+              }}
+              name="mobile"
+              placeholder={'手机号'}
+              rules={[
+                {
+                  required: true,
+                  message: '请输入手机号！',
+                },
+                {
+                  pattern: /^1\d{10}$/,
+                  message: '手机号格式错误！',
+                },
+              ]}
+            />
+            <ProFormCaptcha
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className={'prefixIcon'} />,
+              }}
+              captchaProps={{
+                size: 'large',
+              }}
+              placeholder={'请输入验证码'}
+              captchaTextRender={(timing, count) => {
+                if (timing) {
+                  return `${count} ${'获取验证码'}`;
+                }
+                return '获取验证码';
+              }}
+              name="captcha"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入验证码！',
+                },
+              ]}
+              onGetCaptcha={async () => {
+                message.success('获取验证码成功！验证码为：1234');
+              }}
+            />
+          </>
+        )} */}
+        <div
+          style={{
+            marginBlockEnd: 24,
+            color: 'white',
+          }}
+        >
+          {/* <ProFormCheckbox noStyle name="autoLogin">
+            自动登录
+          </ProFormCheckbox> */}
+          <a
+            style={{
+              float: 'right',
+              marginBottom: 10,
+            }}
+          >
+            Quên mật khẩu
+          </a>
+        </div>
+      </LoginFormPage>
+      <style jsx global>{`
+        .ant-pro-form-login-page-container {
+          background: unset !important;
+        }
+        .ant-pro-form-login-page-title,
+        .ant-pro-form-login-page-desc,
+        .ant-tabs-tab-btn {
+          color: white !important;
+        }
+      `}</style>
+    </div>
+  );
+};
+export default AuthPage;
