@@ -15,12 +15,16 @@ import { VideoModule } from '../video/video.module';
 import { TagModule } from '../tag/tag.module';
 import { CategoryModule } from '../category/category.module';
 import { RoleModule } from '../role/role.module';
+import { LoggingPlugin } from '../utils/apollo.logging';
+import responseCachePlugin from '@apollo/server-plugin-response-cache';
+import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
     CacheModule.register({
-      imports: [ConfigModule],
+      imports: [ConfigService],
       useFactory: (config: ConfigService) => {
         const cache = config.get('cache');
         const driver = config.get(cache.driver);
@@ -42,22 +46,36 @@ import { RoleModule } from '../role/role.module';
       inject: [ConfigService],
     }),
     UserModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'apps/backend/src/schema.graphql'),
-      typePaths: ['./**/*.graphql'],
-      definitions: {
-        path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
-        outputAs: 'interface',
-        
+      useFactory: (configService: ConfigService) => {
+        const maxAge = parseInt(configService.get('GRAPHQL_CACHE_MAX_AGE'));
+        const apolloConfig: ApolloDriverConfig = {
+          autoSchemaFile: join(
+            process.cwd(),
+            'apps/backend/src/schema.graphql'
+          ),
+          typePaths: ['./**/*.graphql'],
+          definitions: {
+            path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
+            outputAs: 'interface',
+          },
+          // schema.gql will automatically be created
+          playground: true,
+          plugins: [
+            ApolloServerPluginCacheControl({ defaultMaxAge: maxAge }),
+            responseCachePlugin(),
+          ],
+        };
+        return apolloConfig;
       },
-      // schema.gql will automatically be created
-      playground: true,
     }),
     VideoModule,
     TagModule,
     CategoryModule,
-    RoleModule
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [
@@ -66,6 +84,7 @@ import { RoleModule } from '../role/role.module';
       provide: 'APP_INTERCEPTOR',
       useClass: HttpCacheInterceptor,
     },
+    LoggingPlugin,
   ],
 })
 export class AppModule {}
