@@ -1,7 +1,11 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { CreateTagInput } from '@graphqlTypes';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class Tag {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class TagEntity implements CreateTagInput {
+  @Field(() => Int)
+  id: number;
+  
+  @Field(() => String)
+  name: string;
 }

@@ -1,11 +1,15 @@
-require("dotenv").config();
+const { resolve } = require('path');
+
+require('dotenv').config({
+  path: resolve('apps/backend/.env'),
+});
 const config = {
   development: {
-    username: process.env['DB_USERNAME'],
-    password: process.env['DB_PASSWORD'],
-    database: process.env['DB_NAME'],
-    host: process.env['DB_HOST'],
-    dialect: process.env['DB_DIALECT'],
+    username: process.env['NX_DB_USERNAME'],
+    password: process.env['NX_DB_PASSWORD'],
+    database: process.env['NX_DB_NAME'],
+    host: process.env['NX_DB_HOST'],
+    dialect: process.env['NX_DB_DIALECT'],
     logging: true,
     dialectModule: require('pg'),
     timezone: '+07:00',
@@ -17,5 +21,4 @@ const config = {
     },
   },
 };
-
 module.exports = config;

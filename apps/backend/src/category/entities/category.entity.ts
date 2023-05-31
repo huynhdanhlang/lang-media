@@ -1,7 +1,11 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { CreateCategoryInput } from '@graphqlTypes';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class Category {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class CategoryEntity implements CreateCategoryInput {
+  @Field(() => Int)
+  id: number;
+
+  @Field(() => String)
+  name: string;
 }

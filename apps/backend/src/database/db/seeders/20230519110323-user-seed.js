@@ -1,4 +1,7 @@
 'use strict';
+
+const { genSaltSync, hash } = require('bcrypt');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -25,12 +28,14 @@ module.exports = {
         },
         transaction,
       });
+      const salt = genSaltSync(process.env.HASH_NUMBER);
+      const passwordHashed = await hash('123456', salt);
       await queryInterface.bulkInsert(
         'user',
         [
           {
             username: 'huynhdanhlang',
-            password: '12345678',
+            password: passwordHashed,
             fullname: 'Huynh Danh Lang',
             email: 'danhlangbmvl@gmail.com',
             createdAt: new Date(),

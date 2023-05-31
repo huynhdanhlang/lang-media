@@ -1,10 +1,12 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { CreateUserInput } from '@graphqlTypes';
+import { RoleEntity } from '../../role/entities/role.entity';
 
 @ObjectType()
-export class User {
+export class UserEntity implements CreateUserInput {
   @Field(() => Int)
   id: number;
-  
+
   @Field(() => String, { description: "user's name" })
   username: string;
 
@@ -17,9 +19,22 @@ export class User {
   @Field(() => String)
   email: string;
 
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: true,
+  })
   address?: string;
 
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: true,
+  })
   phone?: string;
+
+  @Field(() => RoleEntity)
+  role: RoleEntity;
+
+  @Field(() => Int)
+  roleId: number;
+
+  @Field(() => Date)
+  createdAt: Date;
 }

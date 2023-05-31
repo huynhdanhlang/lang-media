@@ -2,12 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type RoleClient {
+type RoleEntity {
   id: Int!
   name: String!
 }
 
-type UserClient {
+type UserEntity {
   id: Int!
 
   """user's name"""
@@ -19,7 +19,7 @@ type UserClient {
   email: String!
   address: String
   phone: String
-  role: RoleClient!
+  role: RoleEntity!
   roleId: Int!
   createdAt: DateTime!
 }
@@ -29,12 +29,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Role {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type VideoClient {
+type VideoEntity {
   id: Int!
   name: String!
   url: String!
@@ -44,44 +39,45 @@ type VideoClient {
   country: String!
 }
 
-type TagClient {
+type TagEntity {
   id: Int!
   name: String!
 }
 
-type CategoryClient {
+type CategoryEntity {
   id: Int!
   name: String!
 }
 
 type Query {
-  findAllUser: [UserClient!]
-  findOneUser(id: Int!): UserClient
-  role(id: Int!): Role!
-  findAllVideo: [VideoClient!]!
-  findOneVideo(id: Int!): VideoClient!
-  findAllTag: [TagClient!]!
-  findOneTag(id: Int!): TagClient!
-  findAllCategory: [CategoryClient!]!
-  findOneCategory(id: Int!): CategoryClient!
+  findAllUser: [UserEntity!]
+  findOneUser(id: Int!): UserEntity
+  role(id: Int!): RoleEntity!
+  findAllVideo: [VideoEntity!]!
+  findOneVideo(id: Int!): VideoEntity!
+  findAllTag: [TagEntity!]!
+  findOneTag(id: Int!): TagEntity!
+  findAllCategory: [CategoryEntity!]!
+  findOneCategory(id: Int!): CategoryEntity!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): UserClient!
-  updateUser(updateUserInput: UpdateUserInput!): UserClient!
-  removeUser(id: Int!): UserClient!
-  createRole(createRoleInput: CreateRoleInput!): Role!
-  updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  removeRole(id: Int!): Role!
-  createVideo(createVideoInput: CreateVideoInput!): VideoClient!
-  updateVideo(updateVideoInput: UpdateVideoInput!): VideoClient!
-  removeVideo(id: Int!): VideoClient!
-  createTag(createTagInput: CreateTagInput!): TagClient!
-  updateTag(updateTagInput: UpdateTagInput!): TagClient!
-  removeTag(id: Int!): TagClient!
-  createCategory(createCategoryInput: CreateCategoryInput!): CategoryClient!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryClient!
-  removeCategory(id: Int!): CategoryClient!
+  createUser(createUserInput: CreateUserInput!): UserEntity!
+  updateUser(updateUserInput: UpdateUserInput!): UserEntity!
+  removeUser(id: Int!): UserEntity!
+  createRole(createRoleInput: CreateRoleInput!): RoleEntity!
+  updateRole(updateRoleInput: UpdateRoleInput!): RoleEntity!
+  removeRole(id: Int!): RoleEntity!
+  createVideo(createVideoInput: CreateVideoInput!): VideoEntity!
+  updateVideo(updateVideoInput: UpdateVideoInput!): VideoEntity!
+  removeVideo(id: Int!): VideoEntity!
+  createTag(createTagInput: CreateTagInput!): TagEntity!
+  updateTag(updateTagInput: UpdateTagInput!): TagEntity!
+  removeTag(id: Int!): TagEntity!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
+  removeCategory(id: Int!): CategoryEntity!
+  login(loginInput: LoginInput!): UserEntity!
 }
 
 input CreateUserInput {
@@ -143,4 +139,9 @@ input CreateCategoryInput {
 
 input UpdateCategoryInput {
   id: Int!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
 }
