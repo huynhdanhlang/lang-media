@@ -17,6 +17,7 @@ export class AuthenticationService {
           username,
         },
       });
+      console.log("🚀 ~ file: authentication.service.ts:20 ~ AuthenticationService ~ getAuthenticatedUser ~ user:", user)
       await this.verifyPassword(plainTextPassword, user.password);
       user.password = undefined;
       return user;
