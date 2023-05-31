@@ -17,7 +17,7 @@ export default () => {
       <Head>
         <title>User Management - UOW Sculptures</title>
       </Head>
-      <UserList />
+      {/* <UserList /> */}
     </>
   )
 }

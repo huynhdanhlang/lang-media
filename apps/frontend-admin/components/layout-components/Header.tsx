@@ -95,12 +95,8 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
         </a>
       </Link> */}
 
-      <TriggerBlock className="trigger">
-        {collapsed ? (
-          <MenuUnfoldOutlined onClick={handleToggle} />
-        ) : (
-          <MenuFoldOutlined onClick={handleToggle} />
-        )}
+      <TriggerBlock className="trigger" onClick={handleToggle}>
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </TriggerBlock>
 
       {/* {isAuthenticated && ( */}

@@ -5,6 +5,7 @@ import MyLayout from '../components/Layout';
 import '../public/static/index.css';
 import { RecoilRoot } from 'recoil';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import AuthPage from '../components/auth';
 function CustomApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
     uri: 'http://localhost:3000/graphql',
@@ -18,9 +19,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <ApolloProvider client={client}>
           <main className="app">
-            <MyLayout>
+            <AuthPage />
+            {/* <MyLayout>
               <Component {...pageProps} />
-            </MyLayout>
+            </MyLayout> */}
           </main>
         </ApolloProvider>
       </RecoilRoot>
