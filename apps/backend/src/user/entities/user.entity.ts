@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
 import { CreateUserInput } from '@graphqlTypes';
 import { RoleEntity } from '../../role/entities/role.entity';
 
@@ -37,4 +37,7 @@ export class UserEntity implements CreateUserInput {
 
   @Field(() => Date)
   createdAt: Date;
+
+  @HideField()
+  currentHashedRefreshToken: string;
 }

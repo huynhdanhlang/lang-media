@@ -5,4 +5,5 @@ import { InputType, Field, Int, PartialType, OmitType } from '@nestjs/graphql';
 export class UpdateUserInput extends OmitType(CreateUserInput, ['username']) {
   @Field(() => Int)
   id: number;
+  currentHashedRefreshToken?: string;
 }
