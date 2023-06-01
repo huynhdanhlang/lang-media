@@ -32,7 +32,7 @@
           {
             "name": "@nestjs/graphql/dist/plugin",
             "options": {
-              "typeFileNameSuffix": [".input.ts", ".client.ts"],
+              "typeFileNameSuffix": [".input.ts", ".client.ts", ".entity.ts"],
               "introspectComments": true
             }
           }

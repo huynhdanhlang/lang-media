@@ -3,11 +3,14 @@ import { VideoService } from './video.service';
 import { CreateVideoInput } from './dto/create-video.input';
 import { UpdateVideoInput } from './dto/update-video.input';
 import { VideoEntity } from './entities/video.entity';
+import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(private readonly videoService: VideoService) {}
 
+  @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => VideoEntity)
   createVideo(@Args('createVideoInput') createVideoInput: CreateVideoInput) {
     return this.videoService.create(createVideoInput);

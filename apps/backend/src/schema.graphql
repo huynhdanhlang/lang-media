@@ -49,6 +49,11 @@ type CategoryEntity {
   name: String!
 }
 
+type ObjectMessage {
+  statusCode: Int
+  message: String!
+}
+
 type Query {
   findAllUser: [UserEntity!]
   findOneUser(id: Int!): UserEntity
@@ -78,6 +83,7 @@ type Mutation {
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
   removeCategory(id: Int!): CategoryEntity!
   login(loginInput: LoginInput!): UserEntity!
+  logout: ObjectMessage!
 }
 
 input CreateUserInput {
@@ -96,6 +102,7 @@ input UpdateUserInput {
   fullname: String!
   email: String!
   id: Int!
+  currentHashedRefreshToken: String
 }
 
 input CreateRoleInput {

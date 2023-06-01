@@ -11,11 +11,14 @@ import { UserService } from './user.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserEntity } from './entities/user.entity';
+import { UseGuards } from '@nestjs/common';
+import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
 
 @Resolver(() => UserEntity)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => UserEntity)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);

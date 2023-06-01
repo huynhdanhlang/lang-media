@@ -19,11 +19,18 @@ import { LoggingPlugin } from '../utils/apollo.logging';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 import { AuthenticationModule } from '../authentication/authentication.module';
-
+import * as Joi from 'joi';
+import { ThrottlerModule } from '@nestjs/throttler';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: Joi.object({
+        NX_JWT_SECRET: Joi.string().required(),
+        NX_JWT_EXPIRATION_TIME: Joi.number().required(),
+        NX_JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
+        NX_JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.number().required(),
+      }),
     }),
     DatabaseModule,
     CacheModule.register({
@@ -71,6 +78,7 @@ import { AuthenticationModule } from '../authentication/authentication.module';
             ApolloServerPluginCacheControl({ defaultMaxAge: maxAge }),
             responseCachePlugin(),
           ],
+          context: ({ res }) => ({ res }),
         };
         return apolloConfig;
       },
@@ -80,6 +88,10 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     CategoryModule,
     RoleModule,
     AuthenticationModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
   ],
   controllers: [AppController],
   providers: [

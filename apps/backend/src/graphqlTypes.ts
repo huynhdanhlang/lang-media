@@ -20,6 +20,7 @@ export interface UpdateUserInput {
     fullname: string;
     email: string;
     id: number;
+    currentHashedRefreshToken?: Nullable<string>;
 }
 
 export interface CreateRoleInput {
@@ -107,6 +108,11 @@ export interface CategoryEntity {
     name: string;
 }
 
+export interface ObjectMessage {
+    statusCode?: Nullable<number>;
+    message: string;
+}
+
 export interface IQuery {
     findAllUser(): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
     findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
@@ -136,6 +142,7 @@ export interface IMutation {
     updateCategory(updateCategoryInput: UpdateCategoryInput): CategoryEntity | Promise<CategoryEntity>;
     removeCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
     login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
+    logout(): ObjectMessage | Promise<ObjectMessage>;
 }
 
 export type DateTime = any;

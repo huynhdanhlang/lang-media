@@ -2,3 +2,4 @@
 - [Using Apollo GraphQL with React in an Nx Workspace](https://blog.nrwl.io/using-apollo-graphql-with-react-in-an-nx-workspace-99db8d69cebe)
 - [Issue][NestJS/GraphQL/Passport - getting unauthorised error from guard](https://stackoverflow.com/questions/68390441/nestjs-graphql-passport-getting-unauthorised-error-from-guard)
 - [Authenticating users with bcrypt, Passport, JWT, and cookies](https://wanago.io/2020/05/25/api-nestjs-authenticating-users-bcrypt-passport-jwt-cookies/)
+- [Add docs on accessing response via GraphQL context](https://github.com/nestjs/docs.nestjs.com/pull/2146/commits/b36e78b791c1d717ec6257367b6e246b882625d4)

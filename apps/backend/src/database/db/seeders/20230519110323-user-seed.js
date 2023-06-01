@@ -24,7 +24,7 @@ module.exports = {
       if (user.length) return;
       const role = await queryInterface.select(null, 'role', {
         where: {
-          name: 'customer',
+          name: 'admin',
         },
         transaction,
       });

@@ -40,4 +40,7 @@ export default class User extends Model<User> {
   @ForeignKey(() => Role)
   @Column({ type: DataType.INTEGER, allowNull: false })
   roleId: number;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  currentHashedRefreshToken?: string;
 }
