@@ -41,9 +41,16 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Button, Divider, message, Space, Tabs } from 'antd';
+import { useLoginMutation } from '@training-project/data-access';
+import { Button, Divider, message, Space, Tabs, notification } from 'antd';
+import { FormInstance } from 'antd/lib/form';
 import { CSSProperties, useEffect } from 'react';
 import { useState } from 'react';
+import Loading from '../Loading';
+import Error from 'next/error';
+import { useSetRecoilState } from 'recoil';
+import { userState } from 'apps/frontend-admin/stores/user';
+import Router from 'next/router';
 
 type LoginType = 'phone' | 'account';
 
@@ -54,27 +61,55 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 interface IAuthPage {}
+interface ILoginUser {
+  username: string;
+  password: string;
+}
 const AuthPage = (props: IAuthPage) => {
   const [loginType, setLoginType] = useState<LoginType>('account');
   const image =
     'https://www.pixel4k.com/wp-content/uploads/2019/10/joker-movie-artwork_1570919664.jpg';
   const [imageUrl, setImageUrl] = useState(image);
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     console.log(window.innerHeight, window.innerWidth);
-  //     if (window.innerWidth < 770) {
-  //       console.log(['dadd']);
+  const [loginMutation, { data, loading, error }] = useLoginMutation();
+  const setUser = useSetRecoilState(userState);
+  const [textColor, setTextColor] = useState('#ffff');
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log(window.innerHeight, window.innerWidth);
+      if (window.innerWidth < 770) {
+        // console.log(['dadd']);
+        // setImageUrl(
+        //   'https://i0.wp.com/www.3wallpapers.fr/wp-content/uploads/2015/09/DeadPool-dark-3Wallpapers-iPhone-Parallax.jpg?ssl=1'
+        // );
+        setTextColor('#000000');
+      } else {
+        setTextColor('#ffff');
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    if (data) {
+      setUser(data.login);
+      Router.replace(window.location.pathname, '/');
+    }
+  }, [data]);
+  const onSubmit = async (user: ILoginUser) => {
+    await loginMutation({
+      variables: {
+        loginInput: {
+          password: user.password,
+          username: user.username,
+        },
+      },
+    });
+  };
 
-  //       setImageUrl(
-  //         'https://i0.wp.com/www.3wallpapers.fr/wp-content/uploads/2015/09/DeadPool-dark-3Wallpapers-iPhone-Parallax.jpg?ssl=1'
-  //       );
-  //     } else {
-  //       setImageUrl(image);
-  //     }
-  //   };
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
+  if (error) {
+    notification.error(error);
+  }
+
   return (
     <div
       style={{
@@ -93,6 +128,7 @@ const AuthPage = (props: IAuthPage) => {
             submitText: 'Gét go',
           },
         }}
+        onFinish={onSubmit}
         // activityConfig={{
         //   style: {
         //     boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
@@ -293,13 +329,15 @@ const AuthPage = (props: IAuthPage) => {
         .ant-pro-form-login-page-title,
         .ant-pro-form-login-page-desc,
         .ant-tabs-tab-btn {
-          color: white !important;
+          color: ${textColor} !important;
         }
-        {/* @media (max-width: 768px) {
+         {
+          /* @media (max-width: 768px) {
           .ant-pro-form-login-page {
             background-size: contain !important;
           }
-        } */}
+        } */
+        }
       `}</style>
     </div>
   );
