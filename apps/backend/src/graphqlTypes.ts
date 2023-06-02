@@ -123,6 +123,7 @@ export interface IQuery {
     findOneTag(id: number): TagEntity | Promise<TagEntity>;
     findAllCategory(): CategoryEntity[] | Promise<CategoryEntity[]>;
     findOneCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
+    refreshToken(): UserEntity | Promise<UserEntity>;
 }
 
 export interface IMutation {

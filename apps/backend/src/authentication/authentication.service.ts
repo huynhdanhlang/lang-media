@@ -56,7 +56,19 @@ export class AuthenticationService {
     )}`;
   }
 
-  public getCookieForLogOut() {
+  getCookieForLogOut() {
     return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  }
+
+  getCookieWithJwtRefreshToken(userId: number, username: string) {
+    const payload: TokenPayload = { userId, username };
+    const token = this.jwtService.sign(payload);
+    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'NX_JWT_EXPIRATION_TIME'
+    )}`;
+    return {
+      cookie,
+      token,
+    };
   }
 }
