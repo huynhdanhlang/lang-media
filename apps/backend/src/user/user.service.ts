@@ -71,4 +71,34 @@ export class UserService {
   async getRole(id: number) {
     return this.roleService.findOne(id);
   }
+
+  async setCurrentRefreshToken(refreshToken: string, userId: number) {
+    const salt = genSaltSync(
+      parseInt(this.configService.get('NX_HASH_NUMBER'))
+    );
+    const currentHashedRefreshToken = await hash(refreshToken, salt);
+    await this.userService.update(
+      {
+        currentHashedRefreshToken,
+      },
+      {
+        where: {
+          id: userId,
+        },
+      }
+    );
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
+    const user = await this.findBk(userId);
+
+    const isRefreshTokenMatching = await compare(
+      refreshToken,
+      user.currentHashedRefreshToken
+    );
+
+    if (isRefreshTokenMatching) {
+      return user;
+    }
+  }
 }

@@ -28,8 +28,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
       validationSchema: Joi.object({
         NX_JWT_SECRET: Joi.string().required(),
         NX_JWT_EXPIRATION_TIME: Joi.number().required(),
-        NX_JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
-        NX_JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.number().required(),
       }),
     }),
     DatabaseModule,
@@ -78,7 +76,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
             ApolloServerPluginCacheControl({ defaultMaxAge: maxAge }),
             responseCachePlugin(),
           ],
-          context: ({ res }) => ({ res }),
+          context: ({ req, res }) => ({ req, res }),
         };
         return apolloConfig;
       },

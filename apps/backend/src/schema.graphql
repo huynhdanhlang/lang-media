@@ -64,6 +64,7 @@ type Query {
   findOneTag(id: Int!): TagEntity!
   findAllCategory: [CategoryEntity!]!
   findOneCategory(id: Int!): CategoryEntity!
+  refreshToken: UserEntity!
 }
 
 type Mutation {
