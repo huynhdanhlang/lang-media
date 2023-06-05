@@ -6,8 +6,7 @@ const videoJson = fs.readFileSync(__dirname + '\\..\\video.json', 'utf8');
 const videoData = JSON.parse(videoJson).data;
 const tagJson = fs.readFileSync(__dirname + '\\..\\tag.json', 'utf8');
 const tagData = JSON.parse(tagJson).data;
-const roleJson = fs.readFileSync(__dirname + '\\..\\role.json', 'utf8');
-const roleData = JSON.parse(roleJson).data;
+
 const { Op } = require('sequelize');
 const { mapTimeDataDto } = require('../../../helper/seed');
 /** @type {import('sequelize-cli').Migration} */
@@ -29,12 +28,6 @@ module.exports = {
        */
       const tagDtos = mapTimeDataDto(tagData);
       await queryInterface.bulkInsert('tag', tagDtos, { transaction });
-
-      /**
-       * Seed for role
-       */
-      const roleDtos = mapTimeDataDto(roleData);
-      await queryInterface.bulkInsert('role', roleDtos, { transaction });
 
       // connect relation
       const video_category = [];
@@ -137,16 +130,15 @@ module.exports = {
           });
         })
       );
-      await queryInterface.bulkDelete('tag', {
-        name: {
-          [Op.in]: tagNames,
+      await queryInterface.bulkDelete(
+        'tag',
+        {
+          name: {
+            [Op.in]: tagNames,
+          },
         },
-      });
-      await queryInterface.bulkDelete('role', {
-        name: {
-          [Op.in]: roleNames,
-        },
-      });
+        { transaction }
+      );
     });
   },
 };
