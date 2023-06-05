@@ -1,0 +1,31 @@
+query findAllCategory {
+  findAllCategory {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+    }
+  }
+}
+
+query findOneCategory($id: Int!) {
+  findOneCategory(id: $id) {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+    }
+  }
+}
