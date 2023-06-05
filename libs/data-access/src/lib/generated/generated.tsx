@@ -52,6 +52,7 @@ export type CreateVideoInput = {
   country: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
@@ -245,6 +246,7 @@ export type UpdateVideoInput = {
   country: Scalars['String']['input'];
   id: Scalars['Int']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
+  poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
@@ -272,6 +274,7 @@ export type VideoEntity = {
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  poster?: Maybe<Scalars['String']['output']>;
   tags: Array<TagEntity>;
   trailerUrl?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
@@ -293,14 +296,14 @@ export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: '
 export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string }> }> | null };
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> }> | null };
 
 export type FindOneCategoryQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string }> } | null };
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> } | null };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -350,14 +353,14 @@ export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __type
 export type FindAllVideoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
 
 export type FindOneVideoQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
 
 
 export const LoginDocument = gql`
@@ -450,6 +453,7 @@ export const FindAllCategoryDocument = gql`
       language
       view
       country
+      poster
     }
   }
 }
@@ -494,6 +498,7 @@ export const FindOneCategoryDocument = gql`
       language
       view
       country
+      poster
     }
   }
 }
@@ -805,6 +810,7 @@ export const FindAllVideoDocument = gql`
     language
     view
     country
+    poster
     tags {
       id
       name
@@ -849,6 +855,7 @@ export const FindOneVideoDocument = gql`
     language
     view
     country
+    poster
     tags {
       id
       name

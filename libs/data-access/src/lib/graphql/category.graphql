@@ -10,6 +10,7 @@ query findAllCategory {
       language
       view
       country
+      poster
     }
   }
 }
@@ -26,6 +27,7 @@ query findOneCategory($id: Int!) {
       language
       view
       country
+      poster
     }
   }
 }

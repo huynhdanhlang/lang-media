@@ -11,18 +11,19 @@ interface IVideoList {
 }
 const VideoCardList = (props: IVideoList) => {
   return (
-    <Space>
+    <Space wrap size={'large'}>
       {props?.videos?.map((video) => (
         <ProCard
           title={video.name}
-          style={{ maxWidth: 300 }}
+          style={{ maxWidth: 500 }}
           bordered
           actions={[
             <EditOutlined key="edit" />,
-            <EllipsisOutlined key="ellipsis"/>,
+            <EllipsisOutlined key="ellipsis" />,
           ]}
         >
-          {/* <Image src={}/> */}
+          <Image width={300} height={300} src={video.poster} />
+          <div>{video.url}</div>
         </ProCard>
       ))}
     </Space>

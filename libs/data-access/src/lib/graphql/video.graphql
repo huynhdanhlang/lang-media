@@ -7,6 +7,7 @@ query findAllVideo {
     language
     view
     country
+    poster
     tags {
       id
       name
@@ -23,6 +24,7 @@ query findOneVideo($id: Int!) {
     language
     view
     country
+    poster
     tags {
       id
       name
