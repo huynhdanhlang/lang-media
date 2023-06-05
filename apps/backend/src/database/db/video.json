@@ -7,7 +7,8 @@
       "trailerUrl": "https://www.youtube.com/embed/OVDg8CQlBBA",
       "language": "Tiếng Việt",
       "country": "Việt Nam",
-      "view": 100
+      "view": 100,
+      "poster": "https://cdn.shopify.com/s/files/1/1057/4964/products/Avengers-Endgame-Vintage-Movie-Poster-Original-1-Sheet-27x41.jpg?v=1670821335"
     },
     {
       "name": "Movie 2",
@@ -16,7 +17,8 @@
       "trailerUrl": "https://www.youtube.com/embed/OVDg8CQlBBA",
       "language": "Tiếng Việt",
       "country": "Việt Nam",
-      "view": 120
+      "view": 120,
+      "poster": "https://i.etsystatic.com/18242346/r/il/fd61f8/2933715225/il_570xN.2933715225_a913.jpg"
     },
     {
       "name": "Movie 3",
@@ -25,7 +27,8 @@
       "trailerUrl": "https://www.youtube.com/embed/OVDg8CQlBBA",
       "language": "Tiếng Việt",
       "country": "Việt Nam",
-      "view": 120
+      "view": 120,
+      "poster": "https://c8.alamy.com/comp/F6M055/release-date-june-28-2007-movie-title-harry-potter-and-the-order-of-F6M055.jpg"
     },
     {
       "name": "Movie 4",
@@ -34,7 +37,8 @@
       "trailerUrl": "https://www.youtube.com/embed/OVDg8CQlBBA",
       "language": "Tiếng Việt",
       "country": "Việt Nam",
-      "view": 120
+      "view": 120,
+      "poster": "https://cdn.shopify.com/s/files/1/0969/9128/products/Dora_The_Explorer_And_The_Lost_City_Of_Gold_-_Hollywood_English_Movie_Poster_1_66c87e56-24a2-4135-b709-a6b98a7f7bce.jpg?v=1577693664"
     },
     {
       "name": "Movie 5",
@@ -43,7 +47,8 @@
       "trailerUrl": "https://www.youtube.com/embed/OVDg8CQlBBA",
       "language": "Tiếng Việt",
       "country": "Việt Nam",
-      "view": 120
+      "view": 120,
+      "poster": "https://creativereview.imgix.net/content/uploads/2022/12/everything_everywhere_all_at_once.jpg?auto=compress,format&q=60&w=1013&h=1500"
     }
   ]
 }
