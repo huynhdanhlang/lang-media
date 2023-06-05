@@ -48,7 +48,8 @@ const CategoryList = (props: ICategoryList) => {
       />
       <div
         style={{
-          margin: 24,
+          marginTop: 50,
+          marginLeft: 50,
           display: 'flex',
         }}
       >

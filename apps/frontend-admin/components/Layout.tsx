@@ -62,7 +62,9 @@ const MyLayout = (props: IMyLayout) => {
             <Content
               style={{
                 margin: '70px 16px 15px 16px',
+                overflowX: 'auto',
               }}
+              className="content-layout"
             >
               {children}
             </Content>
