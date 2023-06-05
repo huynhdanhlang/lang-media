@@ -23,25 +23,6 @@ module.exports = {
       await queryInterface.bulkInsert('category', categoryDtos, {
         transaction,
       });
-      const video_category = [];
-      await Promise.all([
-        queryInterface.select(null, 'video', { transaction }),
-        queryInterface.select(null, 'category', { transaction }),
-      ]).then(([videos, categories]) => {
-        categories.forEach((category) => {
-          videos.forEach((video) => {
-            video_category.push({
-              videoId: video.id,
-              categoryId: category.id,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            });
-          });
-        });
-      });
-      await queryInterface.bulkInsert('video_category', video_category, {
-        transaction,
-      });
 
       /**
        * Seed for tag
@@ -54,6 +35,45 @@ module.exports = {
        */
       const roleDtos = mapTimeDataDto(roleData);
       await queryInterface.bulkInsert('role', roleDtos, { transaction });
+
+      // connect relation
+      const video_category = [];
+      const tag_video = [];
+      await Promise.all([
+        queryInterface.select(null, 'video', { transaction }),
+        queryInterface.select(null, 'category', { transaction }),
+        queryInterface.select(null, 'tag', { transaction }),
+      ]).then(([videos, categories, tags]) => {
+        categories.forEach((category) => {
+          videos.forEach((video) => {
+            video_category.push({
+              videoId: video.id,
+              categoryId: category.id,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            });
+          });
+        });
+
+        videos.forEach((video) => {
+          tags.forEach((tag) => {
+            tag_video.push({
+              videoId: video.id,
+              tagId: tag.id,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            });
+          });
+        });
+      });
+      await Promise.all([
+        queryInterface.bulkInsert('video_category', video_category, {
+          transaction,
+        }),
+        queryInterface.bulkInsert('tag_video', tag_video, {
+          transaction,
+        }),
+      ]);
     });
   },
 
@@ -67,6 +87,8 @@ module.exports = {
     await queryInterface.sequelize.transaction(async (transaction) => {
       const videoNames = videoData.map((video) => video.name);
       const categoryNames = categoryData.map((category) => category.name);
+      const tagNames = tagData.map((tag) => tag.name);
+      const roleNames = roleData.map((role) => role.name);
       const videos = await queryInterface.select(null, 'video', {
         where: {
           name: {
@@ -115,6 +137,16 @@ module.exports = {
           });
         })
       );
+      await queryInterface.bulkDelete('tag', {
+        name: {
+          [Op.in]: tagNames,
+        },
+      });
+      await queryInterface.bulkDelete('role', {
+        name: {
+          [Op.in]: roleNames,
+        },
+      });
     });
   },
 };

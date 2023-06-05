@@ -11,8 +11,8 @@ const Sequelize = require('sequelize');
 
 const info = {
     "revision": 4,
-    "name": "add currentHashedRefreshToken field for user",
-    "created": "2023-06-01T08:51:23.854Z",
+    "name": "add_currentHashedRefreshToken_field_for_user_and_remove_underscore",
+    "created": "2023-06-02T08:08:22.759Z",
     "comment": ""
 };
 

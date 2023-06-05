@@ -3,6 +3,7 @@ import { CreateVideoInput } from './dto/create-video.input';
 import { UpdateVideoInput } from './dto/update-video.input';
 import { InjectModel } from '@nestjs/sequelize';
 import Video from '../database/models/Video';
+import { Attributes, FindOptions, Model } from 'sequelize';
 
 @Injectable()
 export class VideoService {
@@ -11,12 +12,12 @@ export class VideoService {
     return this.videoService.create(createVideoInput);
   }
 
-  async findAll() {
-    return this.videoService.findAll();
+  async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
+    return this.videoService.findAll(options);
   }
 
-  async findOne(id: number) {
-    return this.videoService.findByPk(id);
+  async findOne(id: number, options?: Omit<FindOptions<Video>, 'where'>) {
+    return this.videoService.findByPk(id, options);
   }
 
   async update(id: number, updateVideoInput: UpdateVideoInput) {

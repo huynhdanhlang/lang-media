@@ -6,6 +6,7 @@ import Tag from '../database/models/Tag';
 
 @Module({
   providers: [TagResolver, TagService],
-  imports: [SequelizeModule.forFeature([Tag])]
+  imports: [SequelizeModule.forFeature([Tag])],
+  exports: [SequelizeModule.forFeature([Tag]), TagService],
 })
 export class TagModule {}

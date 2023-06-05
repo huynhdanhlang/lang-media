@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { sequelize } from './config';
-import { SequelizeTypescriptMigration } from 'sequelize-typescript-migration-lts';
+import { SequelizeTypescriptMigration } from '@mandarvl/sequelize-typescript-migration';
 
 const bootstrap = async (migrationName: string) => {
   await SequelizeTypescriptMigration.makeMigration(sequelize, {

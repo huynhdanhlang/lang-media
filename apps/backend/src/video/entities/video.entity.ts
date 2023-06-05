@@ -1,5 +1,6 @@
 import { CreateVideoInput } from '@graphqlTypes';
 import { Field, Int, ObjectType, PartialType } from '@nestjs/graphql';
+import { TagEntity } from '../../tag/entities/tag.entity';
 @ObjectType()
 export class VideoEntity implements CreateVideoInput {
   @Field(() => Int)
@@ -16,4 +17,6 @@ export class VideoEntity implements CreateVideoInput {
   view?: number;
   @Field(() => String)
   country: string;
+  @Field(() => [TagEntity])
+  tags: TagEntity[];
 }

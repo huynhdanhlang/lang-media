@@ -13,6 +13,9 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { UserEntity } from './entities/user.entity';
 import { UseGuards } from '@nestjs/common';
 import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
+import { RoleEntity } from '../role/entities/role.entity';
+import { Attributes, FindOptions, Model } from 'sequelize';
+import User from '../database/models/User';
 
 @Resolver(() => UserEntity)
 export class UserResolver {
@@ -34,7 +37,7 @@ export class UserResolver {
     return this.userService.findBk(id);
   }
 
-  @ResolveField()
+  @ResolveField(() => RoleEntity, { nullable: true })
   async role(@Parent() parent: UserEntity) {
     const { roleId } = parent;
     return this.userService.getRole(roleId);

@@ -13,12 +13,12 @@ export class TagResolver {
     return this.tagService.create(createTagInput);
   }
 
-  @Query(() => [TagEntity])
+  @Query(() => [TagEntity], { nullable: true })
   findAllTag() {
     return this.tagService.findAll();
   }
 
-  @Query(() => TagEntity)
+  @Query(() => TagEntity, { nullable: true })
   findOneTag(@Args('id', { type: () => Int }) id: number) {
     return this.tagService.findOne(id);
   }

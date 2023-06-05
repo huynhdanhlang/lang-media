@@ -6,6 +6,7 @@ import {
   BelongsToMany,
   ForeignKey,
   HasMany,
+  Default,
 } from 'sequelize-typescript';
 import Category from './Category';
 import Tag from './Tag';
@@ -30,6 +31,13 @@ export default class Video extends Model<Video> {
     type: DataType.STRING,
   })
   trailerUrl: string;
+
+  @Default('')
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  poster: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
   language: string;
