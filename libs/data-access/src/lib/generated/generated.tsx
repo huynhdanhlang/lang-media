@@ -23,6 +23,7 @@ export type CategoryEntity = {
   __typename?: 'CategoryEntity';
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  videos: Array<VideoEntity>;
 };
 
 export type CreateCategoryInput = {
@@ -170,14 +171,15 @@ export type ObjectMessage = {
 
 export type Query = {
   __typename?: 'Query';
-  findAllCategory: Array<CategoryEntity>;
-  findAllTag: Array<TagEntity>;
+  findAllCategory?: Maybe<Array<CategoryEntity>>;
+  findAllTag?: Maybe<Array<TagEntity>>;
   findAllUser?: Maybe<Array<UserEntity>>;
-  findAllVideo: Array<VideoEntity>;
-  findOneCategory: CategoryEntity;
-  findOneTag: TagEntity;
+  findAllVideo?: Maybe<Array<VideoEntity>>;
+  findOneCategory?: Maybe<CategoryEntity>;
+  findOneTag?: Maybe<TagEntity>;
   findOneUser?: Maybe<UserEntity>;
-  findOneVideo: VideoEntity;
+  findOneVideo?: Maybe<VideoEntity>;
+  refreshToken: UserEntity;
   role: RoleEntity;
 };
 
@@ -270,6 +272,7 @@ export type VideoEntity = {
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  tags: Array<TagEntity>;
   trailerUrl?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
   view?: Maybe<Scalars['Int']['output']>;
@@ -287,17 +290,29 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'ObjectMessage', statusCode?: number | null, message: string } };
 
+export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string }> }> | null };
+
+export type FindOneCategoryQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string }> } | null };
+
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllTagQuery = { __typename?: 'Query', findAllTag: Array<{ __typename?: 'TagEntity', name: string }> };
+export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string }> | null };
 
 export type FindOneTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneTagQuery = { __typename?: 'Query', findOneTag: { __typename?: 'TagEntity', name: string } };
+export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string } | null };
 
 export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -331,6 +346,18 @@ export type RemoveUserMutationVariables = Exact<{
 
 
 export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
+
+export type FindAllVideoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+
+export type FindOneVideoQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
 
 
 export const LoginDocument = gql`
@@ -410,6 +437,95 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const FindAllCategoryDocument = gql`
+    query findAllCategory {
+  findAllCategory {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindAllCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllCategoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllCategoryQuery(baseOptions?: Apollo.QueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+      }
+export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+        }
+export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
+export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
+export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
+export const FindOneCategoryDocument = gql`
+    query findOneCategory($id: Int!) {
+  findOneCategory(id: $id) {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindOneCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindOneCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOneCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOneCategoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindOneCategoryQuery(baseOptions: Apollo.QueryHookOptions<FindOneCategoryQuery, FindOneCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOneCategoryQuery, FindOneCategoryQueryVariables>(FindOneCategoryDocument, options);
+      }
+export function useFindOneCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOneCategoryQuery, FindOneCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOneCategoryQuery, FindOneCategoryQueryVariables>(FindOneCategoryDocument, options);
+        }
+export type FindOneCategoryQueryHookResult = ReturnType<typeof useFindOneCategoryQuery>;
+export type FindOneCategoryLazyQueryHookResult = ReturnType<typeof useFindOneCategoryLazyQuery>;
+export type FindOneCategoryQueryResult = Apollo.QueryResult<FindOneCategoryQuery, FindOneCategoryQueryVariables>;
 export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {
@@ -679,3 +795,92 @@ export function useRemoveUserMutation(baseOptions?: Apollo.MutationHookOptions<R
 export type RemoveUserMutationHookResult = ReturnType<typeof useRemoveUserMutation>;
 export type RemoveUserMutationResult = Apollo.MutationResult<RemoveUserMutation>;
 export type RemoveUserMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutation, RemoveUserMutationVariables>;
+export const FindAllVideoDocument = gql`
+    query findAllVideo {
+  findAllVideo {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllVideoQuery__
+ *
+ * To run a query within a React component, call `useFindAllVideoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllVideoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllVideoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllVideoQuery(baseOptions?: Apollo.QueryHookOptions<FindAllVideoQuery, FindAllVideoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllVideoQuery, FindAllVideoQueryVariables>(FindAllVideoDocument, options);
+      }
+export function useFindAllVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllVideoQuery, FindAllVideoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllVideoQuery, FindAllVideoQueryVariables>(FindAllVideoDocument, options);
+        }
+export type FindAllVideoQueryHookResult = ReturnType<typeof useFindAllVideoQuery>;
+export type FindAllVideoLazyQueryHookResult = ReturnType<typeof useFindAllVideoLazyQuery>;
+export type FindAllVideoQueryResult = Apollo.QueryResult<FindAllVideoQuery, FindAllVideoQueryVariables>;
+export const FindOneVideoDocument = gql`
+    query findOneVideo($id: Int!) {
+  findOneVideo(id: $id) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindOneVideoQuery__
+ *
+ * To run a query within a React component, call `useFindOneVideoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOneVideoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOneVideoQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindOneVideoQuery(baseOptions: Apollo.QueryHookOptions<FindOneVideoQuery, FindOneVideoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOneVideoQuery, FindOneVideoQueryVariables>(FindOneVideoDocument, options);
+      }
+export function useFindOneVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOneVideoQuery, FindOneVideoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOneVideoQuery, FindOneVideoQueryVariables>(FindOneVideoDocument, options);
+        }
+export type FindOneVideoQueryHookResult = ReturnType<typeof useFindOneVideoQuery>;
+export type FindOneVideoLazyQueryHookResult = ReturnType<typeof useFindOneVideoLazyQuery>;
+export type FindOneVideoQueryResult = Apollo.QueryResult<FindOneVideoQuery, FindOneVideoQueryVariables>;

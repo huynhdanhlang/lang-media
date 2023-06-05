@@ -8,15 +8,17 @@ import {
   CodeSandboxCircleFilled,
   TeamOutlined,
   HistoryOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
-const keys = ['/', '/users'];
+import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
+const keys = ['/', '/videos', '/categories'];
 
 const menu = [
   <Menu.Item key={keys[0]}>
     <Link legacyBehavior href={keys[0]}>
       <a>
         <DashboardFilled />
-        <span>Dashboard</span>
+        <span>{COMPONENTS.DASHBOARD}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -24,7 +26,15 @@ const menu = [
     <Link legacyBehavior href={keys[1]}>
       <a>
         <TeamOutlined />
-        <span>Users</span>
+        <span>{COMPONENTS.VIDEO_MANAGEMENT}</span>
+      </a>
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key={keys[2]}>
+    <Link legacyBehavior href={keys[2]}>
+      <a>
+        <MenuOutlined />
+        <span>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -44,7 +54,7 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
     if (currentPath.includes(keys[i])) {
       selectedKeys = [keys[i]];
       console.log(selectedKeys);
-      
+
       break;
     }
   }
