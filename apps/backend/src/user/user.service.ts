@@ -6,16 +6,17 @@ import {
 } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import UserModel from '../database/models/User';
+import User from '../database/models/User';
 import { InjectModel } from '@nestjs/sequelize';
 import { RoleService } from '../role/role.service';
 import { compare, genSaltSync, hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { FindOptions } from 'sequelize';
+import { Attributes, FindOptions, Model } from 'sequelize';
+
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(UserModel) private userService: typeof UserModel,
+    @InjectModel(User) private userService: typeof User,
     private roleService: RoleService,
     private configService: ConfigService
   ) {}
@@ -43,15 +44,15 @@ export class UserService {
     }
   }
 
-  async findAll() {
-    return this.userService.findAll();
+  async findAll<M extends Model<User>>(options?: FindOptions<Attributes<M>>) {
+    return this.userService.findAll(options);
   }
 
   async findBk(id: number) {
     return this.userService.findByPk(id);
   }
 
-  async findOne(options?: FindOptions<UserModel>) {
+  async findOne(options?: FindOptions<User>) {
     return this.userService.findOne(options);
   }
 

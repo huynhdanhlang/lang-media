@@ -29,6 +29,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type TagEntity {
+  id: Int!
+  name: String!
+}
+
 type VideoEntity {
   id: Int!
   name: String!
@@ -37,16 +42,13 @@ type VideoEntity {
   language: String
   view: Int
   country: String!
-}
-
-type TagEntity {
-  id: Int!
-  name: String!
+  tags: [TagEntity!]!
 }
 
 type CategoryEntity {
   id: Int!
   name: String!
+  videos: [VideoEntity!]!
 }
 
 type ObjectMessage {
@@ -58,12 +60,12 @@ type Query {
   findAllUser: [UserEntity!]
   findOneUser(id: Int!): UserEntity
   role(id: Int!): RoleEntity!
-  findAllVideo: [VideoEntity!]!
-  findOneVideo(id: Int!): VideoEntity!
-  findAllTag: [TagEntity!]!
-  findOneTag(id: Int!): TagEntity!
-  findAllCategory: [CategoryEntity!]!
-  findOneCategory(id: Int!): CategoryEntity!
+  findAllVideo: [VideoEntity!]
+  findOneVideo(id: Int!): VideoEntity
+  findAllTag: [TagEntity!]
+  findOneTag(id: Int!): TagEntity
+  findAllCategory: [CategoryEntity!]
+  findOneCategory(id: Int!): CategoryEntity
   refreshToken: UserEntity!
 }
 

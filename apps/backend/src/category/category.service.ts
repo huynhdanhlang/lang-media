@@ -3,6 +3,7 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { InjectModel } from '@nestjs/sequelize';
 import Category from '../database/models/Category';
+import { Attributes, FindOptions, Model } from 'sequelize';
 
 @Injectable()
 export class CategoryService {
@@ -13,12 +14,14 @@ export class CategoryService {
     return this.categoryService.create(createCategoryInput);
   }
 
-  async findAll() {
-    return this.categoryService.findAll();
+  async findAll<M extends Model<Category>>(
+    options?: FindOptions<Attributes<M>>
+  ) {
+    return this.categoryService.findAll(options);
   }
 
-  async findOne(id: number) {
-    return this.categoryService.findByPk(id);
+  async findOne(id: number, options?: Omit<FindOptions<Category>, 'where'>) {
+    return this.categoryService.findByPk(id, options);
   }
 
   async update(id: number, updateCategoryInput: UpdateCategoryInput) {

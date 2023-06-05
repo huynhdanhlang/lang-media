@@ -30,6 +30,9 @@ const config: SequelizeConfig = {
 const sequelize = new Sequelize({
   ...config.development,
   models: getModels,
+  sync: {
+    alter: true,
+  },
 });
 
 export { sequelize, config };
