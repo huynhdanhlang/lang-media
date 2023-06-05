@@ -38,6 +38,7 @@ export interface CreateVideoInput {
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
+    poster?: Nullable<string>;
 }
 
 export interface UpdateVideoInput {
@@ -46,6 +47,7 @@ export interface UpdateVideoInput {
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
+    poster?: Nullable<string>;
     id: number;
 }
 
@@ -102,6 +104,7 @@ export interface VideoEntity {
     view?: Nullable<number>;
     country: string;
     tags: TagEntity[];
+    poster?: Nullable<string>;
 }
 
 export interface CategoryEntity {

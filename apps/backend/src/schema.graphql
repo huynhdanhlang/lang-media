@@ -43,6 +43,7 @@ type VideoEntity {
   view: Int
   country: String!
   tags: [TagEntity!]!
+  poster: String
 }
 
 type CategoryEntity {
@@ -124,6 +125,7 @@ input CreateVideoInput {
   language: String
   view: Int
   country: String!
+  poster: String
 }
 
 input UpdateVideoInput {
@@ -132,6 +134,7 @@ input UpdateVideoInput {
   language: String
   view: Int
   country: String!
+  poster: String
   id: Int!
 }
 

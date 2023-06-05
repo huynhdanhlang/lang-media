@@ -19,4 +19,5 @@ export class VideoEntity implements CreateVideoInput {
   country: string;
   @Field(() => [TagEntity])
   tags: TagEntity[];
+  poster?: string;
 }

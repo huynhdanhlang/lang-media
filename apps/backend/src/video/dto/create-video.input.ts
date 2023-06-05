@@ -14,4 +14,5 @@ export class CreateVideoInput {
   view?: number;
   @Field(() => String)
   country: string;
+  poster?: string;
 }
