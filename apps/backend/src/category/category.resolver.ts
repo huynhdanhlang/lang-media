@@ -14,6 +14,7 @@ import { UpdateCategoryInput } from './dto/update-category.input';
 import { VideoEntity } from '../video/entities/video.entity';
 import Video from '../database/models/Video';
 import { VideoService } from '../video/video.service';
+import { CategoryFilter } from './dto/category-filter.input';
 
 @Resolver(() => CategoryEntity)
 export class CategoryResolver {
@@ -30,8 +31,9 @@ export class CategoryResolver {
   }
 
   @Query(() => [CategoryEntity], { nullable: true })
-  findAllCategory() {
-    return this.categoryService.findAll();
+  findAllCategory(@Args('categoryFilter') categoryFilter: CategoryFilter) {
+    // @ts-ignore
+    return this.categoryService.findAll({...categoryFilter});
   }
 
   @Query(() => CategoryEntity, { nullable: true })

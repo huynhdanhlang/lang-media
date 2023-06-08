@@ -10,7 +10,7 @@ export class UserEntity implements CreateUserInput {
   @Field(() => String, { description: "user's name" })
   username: string;
 
-  @Field(() => String, { description: "user's password" })
+  @HideField()
   password: string;
 
   @Field(() => String)

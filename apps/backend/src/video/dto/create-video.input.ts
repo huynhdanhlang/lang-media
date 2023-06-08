@@ -15,4 +15,5 @@ export class CreateVideoInput {
   @Field(() => String)
   country: string;
   poster?: string;
+  description: string;
 }

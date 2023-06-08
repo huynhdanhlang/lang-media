@@ -16,6 +16,7 @@ import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
 import { RoleEntity } from '../role/entities/role.entity';
 import { Attributes, FindOptions, Model } from 'sequelize';
 import User from '../database/models/User';
+import { UserFilter } from './dto/user-filter.input';
 
 @Resolver(() => UserEntity)
 export class UserResolver {
@@ -28,8 +29,9 @@ export class UserResolver {
   }
 
   @Query(() => [UserEntity], { nullable: true })
-  findAllUser() {
-    return this.userService.findAll();
+  findAllUser(@Args('userFilter') userFilter: UserFilter) {
+    // @ts-ignore
+    return this.userService.findAll({...userFilter});
   }
 
   @Query(() => UserEntity, { nullable: true })

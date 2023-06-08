@@ -15,9 +15,8 @@ import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { TagEntity } from '../tag/entities/tag.entity';
 import { TagService } from '../tag/tag.service';
-import Video from '../database/models/Video';
-import Role from '../database/models/Role';
 import Tag from '../database/models/Tag';
+import { VideoFilter } from './dto/video-filter.input';
 
 @Resolver(() => VideoEntity)
 export class VideoResolver {
@@ -32,9 +31,11 @@ export class VideoResolver {
     return this.videoService.create(createVideoInput);
   }
 
+  @UseGuards(JwtAuthenticationGuard)
   @Query(() => [VideoEntity],{ nullable: true })
-  findAllVideo() {
-    return this.videoService.findAll();
+  findAllVideo(@Args('videoFilter') videoFilter: VideoFilter) {
+    // @ts-ignore
+    return this.videoService.findAll({...videoFilter});
   }
 
   @Query(() => VideoEntity, { nullable: true })
