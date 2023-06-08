@@ -8,6 +8,95 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface UserFilter {
+    attributes?: Nullable<FAttributeOptions>;
+    include?: Nullable<IncludeModel[]>;
+    group?: Nullable<string>;
+    limit?: Nullable<number>;
+    mapToModel?: Nullable<boolean>;
+    nest?: Nullable<boolean>;
+    offset?: Nullable<number>;
+    paranoid?: Nullable<boolean>;
+    plain?: Nullable<boolean>;
+    raw?: Nullable<boolean>;
+    skipLocked?: Nullable<boolean>;
+    subQuery?: Nullable<boolean>;
+    type?: Nullable<string>;
+    useMaster?: Nullable<boolean>;
+    where?: Nullable<UserWherClause>;
+}
+
+export interface FAttributeOptions {
+    exclude?: Nullable<string[]>;
+    include?: Nullable<string[]>;
+}
+
+export interface IncludeModel {
+    where?: Nullable<JSON>;
+    association?: Nullable<string>;
+    attributes?: Nullable<FAttributeOptions>;
+    include?: Nullable<IncludeModel[]>;
+}
+
+export interface UserWherClause {
+    password?: Nullable<string>;
+    fullname?: Nullable<string>;
+    email?: Nullable<string>;
+    currentHashedRefreshToken?: Nullable<string>;
+    id?: Nullable<number[]>;
+}
+
+export interface VideoFilter {
+    attributes?: Nullable<FAttributeOptions>;
+    include?: Nullable<IncludeModel[]>;
+    group?: Nullable<string>;
+    limit?: Nullable<number>;
+    mapToModel?: Nullable<boolean>;
+    nest?: Nullable<boolean>;
+    offset?: Nullable<number>;
+    paranoid?: Nullable<boolean>;
+    plain?: Nullable<boolean>;
+    raw?: Nullable<boolean>;
+    skipLocked?: Nullable<boolean>;
+    subQuery?: Nullable<boolean>;
+    type?: Nullable<string>;
+    useMaster?: Nullable<boolean>;
+    where?: Nullable<VideoWherClause>;
+}
+
+export interface VideoWherClause {
+    url?: Nullable<string>;
+    trailerUrl?: Nullable<string>;
+    language?: Nullable<string>;
+    view?: Nullable<number>;
+    country?: Nullable<string>;
+    poster?: Nullable<string>;
+    description?: Nullable<string>;
+    id?: Nullable<number[]>;
+}
+
+export interface CategoryFilter {
+    attributes?: Nullable<FAttributeOptions>;
+    include?: Nullable<IncludeModel[]>;
+    group?: Nullable<string>;
+    limit?: Nullable<number>;
+    mapToModel?: Nullable<boolean>;
+    nest?: Nullable<boolean>;
+    offset?: Nullable<number>;
+    paranoid?: Nullable<boolean>;
+    plain?: Nullable<boolean>;
+    raw?: Nullable<boolean>;
+    skipLocked?: Nullable<boolean>;
+    subQuery?: Nullable<boolean>;
+    type?: Nullable<string>;
+    useMaster?: Nullable<boolean>;
+    where?: Nullable<CategoryWherClause>;
+}
+
+export interface CategoryWherClause {
+    id?: Nullable<number[]>;
+}
+
 export interface CreateUserInput {
     username: string;
     password: string;
@@ -39,6 +128,7 @@ export interface CreateVideoInput {
     view?: Nullable<number>;
     country: string;
     poster?: Nullable<string>;
+    description: string;
 }
 
 export interface UpdateVideoInput {
@@ -48,6 +138,7 @@ export interface UpdateVideoInput {
     view?: Nullable<number>;
     country: string;
     poster?: Nullable<string>;
+    description: string;
     id: number;
 }
 
@@ -80,7 +171,6 @@ export interface RoleEntity {
 export interface UserEntity {
     id: number;
     username: string;
-    password: string;
     fullname: string;
     email: string;
     address?: Nullable<string>;
@@ -104,6 +194,7 @@ export interface VideoEntity {
     view?: Nullable<number>;
     country: string;
     tags: TagEntity[];
+    description: string;
     poster?: Nullable<string>;
 }
 
@@ -119,14 +210,14 @@ export interface ObjectMessage {
 }
 
 export interface IQuery {
-    findAllUser(): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
+    findAllUser(userFilter: UserFilter): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
     findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
     role(id: number): RoleEntity | Promise<RoleEntity>;
-    findAllVideo(): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
+    findAllVideo(videoFilter: VideoFilter): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
     findOneVideo(id: number): Nullable<VideoEntity> | Promise<Nullable<VideoEntity>>;
     findAllTag(): Nullable<TagEntity[]> | Promise<Nullable<TagEntity[]>>;
     findOneTag(id: number): Nullable<TagEntity> | Promise<Nullable<TagEntity>>;
-    findAllCategory(): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;
+    findAllCategory(categoryFilter: CategoryFilter): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;
     findOneCategory(id: number): Nullable<CategoryEntity> | Promise<Nullable<CategoryEntity>>;
     refreshToken(): UserEntity | Promise<UserEntity>;
 }
@@ -152,4 +243,5 @@ export interface IMutation {
 }
 
 export type DateTime = any;
+export type JSON = any;
 type Nullable<T> = T | null;

@@ -3,6 +3,7 @@ import { Field, Int, ObjectType, PartialType } from '@nestjs/graphql';
 import { TagEntity } from '../../tag/entities/tag.entity';
 @ObjectType()
 export class VideoEntity implements CreateVideoInput {
+  description: string;
   @Field(() => Int)
   id: number;
   @Field(() => String)
@@ -20,4 +21,5 @@ export class VideoEntity implements CreateVideoInput {
   @Field(() => [TagEntity])
   tags: TagEntity[];
   poster?: string;
+  
 }

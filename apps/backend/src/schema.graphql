@@ -12,9 +12,6 @@ type UserEntity {
 
   """user's name"""
   username: String!
-
-  """user's password"""
-  password: String!
   fullname: String!
   email: String!
   address: String
@@ -43,6 +40,7 @@ type VideoEntity {
   view: Int
   country: String!
   tags: [TagEntity!]!
+  description: String!
   poster: String
 }
 
@@ -58,16 +56,111 @@ type ObjectMessage {
 }
 
 type Query {
-  findAllUser: [UserEntity!]
+  findAllUser(userFilter: UserFilter!): [UserEntity!]
   findOneUser(id: Int!): UserEntity
   role(id: Int!): RoleEntity!
-  findAllVideo: [VideoEntity!]
+  findAllVideo(videoFilter: VideoFilter!): [VideoEntity!]
   findOneVideo(id: Int!): VideoEntity
   findAllTag: [TagEntity!]
   findOneTag(id: Int!): TagEntity
-  findAllCategory: [CategoryEntity!]
+  findAllCategory(categoryFilter: CategoryFilter!): [CategoryEntity!]
   findOneCategory(id: Int!): CategoryEntity
   refreshToken: UserEntity!
+}
+
+input UserFilter {
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: UserWherClause
+}
+
+input FAttributeOptions {
+  exclude: [String!]
+  include: [String!]
+}
+
+input IncludeModel {
+  where: JSON
+  association: String
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input UserWherClause {
+  """user's password"""
+  password: String
+  fullname: String
+  email: String
+  currentHashedRefreshToken: String
+  id: [Int!]
+}
+
+input VideoFilter {
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: VideoWherClause
+}
+
+input VideoWherClause {
+  url: String
+  trailerUrl: String
+  language: String
+  view: Int
+  country: String
+  poster: String
+  description: String
+  id: [Int!]
+}
+
+input CategoryFilter {
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: CategoryWherClause
+}
+
+input CategoryWherClause {
+  id: [Int!]
 }
 
 type Mutation {
@@ -126,6 +219,7 @@ input CreateVideoInput {
   view: Int
   country: String!
   poster: String
+  description: String!
 }
 
 input UpdateVideoInput {
@@ -135,6 +229,7 @@ input UpdateVideoInput {
   view: Int
   country: String!
   poster: String
+  description: String!
   id: Int!
 }
 
