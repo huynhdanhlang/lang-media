@@ -8,47 +8,33 @@ import {
   CodeSandboxCircleFilled,
   TeamOutlined,
   HistoryOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
-const keys = ['/', '/sculptures', '/makers', '/users', '/recent-activity'];
+import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
+const keys = ['/', '/videos', '/categories'];
 
 const menu = [
   <Menu.Item key={keys[0]}>
     <Link legacyBehavior href={keys[0]}>
       <a>
         <DashboardFilled />
-        <span>Dashboard</span>
+        <span>{COMPONENTS.DASHBOARD}</span>
       </a>
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[1]}>
     <Link legacyBehavior href={keys[1]}>
       <a>
-        <TrophyFilled />
-        <span>Sculptures</span>
+        <TeamOutlined />
+        <span>{COMPONENTS.VIDEO_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[2]}>
     <Link legacyBehavior href={keys[2]}>
       <a>
-        <CodeSandboxCircleFilled />
-        <span>Makers</span>
-      </a>
-    </Link>
-  </Menu.Item>,
-  <Menu.Item key={keys[3]}>
-    <Link legacyBehavior href={keys[3]}>
-      <a>
-        <TeamOutlined />
-        <span>Users</span>
-      </a>
-    </Link>
-  </Menu.Item>,
-  <Menu.Item key={keys[4]}>
-    <Link legacyBehavior href={keys[4]}>
-      <a>
-        <HistoryOutlined />
-        <span>Recent Activity</span>
+        <MenuOutlined />
+        <span>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -67,6 +53,8 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
   for (let i = keys.length - 1; i >= 0; i--) {
     if (currentPath.includes(keys[i])) {
       selectedKeys = [keys[i]];
+      console.log(selectedKeys);
+
       break;
     }
   }
@@ -76,6 +64,7 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
       theme="dark"
       mode="inline"
       selectedKeys={selectedKeys}
+      defaultSelectedKeys={[keys[0]]}
       style={{ ...style, padding: '16px 0' }}
       onClick={({ key }) => {
         closeDrawer();

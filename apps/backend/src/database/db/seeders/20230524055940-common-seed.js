@@ -6,8 +6,7 @@ const videoJson = fs.readFileSync(__dirname + '\\..\\video.json', 'utf8');
 const videoData = JSON.parse(videoJson).data;
 const tagJson = fs.readFileSync(__dirname + '\\..\\tag.json', 'utf8');
 const tagData = JSON.parse(tagJson).data;
-const roleJson = fs.readFileSync(__dirname + '\\..\\role.json', 'utf8');
-const roleData = JSON.parse(roleJson).data;
+
 const { Op } = require('sequelize');
 const { mapTimeDataDto } = require('../../../helper/seed');
 /** @type {import('sequelize-cli').Migration} */
@@ -23,11 +22,21 @@ module.exports = {
       await queryInterface.bulkInsert('category', categoryDtos, {
         transaction,
       });
+
+      /**
+       * Seed for tag
+       */
+      const tagDtos = mapTimeDataDto(tagData);
+      await queryInterface.bulkInsert('tag', tagDtos, { transaction });
+
+      // connect relation
       const video_category = [];
+      const tag_video = [];
       await Promise.all([
         queryInterface.select(null, 'video', { transaction }),
         queryInterface.select(null, 'category', { transaction }),
-      ]).then(([videos, categories]) => {
+        queryInterface.select(null, 'tag', { transaction }),
+      ]).then(([videos, categories, tags]) => {
         categories.forEach((category) => {
           videos.forEach((video) => {
             video_category.push({
@@ -38,22 +47,26 @@ module.exports = {
             });
           });
         });
-      });
-      await queryInterface.bulkInsert('video_category', video_category, {
-        transaction,
-      });
 
-      /**
-       * Seed for tag
-       */
-      const tagDtos = mapTimeDataDto(tagData);
-      await queryInterface.bulkInsert('tag', tagDtos, { transaction });
-
-      /**
-       * Seed for role
-       */
-      const roleDtos = mapTimeDataDto(roleData);
-      await queryInterface.bulkInsert('role', roleDtos, { transaction });
+        videos.forEach((video) => {
+          tags.forEach((tag) => {
+            tag_video.push({
+              videoId: video.id,
+              tagId: tag.id,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            });
+          });
+        });
+      });
+      await Promise.all([
+        queryInterface.bulkInsert('video_category', video_category, {
+          transaction,
+        }),
+        queryInterface.bulkInsert('tag_video', tag_video, {
+          transaction,
+        }),
+      ]);
     });
   },
 
@@ -67,6 +80,8 @@ module.exports = {
     await queryInterface.sequelize.transaction(async (transaction) => {
       const videoNames = videoData.map((video) => video.name);
       const categoryNames = categoryData.map((category) => category.name);
+      const tagNames = tagData.map((tag) => tag.name);
+      const roleNames = roleData.map((role) => role.name);
       const videos = await queryInterface.select(null, 'video', {
         where: {
           name: {
@@ -114,6 +129,15 @@ module.exports = {
             );
           });
         })
+      );
+      await queryInterface.bulkDelete(
+        'tag',
+        {
+          name: {
+            [Op.in]: tagNames,
+          },
+        },
+        { transaction }
       );
     });
   },

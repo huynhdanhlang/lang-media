@@ -1,15 +1,22 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import MyLayout from '../components/Layout';
 import '../public/static/index.css';
 import { RecoilRoot } from 'recoil';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import dynamic from 'next/dynamic';
 function CustomApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
-    uri: 'http://localhost:3000/graphql',
+    uri: `${process.env.NEXT_PUBLIC_BASE_API}/graphql`,
     cache: new InMemoryCache(),
   });
+  const MyLayout = dynamic(() => import('../components/Layout'), {
+    ssr: false,
+  });
+
+  if (typeof window === 'undefined') {
+    return <></>;
+  }
   return (
     <>
       <Head>
@@ -17,11 +24,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <ApolloProvider client={client}>
-          <main className="app">
-            <MyLayout>
-              <Component {...pageProps} />
-            </MyLayout>
-          </main>
+          <MyLayout>
+            <Component {...pageProps} />
+          </MyLayout>
         </ApolloProvider>
       </RecoilRoot>
     </>

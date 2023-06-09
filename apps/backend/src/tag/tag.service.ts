@@ -3,6 +3,7 @@ import { CreateTagInput } from './dto/create-tag.input';
 import { UpdateTagInput } from './dto/update-tag.input';
 import { InjectModel } from '@nestjs/sequelize';
 import Tag from '../database/models/Tag';
+import { Attributes, FindOptions, Model } from 'sequelize';
 
 @Injectable()
 export class TagService {
@@ -11,8 +12,8 @@ export class TagService {
     return this.tagService.create(createTagInput);
   }
 
-  async findAll() {
-    return this.tagService.findAll();
+  async findAll<M extends Model<Tag>>(options?: FindOptions<Attributes<M>>) {
+    return this.tagService.findAll(options);
   }
 
   async findOne(id: number) {

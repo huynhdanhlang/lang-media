@@ -8,7 +8,6 @@ import Video from './Video';
 import Category from './Category';
 @Table({
   tableName: 'video_category',
-  underscored: true,
   indexes: [
     {
       unique: true,

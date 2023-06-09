@@ -9,6 +9,9 @@ import Header from './layout-components/Header';
 import LogoTitle from './layout-components/LogoTitle';
 import Drawer from './layout-components/Drawer';
 import Menu from './layout-components/Menu';
+import AuthPage from './auth';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../stores/user';
 
 interface IMyLayout {
   children: React.ReactNode;
@@ -28,37 +31,45 @@ const MyLayout = (props: IMyLayout) => {
     }
   };
 
+  const user = useRecoilValue(userState);
+
   return (
     <Layout
       style={{
         minHeight: '100vh',
       }}
     >
-      <FixedSider
-        collapsed={collapsed}
-        setCollapsed={(collapsed) => {
-          setCollapsed(collapsed);
-          nookies.set({}, 'collapsed', JSON.stringify(collapsed), {
-            path: '/',
-          });
-        }}
-      >
-        <LogoTitle />
+      {!user ? (
+        <AuthPage />
+      ) : (
+        <>
+          <FixedSider
+            collapsed={collapsed}
+            setCollapsed={(collapsed) => {
+              setCollapsed(collapsed);
+              nookies.set({}, 'collapsed', JSON.stringify(collapsed), {
+                path: '/',
+              });
+            }}
+          >
+            <LogoTitle />
 
-        <Menu closeDrawer={() => setCollapsed(false)} style={{}} />
-      </FixedSider>
+            <Menu closeDrawer={() => setCollapsed(false)} style={{}} />
+          </FixedSider>
 
-      <MainLayout collapsed={collapsed}>
-        <Header collapsed={collapsed} handleToggle={toggle} />
-        <Content
-          style={{
-            margin: '70px 16px 15px 16px',
-          }}
-        >
-          {children}
-        </Content>
-      </MainLayout>
-      {/* 
+          <MainLayout collapsed={collapsed}>
+            <Header collapsed={collapsed} handleToggle={toggle} />
+            <Content
+              style={{
+                margin: '70px 16px 15px 16px',
+                overflowX: 'auto',
+              }}
+              className="content-layout"
+            >
+              {children}
+            </Content>
+          </MainLayout>
+          {/* 
       <Drawer
         drawerVisible={drawerVisible}
         closeDrawer={() => setDrawerVisible(false)}
@@ -70,6 +81,8 @@ const MyLayout = (props: IMyLayout) => {
           closeDrawer={() => setDrawerVisible(false)}
         />
       </Drawer> */}
+        </>
+      )}
     </Layout>
   );
 };

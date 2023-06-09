@@ -7,6 +7,6 @@ import Role from '../database/models/Role';
 @Module({
   providers: [RoleResolver, RoleService],
   imports: [SequelizeModule.forFeature([Role])],
-  exports: [RoleService],
+  exports: [RoleService, SequelizeModule.forFeature([Role])],
 })
 export class RoleModule {}
