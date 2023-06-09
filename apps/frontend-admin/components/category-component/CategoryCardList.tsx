@@ -6,30 +6,15 @@ import {
 import { ProCard } from '@ant-design/pro-components';
 import {
   VideoEntity,
+  useFindAllCategoryQuery,
   useFindAllVideoQuery,
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
 import Loading from '../Loading';
 import { backgroudBorder } from '../shared/theme';
-interface IVideoList {
-  videoIds?: number[];
-  isEachCategory?: boolean;
-}
-const VideoCardList = (props: IVideoList) => {
-  const buildQuery = props.isEachCategory
-    ? {
-        where: {
-          id: props.videoIds,
-        },
-      }
-    : {};
-  const { loading, data, error } = useFindAllVideoQuery({
-    variables: {
-      videoFilter: {
-        ...buildQuery,
-      },
-    },
-  });
+
+const CategoryCardList = () => {
+  const { loading, data, error } = useFindAllCategoryQuery();
   if (loading) return <Loading />;
   if (error) {
     notification.error(error);
@@ -37,11 +22,11 @@ const VideoCardList = (props: IVideoList) => {
   return (
     <Space wrap size={'small'}>
       {data &&
-        data.findAllVideo.map((video) => (
+        data.findAllCategory.map((category) => (
           <ProCard
-            title={video.name}
+            title={category.name}
             style={{
-              maxWidth: 500,
+              // maxWidth: 500,
               ...backgroudBorder({
                 background: 'rgba(220, 220, 242, 0.65)',
                 isSetBorder: false,
@@ -53,12 +38,12 @@ const VideoCardList = (props: IVideoList) => {
               <EllipsisOutlined key="ellipsis" />,
             ]}
           >
-            <Image width={200} height={200} src={video.poster} />
-            <div>{video.description}</div>
+            {/* <Image width={200} height={200} src={video.poster} /> */}
+            {/* <div>{category.}</div> */}
           </ProCard>
         ))}
     </Space>
   );
 };
 
-export default VideoCardList;
+export default CategoryCardList;

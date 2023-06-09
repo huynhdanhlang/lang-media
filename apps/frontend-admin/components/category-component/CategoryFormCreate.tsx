@@ -32,7 +32,7 @@ const waitTime = (time: number = 100) => {
   });
 };
 
-const VideoFormCreate = () => {
+const CategoryFormCreate = () => {
   const [type, setType] = useState('ProForm');
   const Components = {
     ProForm,
@@ -139,4 +139,4 @@ const VideoFormCreate = () => {
   );
 };
 
-export default VideoFormCreate;
+export default CategoryFormCreate;
