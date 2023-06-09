@@ -40,4 +40,7 @@ export class UserEntity implements CreateUserInput {
 
   @HideField()
   currentHashedRefreshToken: string;
+
+  accessToken?: string;
+  refreshToken?: string;
 }

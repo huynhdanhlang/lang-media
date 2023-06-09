@@ -35,7 +35,9 @@ export class AuthenticationResolver {
         user.username
       );
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
-    res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+    res.setHeader('Set-Cookie', [refreshTokenCookie]);
+    user['accessToken'] = accessTokenCookie;
+    user['refreshToken'] = refreshToken;
     return user;
   }
 

@@ -11,8 +11,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
   async validate(username: string, password: string) {
-    console.log("🚀 ~ file: local.strategy.ts:14 ~ LocalStrategy ~ validate ~ password:", password)
-    console.log("🚀 ~ file: local.strategy.ts:14 ~ LocalStrategy ~ validate ~ username:", username)
     return this.authenticationService.getAuthenticatedUser(username, password);
   }
 }
