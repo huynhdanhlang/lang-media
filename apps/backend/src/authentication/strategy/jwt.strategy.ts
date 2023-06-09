@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { UserService } from '../../user/user.service';
 import { TokenPayload } from '../interface/token.payload';
-import { cookieParser } from '../../shared/headers';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,14 +13,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UserService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          return (
-            request?.cookies?.Authentication ??
-            cookieParser(request.headers?.cookies)?.Authentication
-          );
-        },
-      ]),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: configService.get('NX_JWT_SECRET'),
     });
   }

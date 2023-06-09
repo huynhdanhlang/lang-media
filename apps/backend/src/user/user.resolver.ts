@@ -29,9 +29,14 @@ export class UserResolver {
   }
 
   @Query(() => [UserEntity], { nullable: true })
-  findAllUser(@Args('userFilter') userFilter: UserFilter) {
+  findAllUser(
+    @Args('userFilter', {
+      nullable: true,
+    })
+    userFilter?: UserFilter
+  ) {
     // @ts-ignore
-    return this.userService.findAll({...userFilter});
+    return this.userService.findAll({ ...userFilter });
   }
 
   @Query(() => UserEntity, { nullable: true })

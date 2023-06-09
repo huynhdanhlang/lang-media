@@ -178,6 +178,8 @@ export interface UserEntity {
     role: RoleEntity;
     roleId: number;
     createdAt: DateTime;
+    accessToken?: Nullable<string>;
+    refreshToken?: Nullable<string>;
 }
 
 export interface TagEntity {
@@ -210,14 +212,14 @@ export interface ObjectMessage {
 }
 
 export interface IQuery {
-    findAllUser(userFilter: UserFilter): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
+    findAllUser(userFilter?: Nullable<UserFilter>): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
     findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
     role(id: number): RoleEntity | Promise<RoleEntity>;
-    findAllVideo(videoFilter: VideoFilter): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
+    findAllVideo(videoFilter?: Nullable<VideoFilter>): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
     findOneVideo(id: number): Nullable<VideoEntity> | Promise<Nullable<VideoEntity>>;
     findAllTag(): Nullable<TagEntity[]> | Promise<Nullable<TagEntity[]>>;
     findOneTag(id: number): Nullable<TagEntity> | Promise<Nullable<TagEntity>>;
-    findAllCategory(categoryFilter: CategoryFilter): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;
+    findAllCategory(categoryFilter?: Nullable<CategoryFilter>): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;
     findOneCategory(id: number): Nullable<CategoryEntity> | Promise<Nullable<CategoryEntity>>;
     refreshToken(): UserEntity | Promise<UserEntity>;
 }

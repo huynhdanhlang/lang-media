@@ -19,6 +19,8 @@ type UserEntity {
   role: RoleEntity!
   roleId: Int!
   createdAt: DateTime!
+  accessToken: String
+  refreshToken: String
 }
 
 """
@@ -56,14 +58,14 @@ type ObjectMessage {
 }
 
 type Query {
-  findAllUser(userFilter: UserFilter!): [UserEntity!]
+  findAllUser(userFilter: UserFilter): [UserEntity!]
   findOneUser(id: Int!): UserEntity
   role(id: Int!): RoleEntity!
-  findAllVideo(videoFilter: VideoFilter!): [VideoEntity!]
+  findAllVideo(videoFilter: VideoFilter): [VideoEntity!]
   findOneVideo(id: Int!): VideoEntity
   findAllTag: [TagEntity!]
   findOneTag(id: Int!): TagEntity
-  findAllCategory(categoryFilter: CategoryFilter!): [CategoryEntity!]
+  findAllCategory(categoryFilter: CategoryFilter): [CategoryEntity!]
   findOneCategory(id: Int!): CategoryEntity
   refreshToken: UserEntity!
 }

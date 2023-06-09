@@ -32,10 +32,15 @@ export class VideoResolver {
   }
 
   @UseGuards(JwtAuthenticationGuard)
-  @Query(() => [VideoEntity],{ nullable: true })
-  findAllVideo(@Args('videoFilter') videoFilter: VideoFilter) {
+  @Query(() => [VideoEntity], { nullable: true })
+  findAllVideo(
+    @Args('videoFilter', {
+      nullable: true,
+    })
+    videoFilter?: VideoFilter
+  ) {
     // @ts-ignore
-    return this.videoService.findAll({...videoFilter});
+    return this.videoService.findAll({ ...videoFilter });
   }
 
   @Query(() => VideoEntity, { nullable: true })

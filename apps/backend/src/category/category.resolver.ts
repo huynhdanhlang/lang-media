@@ -31,9 +31,14 @@ export class CategoryResolver {
   }
 
   @Query(() => [CategoryEntity], { nullable: true })
-  findAllCategory(@Args('categoryFilter') categoryFilter: CategoryFilter) {
+  findAllCategory(
+    @Args('categoryFilter', {
+      nullable: true,
+    })
+    categoryFilter?: CategoryFilter
+  ) {
     // @ts-ignore
-    return this.categoryService.findAll({...categoryFilter});
+    return this.categoryService.findAll({ ...categoryFilter });
   }
 
   @Query(() => CategoryEntity, { nullable: true })
