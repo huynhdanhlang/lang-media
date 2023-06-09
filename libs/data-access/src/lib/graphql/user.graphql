@@ -1,5 +1,5 @@
-query findAllUser {
-  findAllUser {
+query findAllUser($userFilter: UserFilter) {
+  findAllUser(userFilter: $userFilter) {
     id
     username
     email

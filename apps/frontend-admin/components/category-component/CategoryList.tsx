@@ -7,6 +7,7 @@ import { notification, Divider } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from '../video-components/VideoCardList';
+import { backgroudBorder } from '../shared/theme';
 
 interface ICategoryList {}
 const CategoryList = (props: ICategoryList) => {
@@ -28,7 +29,8 @@ const CategoryList = (props: ICategoryList) => {
 
   const renderVideoList = useCallback(() => {
     const category = categories?.findAllCategory.find((cg) => cg.name === type);
-    return <VideoCardList videos={category?.videos} />;
+    const videoIds = category?.videos.map((video) => video.id);
+    return <VideoCardList videoIds={videoIds} />;
   }, [type]);
 
   const options = data?.findAllCategory.map((category) => category.name);
@@ -49,8 +51,9 @@ const CategoryList = (props: ICategoryList) => {
       <div
         style={{
           marginTop: 50,
-          marginLeft: 50,
+          marginLeft: 70,
           display: 'flex',
+          justifyContent: 'center',
         }}
       >
         {renderVideoList()}

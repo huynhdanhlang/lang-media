@@ -11,6 +11,7 @@ import {
   MenuOutlined,
 } from '@ant-design/icons';
 import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
+import { backgroudBorder } from '../shared/theme';
 const keys = ['/', '/videos', '/categories'];
 
 const menu = [
@@ -51,6 +52,8 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
   let selectedKeys = [];
 
   for (let i = keys.length - 1; i >= 0; i--) {
+    console.log(currentPath, keys[i]);
+
     if (currentPath.includes(keys[i])) {
       selectedKeys = [keys[i]];
       console.log(selectedKeys);
@@ -65,7 +68,14 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
       mode="inline"
       selectedKeys={selectedKeys}
       defaultSelectedKeys={[keys[0]]}
-      style={{ ...style, padding: '16px 0' }}
+      style={{
+        ...style,
+        padding: '16px 0',
+        ...backgroudBorder({
+          isSetBorder: false,
+          background: 'rgb(5, 6, 8)',
+        }),
+      }}
       onClick={({ key }) => {
         closeDrawer();
         router.push(key);
