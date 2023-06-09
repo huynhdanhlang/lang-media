@@ -1,32 +1,3 @@
-// import { Button } from 'antd'
-// import { useAuth0 } from './auth0-components'
-
-// export default () => {
-//   const { loginWithRedirect } = useAuth0()
-
-//   return (
-//     <div
-//       style={{
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         height: '90%'
-//       }}
-//     >
-//       <Button
-//         type="primary"
-//         size="large"
-//         style={{
-//           width: 250
-//         }}
-//         onClick={() => loginWithRedirect({})}
-//       >
-//         Sign in to continue
-//       </Button>
-//     </div>
-//   )
-// }
-
 import {
   AlipayOutlined,
   LockOutlined,
@@ -50,7 +21,7 @@ import Loading from '../Loading';
 import Error from 'next/error';
 import { useSetRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 type LoginType = 'phone' | 'account';
 
@@ -73,6 +44,7 @@ const AuthPage = (props: IAuthPage) => {
   const [loginMutation, { data, loading, error }] = useLoginMutation();
   const setUser = useSetRecoilState(userState);
   const [textColor, setTextColor] = useState('#ffff');
+  const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
       // console.log(window.innerHeight, window.innerWidth);
@@ -92,7 +64,8 @@ const AuthPage = (props: IAuthPage) => {
   useEffect(() => {
     if (data) {
       setUser(data.login);
-      Router.replace(window.location.pathname, '/');
+      router.replace(router.asPath, '/');
+      router.reload();
     }
   }, [data]);
   const onSubmit = async (user: ILoginUser) => {

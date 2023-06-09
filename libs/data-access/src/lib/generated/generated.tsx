@@ -17,6 +17,8 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: { input: any; output: any; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { input: any; output: any; }
 };
 
 export type CategoryEntity = {
@@ -24,6 +26,28 @@ export type CategoryEntity = {
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   videos: Array<VideoEntity>;
+};
+
+export type CategoryFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<CategoryWherClause>;
+};
+
+export type CategoryWherClause = {
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type CreateCategoryInput = {
@@ -50,12 +74,25 @@ export type CreateUserInput = {
 
 export type CreateVideoInput = {
   country: Scalars['String']['input'];
+  description: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type FAttributeOptions = {
+  exclude?: InputMaybe<Array<Scalars['String']['input']>>;
+  include?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type IncludeModel = {
+  association?: InputMaybe<Scalars['String']['input']>;
+  attributes?: InputMaybe<FAttributeOptions>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  where?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type LoginInput = {
@@ -185,6 +222,21 @@ export type Query = {
 };
 
 
+export type QueryFindAllCategoryArgs = {
+  categoryFilter?: InputMaybe<CategoryFilter>;
+};
+
+
+export type QueryFindAllUserArgs = {
+  userFilter?: InputMaybe<UserFilter>;
+};
+
+
+export type QueryFindAllVideoArgs = {
+  videoFilter?: InputMaybe<VideoFilter>;
+};
+
+
 export type QueryFindOneCategoryArgs = {
   id: Scalars['Int']['input'];
 };
@@ -244,6 +296,7 @@ export type UpdateUserInput = {
 
 export type UpdateVideoInput = {
   country: Scalars['String']['input'];
+  description: Scalars['String']['input'];
   id: Scalars['Int']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   poster?: InputMaybe<Scalars['String']['input']>;
@@ -254,13 +307,12 @@ export type UpdateVideoInput = {
 
 export type UserEntity = {
   __typename?: 'UserEntity';
+  accessToken?: Maybe<Scalars['String']['output']>;
   address?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   fullname: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  /** user's password */
-  password: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
   role: RoleEntity;
   roleId: Scalars['Int']['output'];
@@ -268,9 +320,37 @@ export type UserEntity = {
   username: Scalars['String']['output'];
 };
 
+export type UserFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<UserWherClause>;
+};
+
+export type UserWherClause = {
+  currentHashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** user's password */
+  password?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type VideoEntity = {
   __typename?: 'VideoEntity';
   country: Scalars['String']['output'];
+  description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -281,29 +361,60 @@ export type VideoEntity = {
   view?: Maybe<Scalars['Int']['output']>;
 };
 
+export type VideoFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<VideoWherClause>;
+};
+
+export type VideoWherClause = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  poster?: InputMaybe<Scalars['String']['input']>;
+  trailerUrl?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserEntity', id: number, username: string, createdAt: any, fullname: string, email: string, phone?: string | null, address?: string | null, roleId: number, role: { __typename?: 'RoleEntity', name: string, id: number } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserEntity', id: number, username: string, createdAt: any, fullname: string, email: string, phone?: string | null, address?: string | null, accessToken?: string | null, roleId: number, role: { __typename?: 'RoleEntity', name: string, id: number } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'ObjectMessage', statusCode?: number | null, message: string } };
 
-export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllCategoryQueryVariables = Exact<{
+  categoryFilter?: InputMaybe<CategoryFilter>;
+}>;
 
 
-export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> }> | null };
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> }> | null };
 
 export type FindOneCategoryQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> } | null };
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> } | null };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -317,7 +428,9 @@ export type FindOneTagQueryVariables = Exact<{
 
 export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string } | null };
 
-export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllUserQueryVariables = Exact<{
+  userFilter?: InputMaybe<UserFilter>;
+}>;
 
 
 export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserEntity', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleEntity', id: number, name: string } }> | null };
@@ -350,17 +463,19 @@ export type RemoveUserMutationVariables = Exact<{
 
 export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
 
-export type FindAllVideoQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllVideoQueryVariables = Exact<{
+  videoFilter?: InputMaybe<VideoFilter>;
+}>;
 
 
-export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
 
 export type FindOneVideoQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
 
 
 export const LoginDocument = gql`
@@ -373,6 +488,7 @@ export const LoginDocument = gql`
     email
     phone
     address
+    accessToken
     role {
       name
       id
@@ -441,8 +557,8 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const FindAllCategoryDocument = gql`
-    query findAllCategory {
-  findAllCategory {
+    query findAllCategory($categoryFilter: CategoryFilter) {
+  findAllCategory(categoryFilter: $categoryFilter) {
     name
     id
     videos {
@@ -454,6 +570,7 @@ export const FindAllCategoryDocument = gql`
       view
       country
       poster
+      description
     }
   }
 }
@@ -471,6 +588,7 @@ export const FindAllCategoryDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllCategoryQuery({
  *   variables: {
+ *      categoryFilter: // value for 'categoryFilter'
  *   },
  * });
  */
@@ -499,6 +617,7 @@ export const FindOneCategoryDocument = gql`
       view
       country
       poster
+      description
     }
   }
 }
@@ -601,8 +720,8 @@ export type FindOneTagQueryHookResult = ReturnType<typeof useFindOneTagQuery>;
 export type FindOneTagLazyQueryHookResult = ReturnType<typeof useFindOneTagLazyQuery>;
 export type FindOneTagQueryResult = Apollo.QueryResult<FindOneTagQuery, FindOneTagQueryVariables>;
 export const FindAllUserDocument = gql`
-    query findAllUser {
-  findAllUser {
+    query findAllUser($userFilter: UserFilter) {
+  findAllUser(userFilter: $userFilter) {
     id
     username
     email
@@ -630,6 +749,7 @@ export const FindAllUserDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllUserQuery({
  *   variables: {
+ *      userFilter: // value for 'userFilter'
  *   },
  * });
  */
@@ -801,8 +921,8 @@ export type RemoveUserMutationHookResult = ReturnType<typeof useRemoveUserMutati
 export type RemoveUserMutationResult = Apollo.MutationResult<RemoveUserMutation>;
 export type RemoveUserMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutation, RemoveUserMutationVariables>;
 export const FindAllVideoDocument = gql`
-    query findAllVideo {
-  findAllVideo {
+    query findAllVideo($videoFilter: VideoFilter) {
+  findAllVideo(videoFilter: $videoFilter) {
     id
     name
     url
@@ -810,6 +930,7 @@ export const FindAllVideoDocument = gql`
     language
     view
     country
+    description
     poster
     tags {
       id
@@ -831,6 +952,7 @@ export const FindAllVideoDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllVideoQuery({
  *   variables: {
+ *      videoFilter: // value for 'videoFilter'
  *   },
  * });
  */
@@ -852,6 +974,7 @@ export const FindOneVideoDocument = gql`
     name
     url
     trailerUrl
+    description
     language
     view
     country

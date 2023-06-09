@@ -18,6 +18,7 @@ import {
 } from '@training-project/data-access';
 import { useRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
+import { backgroudBorder } from '../shared/theme';
 const UserProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 
@@ -30,7 +31,15 @@ const UserProfile = () => {
 
         <Row gutter={16}>
           <ColStyled xs={24} lg={12}>
-            <CardStyled title="User Profile">
+            <CardStyled
+              title="User Profile"
+              style={{
+                ...backgroudBorder({
+                  background: 'rgba(220, 220, 242, 0.65)',
+                  isSetBorder: true,
+                }),
+              }}
+            >
               <div
                 style={{
                   marginBottom: 12,
@@ -40,14 +49,16 @@ const UserProfile = () => {
               >
                 <div style={{ marginRight: 16 }}>
                   <img
-                  src={'https://2.bp.blogspot.com/-XXggkpZn2sk/Wvrz7f9CXkI/AAAAAAAAF3Q/KgR4rqvWXfccZT32gnG3AuZuv30E3Dl7ACLcBGAs/s1600/Sg9zzD4.jpg'}
-                  style={{
-                    width: 72,
-                    height: 72,
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                  }}
-                />
+                    src={
+                      'https://2.bp.blogspot.com/-XXggkpZn2sk/Wvrz7f9CXkI/AAAAAAAAF3Q/KgR4rqvWXfccZT32gnG3AuZuv30E3Dl7ACLcBGAs/s1600/Sg9zzD4.jpg'
+                    }
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                    }}
+                  />
                 </div>
                 <div>
                   <div
