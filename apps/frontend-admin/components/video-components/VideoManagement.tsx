@@ -6,11 +6,11 @@ import Loading from '../Loading';
 import { notification, Divider } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
-import VideoCardList from '../video-components/VideoCardList';
+import VideoCardList from './VideoCardList';
 import { backgroudBorder } from '../shared/theme';
 
-interface ICategoryList {}
-const CategoryList = (props: ICategoryList) => {
+interface IVideoManagement {}
+const VideoManagement = (props: IVideoManagement) => {
   const [categories, setCategories] = useState<FindAllCategoryQuery>(null);
   const { data, loading, error } = useFindAllCategoryQuery();
   const [type, setType] = useState<string>(null);
@@ -30,7 +30,7 @@ const CategoryList = (props: ICategoryList) => {
   const renderVideoList = useCallback(() => {
     const category = categories?.findAllCategory.find((cg) => cg.name === type);
     const videoIds = category?.videos.map((video) => video.id);
-    return <VideoCardList videoIds={videoIds} />;
+    return <VideoCardList videoIds={videoIds} isEachCategory={true}/>;
   }, [type]);
 
   const options = data?.findAllCategory.map((category) => category.name);
@@ -62,4 +62,4 @@ const CategoryList = (props: ICategoryList) => {
   );
 };
 
-export default CategoryList;
+export default VideoManagement;
