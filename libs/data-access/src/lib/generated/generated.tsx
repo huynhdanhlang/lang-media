@@ -19,10 +19,11 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
-export type CategoryClient = {
-  __typename?: 'CategoryClient';
+export type CategoryEntity = {
+  __typename?: 'CategoryEntity';
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  videos: Array<VideoEntity>;
 };
 
 export type CreateCategoryInput = {
@@ -51,28 +52,36 @@ export type CreateVideoInput = {
   country: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type LoginInput = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createCategory: CategoryClient;
-  createRole: Role;
-  createTag: TagClient;
-  createUser: UserClient;
-  createVideo: VideoClient;
-  removeCategory: CategoryClient;
-  removeRole: Role;
-  removeTag: TagClient;
-  removeUser: UserClient;
-  removeVideo: VideoClient;
-  updateCategory: CategoryClient;
-  updateRole: Role;
-  updateTag: TagClient;
-  updateUser: UserClient;
-  updateVideo: VideoClient;
+  createCategory: CategoryEntity;
+  createRole: RoleEntity;
+  createTag: TagEntity;
+  createUser: UserEntity;
+  createVideo: VideoEntity;
+  login: UserEntity;
+  logout: ObjectMessage;
+  removeCategory: CategoryEntity;
+  removeRole: RoleEntity;
+  removeTag: TagEntity;
+  removeUser: UserEntity;
+  removeVideo: VideoEntity;
+  updateCategory: CategoryEntity;
+  updateRole: RoleEntity;
+  updateTag: TagEntity;
+  updateUser: UserEntity;
+  updateVideo: VideoEntity;
 };
 
 
@@ -98,6 +107,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationCreateVideoArgs = {
   createVideoInput: CreateVideoInput;
+};
+
+
+export type MutationLoginArgs = {
+  loginInput: LoginInput;
 };
 
 
@@ -150,17 +164,24 @@ export type MutationUpdateVideoArgs = {
   updateVideoInput: UpdateVideoInput;
 };
 
+export type ObjectMessage = {
+  __typename?: 'ObjectMessage';
+  message: Scalars['String']['output'];
+  statusCode?: Maybe<Scalars['Int']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  findAllCategory: Array<CategoryClient>;
-  findAllTag: Array<TagClient>;
-  findAllUser?: Maybe<Array<UserClient>>;
-  findAllVideo: Array<VideoClient>;
-  findOneCategory: CategoryClient;
-  findOneTag: TagClient;
-  findOneUser?: Maybe<UserClient>;
-  findOneVideo: VideoClient;
-  role: Role;
+  findAllCategory?: Maybe<Array<CategoryEntity>>;
+  findAllTag?: Maybe<Array<TagEntity>>;
+  findAllUser?: Maybe<Array<UserEntity>>;
+  findAllVideo?: Maybe<Array<VideoEntity>>;
+  findOneCategory?: Maybe<CategoryEntity>;
+  findOneTag?: Maybe<TagEntity>;
+  findOneUser?: Maybe<UserEntity>;
+  findOneVideo?: Maybe<VideoEntity>;
+  refreshToken: UserEntity;
+  role: RoleEntity;
 };
 
 
@@ -188,20 +209,14 @@ export type QueryRoleArgs = {
   id: Scalars['Int']['input'];
 };
 
-export type Role = {
-  __typename?: 'Role';
-  /** Example field (placeholder) */
-  exampleField: Scalars['Int']['output'];
-};
-
-export type RoleClient = {
-  __typename?: 'RoleClient';
+export type RoleEntity = {
+  __typename?: 'RoleEntity';
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
 };
 
-export type TagClient = {
-  __typename?: 'TagClient';
+export type TagEntity = {
+  __typename?: 'TagEntity';
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
 };
@@ -219,6 +234,7 @@ export type UpdateTagInput = {
 };
 
 export type UpdateUserInput = {
+  currentHashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   fullname: Scalars['String']['input'];
   id: Scalars['Int']['input'];
@@ -230,13 +246,14 @@ export type UpdateVideoInput = {
   country: Scalars['String']['input'];
   id: Scalars['Int']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
+  poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type UserClient = {
-  __typename?: 'UserClient';
+export type UserEntity = {
+  __typename?: 'UserEntity';
   address?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
@@ -245,69 +262,275 @@ export type UserClient = {
   /** user's password */
   password: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
-  role: RoleClient;
+  role: RoleEntity;
   roleId: Scalars['Int']['output'];
   /** user's name */
   username: Scalars['String']['output'];
 };
 
-export type VideoClient = {
-  __typename?: 'VideoClient';
+export type VideoEntity = {
+  __typename?: 'VideoEntity';
   country: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  poster?: Maybe<Scalars['String']['output']>;
+  tags: Array<TagEntity>;
   trailerUrl?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
   view?: Maybe<Scalars['Int']['output']>;
 };
 
+export type LoginMutationVariables = Exact<{
+  loginInput: LoginInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserEntity', id: number, username: string, createdAt: any, fullname: string, email: string, phone?: string | null, address?: string | null, roleId: number, role: { __typename?: 'RoleEntity', name: string, id: number } } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'ObjectMessage', statusCode?: number | null, message: string } };
+
+export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> }> | null };
+
+export type FindOneCategoryQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> } | null };
+
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllTagQuery = { __typename?: 'Query', findAllTag: Array<{ __typename?: 'TagClient', name: string }> };
+export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string }> | null };
 
 export type FindOneTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneTagQuery = { __typename?: 'Query', findOneTag: { __typename?: 'TagClient', name: string } };
+export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string } | null };
 
 export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserClient', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleClient', id: number, name: string } }> | null };
+export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserEntity', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleEntity', id: number, name: string } }> | null };
 
 export type FindOneUserQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneUserQuery = { __typename?: 'Query', findOneUser?: { __typename?: 'UserClient', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleClient', id: number, name: string } } | null };
+export type FindOneUserQuery = { __typename?: 'Query', findOneUser?: { __typename?: 'UserEntity', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleEntity', id: number, name: string } } | null };
 
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserClient', username: string, fullname: string, email: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserInput: UpdateUserInput;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'UserClient', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
 
 export type RemoveUserMutationVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __typename?: 'UserClient', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
+export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
+
+export type FindAllVideoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+
+export type FindOneVideoQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+
+
+export const LoginDocument = gql`
+    mutation login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    id
+    username
+    createdAt
+    fullname
+    email
+    phone
+    address
+    role {
+      name
+      id
+    }
+    roleId
+  }
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      loginInput: // value for 'loginInput'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation logout {
+  logout {
+    statusCode
+    message
+  }
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const FindAllCategoryDocument = gql`
+    query findAllCategory {
+  findAllCategory {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+      poster
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindAllCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllCategoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllCategoryQuery(baseOptions?: Apollo.QueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+      }
+export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+        }
+export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
+export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
+export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
+export const FindOneCategoryDocument = gql`
+    query findOneCategory($id: Int!) {
+  findOneCategory(id: $id) {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+      poster
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindOneCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindOneCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOneCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOneCategoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindOneCategoryQuery(baseOptions: Apollo.QueryHookOptions<FindOneCategoryQuery, FindOneCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOneCategoryQuery, FindOneCategoryQueryVariables>(FindOneCategoryDocument, options);
+      }
+export function useFindOneCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOneCategoryQuery, FindOneCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOneCategoryQuery, FindOneCategoryQueryVariables>(FindOneCategoryDocument, options);
+        }
+export type FindOneCategoryQueryHookResult = ReturnType<typeof useFindOneCategoryQuery>;
+export type FindOneCategoryLazyQueryHookResult = ReturnType<typeof useFindOneCategoryLazyQuery>;
+export type FindOneCategoryQueryResult = Apollo.QueryResult<FindOneCategoryQuery, FindOneCategoryQueryVariables>;
 export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {
@@ -577,3 +800,94 @@ export function useRemoveUserMutation(baseOptions?: Apollo.MutationHookOptions<R
 export type RemoveUserMutationHookResult = ReturnType<typeof useRemoveUserMutation>;
 export type RemoveUserMutationResult = Apollo.MutationResult<RemoveUserMutation>;
 export type RemoveUserMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutation, RemoveUserMutationVariables>;
+export const FindAllVideoDocument = gql`
+    query findAllVideo {
+  findAllVideo {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    poster
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllVideoQuery__
+ *
+ * To run a query within a React component, call `useFindAllVideoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllVideoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllVideoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllVideoQuery(baseOptions?: Apollo.QueryHookOptions<FindAllVideoQuery, FindAllVideoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllVideoQuery, FindAllVideoQueryVariables>(FindAllVideoDocument, options);
+      }
+export function useFindAllVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllVideoQuery, FindAllVideoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllVideoQuery, FindAllVideoQueryVariables>(FindAllVideoDocument, options);
+        }
+export type FindAllVideoQueryHookResult = ReturnType<typeof useFindAllVideoQuery>;
+export type FindAllVideoLazyQueryHookResult = ReturnType<typeof useFindAllVideoLazyQuery>;
+export type FindAllVideoQueryResult = Apollo.QueryResult<FindAllVideoQuery, FindAllVideoQueryVariables>;
+export const FindOneVideoDocument = gql`
+    query findOneVideo($id: Int!) {
+  findOneVideo(id: $id) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    poster
+    tags {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindOneVideoQuery__
+ *
+ * To run a query within a React component, call `useFindOneVideoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindOneVideoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindOneVideoQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindOneVideoQuery(baseOptions: Apollo.QueryHookOptions<FindOneVideoQuery, FindOneVideoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindOneVideoQuery, FindOneVideoQueryVariables>(FindOneVideoDocument, options);
+      }
+export function useFindOneVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindOneVideoQuery, FindOneVideoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindOneVideoQuery, FindOneVideoQueryVariables>(FindOneVideoDocument, options);
+        }
+export type FindOneVideoQueryHookResult = ReturnType<typeof useFindOneVideoQuery>;
+export type FindOneVideoLazyQueryHookResult = ReturnType<typeof useFindOneVideoLazyQuery>;
+export type FindOneVideoQueryResult = Apollo.QueryResult<FindOneVideoQuery, FindOneVideoQueryVariables>;

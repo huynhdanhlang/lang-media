@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Row, Descriptions } from 'antd';
+import { Row, Descriptions, notification } from 'antd';
 import { ColStyled, CardStyled } from './style';
 // import api from '../../api'
 import Loading from '../Loading';
@@ -16,63 +16,10 @@ import {
   useFindOneUserQuery,
   FindOneUserQuery,
 } from '@training-project/data-access';
+import { useRecoilState } from 'recoil';
+import { userState } from 'apps/frontend-admin/stores/user';
 const UserProfile = () => {
-  const router = useRouter();
-  const id = router.query.id;
-  const { data, loading, error } = useFindOneUserQuery({
-    variables: {
-      id: Number(id),
-    },
-  });
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // const userPromise = api.get(`/user/${id}`)
-      // const commentPromise = api.get(`/comment/user-id/${id}`)
-      // const visitPromise = api.get(`/visit/user-id/${id}`)
-      // const likePromise = api.get(`/like/user-id/${id}`)
-
-      // const [rawUser, rawComments, rawVisits, rawLikes] = await Promise.all([
-      //   userPromise,
-      //   commentPromise,
-      //   visitPromise,
-      //   likePromise
-      // ])
-
-      // setComments(rawComments.data);
-      // setVisits(rawVisits.data);
-      // setLikes(rawLikes.data);
-
-      // console.log('comments', rawComments.data)
-      // console.log('visits', rawVisits.data)
-      // console.log('likes', rawLikes.data)
-      if (data) {
-        console.log(data);
-
-        setUser(data.findOneUser);
-      }
-    };
-
-    fetchData();
-  }, [data]);
-
-  if (loading && !user && !user?.findOneUser) return <Loading />;
-  if (error) return <Error statusCode={500} title={error.message} />;
-
-  // const { email, fullname, username } = user;
-
-  // let displayName = fullname;
-  // // if (userId.includes('auth0')) {
-  // //   displayName = nickname;
-  // // }
-
-  // let connection = 'Email';
-  // // if (userId.includes('google')) {
-  // //   connection = 'Google';
-  // // } else if (userId.includes('facebook')) {
-  // //   connection = 'Facebook';
-  // // }
+  const [user, setUser] = useRecoilState(userState);
 
   return (
     user && (
@@ -92,15 +39,15 @@ const UserProfile = () => {
                 }}
               >
                 <div style={{ marginRight: 16 }}>
-                  {/* <img
-                  src={picture}
+                  <img
+                  src={'https://2.bp.blogspot.com/-XXggkpZn2sk/Wvrz7f9CXkI/AAAAAAAAF3Q/KgR4rqvWXfccZT32gnG3AuZuv30E3Dl7ACLcBGAs/s1600/Sg9zzD4.jpg'}
                   style={{
                     width: 72,
                     height: 72,
                     borderRadius: '50%',
                     objectFit: 'cover',
                   }}
-                /> */}
+                />
                 </div>
                 <div>
                   <div

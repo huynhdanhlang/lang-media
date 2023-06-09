@@ -1,13 +1,21 @@
-import { Layout, Dropdown, Menu, Button } from 'antd';
+import { Layout, Dropdown, Menu, Button, notification } from 'antd';
 const { Header } = Layout;
 import styled from 'styled-components';
 import { Logo } from './LogoTitle';
 import Link from 'next/link';
 import nookies from 'nookies';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import Icon, { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { siderWidthState } from 'apps/frontend-admin/stores/sider';
+import {
+  LoginMutation,
+  LoginMutationResult,
+  LoginMutationVariables,
+  useLogoutMutation,
+} from '@training-project/data-access';
+import { userState } from 'apps/frontend-admin/stores/user';
+import Loading from '../Loading';
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;
@@ -37,7 +45,12 @@ const HeaderBlock = styled(TriggerBlock)`
 `;
 
 const MyMenu = () => {
-  // const { logout, user } = useAuth0();
+  const [logout, { data, loading, error }] = useLogoutMutation();
+  const [user, setUser] = useRecoilState(userState);
+  const router = useRouter();
+  if (error) {
+    notification.error(error);
+  }
   return (
     <Menu
       onClick={(item) => {
@@ -49,10 +62,14 @@ const MyMenu = () => {
           //       : 'https://dashboard.uowac.now.sh',
           //   client_id: process.env.AUTH0_CLIENT_ID,
           // });
-          nookies.destroy({}, 'auth0.is.authenticated');
-          nookies.destroy({}, 'accessToken');
+          // nookies.destroy({}, 'auth0.is.authenticated');
+          // nookies.destroy({}, 'accessToken');
+          logout().then(() => {
+            setUser(null);
+            router.replace(router.asPath, '/');
+          });
         } else if (item.key == 'profile') {
-          // Router.push('/users/id/[id]', `/users/id/${user.sub}`);
+          router.push('/users/id/[id]', `/users/id/${user.id}`);
         }
       }}
     >
@@ -75,6 +92,8 @@ interface IHeader {
 const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
   // const { isAuthenticated } = useAuth0();
   const siderWidth = useRecoilValue(siderWidthState);
+  const [user, setUser] = useRecoilState(userState);
+
   return (
     <Header
       style={{
@@ -95,12 +114,8 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
         </a>
       </Link> */}
 
-      <TriggerBlock className="trigger">
-        {collapsed ? (
-          <MenuUnfoldOutlined onClick={handleToggle} />
-        ) : (
-          <MenuFoldOutlined onClick={handleToggle} />
-        )}
+      <TriggerBlock className="trigger" onClick={handleToggle}>
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </TriggerBlock>
 
       {/* {isAuthenticated && ( */}
@@ -113,10 +128,10 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
           <HeaderBlock>
             <Icon
               type="user"
-              style={{ fontSize: 16, marginRight: 8 }}
+              style={{ fontSize: 16, marginRight: 15 }}
               title="User"
             />
-            <span>Admin</span>
+            <span>{String(user.fullname)}</span>
           </HeaderBlock>
         </Dropdown>
       </div>

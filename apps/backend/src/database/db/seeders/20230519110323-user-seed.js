@@ -1,4 +1,9 @@
 'use strict';
+const fs = require('fs');
+const { genSaltSync, hash } = require('bcrypt');
+const { mapTimeDataDto } = require('../../../helper/seed');
+const roleJson = fs.readFileSync(__dirname + '\\..\\role.json', 'utf8');
+const roleData = JSON.parse(roleJson).data;
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,6 +17,15 @@ module.exports = {
      * }], {});
      */
     await queryInterface.sequelize.transaction(async (transaction) => {
+      /**
+       * Seed for role
+       */
+      const roleDtos = mapTimeDataDto(roleData);
+      await queryInterface.bulkInsert('role', roleDtos, { transaction });
+
+      /**
+       * Seed for user
+       */
       const user = await queryInterface.select(null, 'user', {
         where: {
           username: 'huynhdanhlang',
@@ -21,16 +35,18 @@ module.exports = {
       if (user.length) return;
       const role = await queryInterface.select(null, 'role', {
         where: {
-          name: 'customer',
+          name: 'admin',
         },
         transaction,
       });
+      const salt = genSaltSync(process.env.HASH_NUMBER);
+      const passwordHashed = await hash('123456', salt);
       await queryInterface.bulkInsert(
         'user',
         [
           {
             username: 'huynhdanhlang',
-            password: '12345678',
+            password: passwordHashed,
             fullname: 'Huynh Danh Lang',
             email: 'danhlangbmvl@gmail.com',
             createdAt: new Date(),
@@ -55,6 +71,15 @@ module.exports = {
         'user',
         {
           username: 'huynhdanhlang',
+        },
+        { transaction }
+      );
+      await queryInterface.bulkDelete(
+        'role',
+        {
+          name: {
+            [Op.in]: roleNames,
+          },
         },
         { transaction }
       );

@@ -1,32 +1,59 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { CategoryService } from './category.service';
-import { Category } from './entities/category.entity';
+import { CategoryEntity } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
-import { CategoryClient } from './dto/category.client';
+import { VideoEntity } from '../video/entities/video.entity';
+import Video from '../database/models/Video';
+import { VideoService } from '../video/video.service';
 
-@Resolver(() => CategoryClient)
+@Resolver(() => CategoryEntity)
 export class CategoryResolver {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private videoService: VideoService
+  ) {}
 
-  @Mutation(() => CategoryClient)
+  @Mutation(() => CategoryEntity)
   createCategory(
     @Args('createCategoryInput') createCategoryInput: CreateCategoryInput
   ) {
     return this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [CategoryClient])
+  @Query(() => [CategoryEntity], { nullable: true })
   findAllCategory() {
     return this.categoryService.findAll();
   }
 
-  @Query(() => CategoryClient)
+  @Query(() => CategoryEntity, { nullable: true })
   findOneCategory(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.findOne(id);
   }
 
-  @Mutation(() => CategoryClient)
+  @ResolveField(() => VideoEntity, { nullable: true })
+  async videos(@Parent() parent: CategoryEntity) {
+    const { id } = parent;
+    const category = await this.categoryService.findOne(id, {
+      include: [
+        {
+          model: Video,
+        },
+      ],
+      attributes: [],
+    });
+    return category.videos;
+  }
+
+  @Mutation(() => CategoryEntity)
   updateCategory(
     @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput
   ) {
@@ -36,7 +63,7 @@ export class CategoryResolver {
     );
   }
 
-  @Mutation(() => CategoryClient)
+  @Mutation(() => CategoryEntity)
   removeCategory(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.remove(id);
   }
