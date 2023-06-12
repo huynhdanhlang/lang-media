@@ -3,12 +3,13 @@ import {
   useFindAllCategoryQuery,
 } from '@training-project/data-access';
 import Loading from '../Loading';
-import { notification, Divider, FloatButton } from 'antd';
+import { notification, Divider, FloatButton, Typography } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import CategoryCardList from './CategoryCardList';
 import { PlusCircleTwoTone, PlusOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import { titleFixed, titleStyle } from '../shared/theme';
 
 interface ICategoryManagement {}
 const CategoryManagement = (props: ICategoryManagement) => {
@@ -19,6 +20,16 @@ const CategoryManagement = (props: ICategoryManagement) => {
 
   return (
     <>
+      <div>
+        <Typography.Text
+          style={{
+            ...titleStyle,
+            ...titleFixed,
+          }}
+        >
+          Danh mục phim
+        </Typography.Text>
+      </div>
       <div
         style={{
           marginTop: 50,

@@ -12,6 +12,7 @@ import Loading from '../Loading';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthProvider';
 import { backgroudBorder, layoutStyle } from '../shared/theme';
+import { profileStyle } from '../shared/theme';
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;
@@ -52,6 +53,9 @@ const MyMenu = () => {
           router.push('/users/id/[id]', `/users/id/${user.id}`);
         }
       }}
+      style={{
+        ...profileStyle,
+      }}
     >
       <Menu.Item key="profile">
         <Icon type="user" />
@@ -90,7 +94,7 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
           width: `calc(100% - ${siderWidth}px)`,
           ...backgroudBorder({
             isSetBorder: true,
-            ...layoutStyle
+            ...layoutStyle,
           }),
         }}
       >

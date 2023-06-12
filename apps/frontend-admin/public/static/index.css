@@ -210,11 +210,3 @@ html {
 *::after {
   box-sizing: inherit;
 }
-
-main.content-layout div.category-group {
-  position: fixed;
-  overflow: unset;
-  z-index: 10;
-  left: 50%;
-  transform: translateX(-50%);
-}

@@ -15,7 +15,7 @@ import {
 } from '@ant-design/pro-components';
 import { Button, message, notification, Space, Typography } from 'antd';
 import { useState } from 'react';
-import { notificationStyle } from '../shared/theme';
+import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
 import { useCreateCategoryMutation } from '@training-project/data-access';
 
 const iconStyles = {
@@ -39,29 +39,23 @@ const CategoryFormCreate = () => {
   };
 
   const handleSubmit = async (values: any) => {
-    await createCategory({
+    createCategory({
       variables: {
         createCategoryInput: {
           name: values.name,
         },
       },
-    }).then(() => {
-      notification.success({
-        message: 'Đã thêm thành công',
-        style: {
-          ...notificationStyle,
-        },
-      });
     });
   };
 
-  if (error) {
-    notification.info({
-      ...error,
-      style: {
-        ...notificationStyle,
-      },
+  if (data) {
+    notification.success({
+      message: 'Đã thêm thành công',
     });
+  }
+
+  if (error) {
+    notification.error(error);
   }
 
   return (
@@ -69,60 +63,59 @@ const CategoryFormCreate = () => {
       <div>
         <Text
           style={{
-            fontSize: 28,
-            display: 'flex',
-            justifyContent: 'center',
-            fontWeight: 'bold',
+            ...titleStyle,
+            ...titleFixed,
           }}
         >
           Thêm thể loại
         </Text>
-        <div
-          style={{
-            margin: 24,
-            display: 'flex',
-            justifyContent: 'center',
+      </div>
+      <div
+        style={{
+          margin: 24,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <ProForm
+          onFinish={async (values: any) => {
+            await handleSubmit(values);
+          }}
+          submitter={{
+            searchConfig: {
+              submitText: 'Thêm',
+              resetText: 'Hoàn tác',
+            },
+            resetButtonProps: {
+              style: {
+                background: 'gray',
+              },
+            },
           }}
         >
-          <ProForm
-            onFinish={async (values: any) => {
-              handleSubmit(values);
-            }}
-            submitter={{
-              searchConfig: {
-                submitText: 'Thêm',
-                resetText: 'Hoàn tác',
+          {/* <ProForm.Group> */}
+          <ProFormText
+            width="md"
+            name="name"
+            label="Tên thể loại"
+            tooltip="Tên thể loại bạn muốn thêm"
+            placeholder="Nhập tên thể loại"
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Tên người dùng không hợp lệ!',
               },
-              resetButtonProps: {
-                style: {
-                  background: 'gray',
-                },
-              },
-            }}
-          >
-            {/* <ProForm.Group> */}
-            <ProFormText
-              width="md"
-              name="name"
-              label="Tên thể loại"
-              tooltip="Tên thể loại bạn muốn thêm"
-              placeholder="Nhập tên thể loại"
-              required
-              rules={[
-                {
-                  required: true,
-                  message: 'Tên người dùng không hợp lệ!',
-                },
-              ]}
-            />
-            {/* <ProFormText
+            ]}
+          />
+          {/* <ProFormText
               width="md"
               name="company"
               label="我方公司名称"
               placeholder="请输入名称"
             /> */}
-            {/* </ProForm.Group> */}
-            {/* <ProForm.Group>
+          {/* </ProForm.Group> */}
+          {/* <ProForm.Group>
             <ProFormText
               name={['contract', 'name']}
               width="md"
@@ -175,8 +168,7 @@ const CategoryFormCreate = () => {
             label="商务经理"
             initialValue="启途"
           /> */}
-          </ProForm>
-        </div>
+        </ProForm>
       </div>
     </>
   );
