@@ -446,6 +446,21 @@ div.category-selection label span.ant-radio-button-checked {
   background: gray !important;
 }
 
-:where(.css-dev-only-do-not-override-w8mnev).ant-radio-button-wrapper:not(:first-child)::before{
+:where(.css-dev-only-do-not-override-w8mnev).ant-radio-button-wrapper:not(
+    :first-child
+  )::before {
   content: none;
+}
+
+.ant-select-selection-item-content,
+.ant-select-item-option-content {
+  color: black !important;
+}
+
+.ant-select-item-option-content span.anticon.anticon-check{
+  color: black;
+}
+
+:where(.css-dev-only-do-not-override-w8mnev).ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+  background-color: cadetblue;
 }

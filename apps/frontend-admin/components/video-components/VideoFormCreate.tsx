@@ -93,28 +93,28 @@ const VideoFormCreate = () => {
             },
           }}
         >
-          {/* <ProForm.Group> */}
-          <ProFormText
-            width="md"
-            name="name"
-            label="Tên thể loại"
-            tooltip="Tên thể loại bạn muốn thêm"
-            placeholder="Nhập tên thể loại"
-            required
-            rules={[
-              {
-                required: true,
-                message: 'Tên người dùng không hợp lệ!',
-              },
-            ]}
-          />
-          {/* <ProFormText
+          <ProForm.Group>
+            <ProFormText
               width="md"
-              name="company"
-              label="我方公司名称"
-              placeholder="请输入名称"
-            /> */}
-          {/* </ProForm.Group> */}
+              name="name"
+              label="Tên video"
+              tooltip="Tên video bạn muốn thêm"
+              placeholder="Nhập tên video"
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Tên video là bắt buộc!',
+                },
+              ]}
+            />
+            <ProFormTextArea
+              width="lg"
+              name="Disscription"
+              label="Mô tả"
+              placeholder="Nhập mô tả về video"
+            />
+          </ProForm.Group>
           {/* <ProForm.Group>
             <ProFormText
               name={['contract', 'name']}
@@ -127,9 +127,9 @@ const VideoFormCreate = () => {
               name={['contract', 'createTime']}
               label="合同生效时间"
             />
-          </ProForm.Group>
-          <ProForm.Group>
-            <ProFormSelect
+          </ProForm.Group> */}
+          {/* <ProForm.Group> */}
+          {/* <ProFormSelect
               options={[
                 {
                   value: 'chapter',
@@ -140,19 +140,27 @@ const VideoFormCreate = () => {
               width="xs"
               name="useMode"
               label="合同约定生效方式"
-            />
-            <ProFormSelect
-              width="xs"
-              options={[
-                {
-                  value: 'time',
-                  label: '履行完终止',
-                },
-              ]}
-              name="unusedMode"
-              label="合同约定失效效方式"
-            />
-          </ProForm.Group>
+            /> */}
+          <ProFormSelect
+            width="md"
+            initialValue={'Tiếng Việt'}
+            options={[
+              {
+                value: 'time',
+                label: 'Tiếng Việt',
+              },
+            ]}
+            name="unusedMode"
+            label="Ngôn ngữ"
+            fieldProps={{
+              dropdownStyle: {
+                background: 'lightblue',
+                color: 'black; !improtant',
+              },
+              mode: 'tags',
+            }}
+          />
+          {/* </ProForm.Group> */}
           <ProFormText width="sm" name="id" label="主合同编号" />
           <ProFormText
             name="project"
@@ -167,7 +175,7 @@ const VideoFormCreate = () => {
             disabled
             label="商务经理"
             initialValue="启途"
-          /> */}
+          />
         </ProForm>
       </div>
     </>
