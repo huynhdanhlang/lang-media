@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { InjectModel } from '@nestjs/sequelize';
@@ -11,6 +11,14 @@ export class CategoryService {
     @InjectModel(Category) private categoryService: typeof Category
   ) {}
   async create(createCategoryInput: CreateCategoryInput) {
+    const isExisted = await this.checkCategoryIsExisted(
+      createCategoryInput.name
+    );
+    if (isExisted) {
+      throw new BadRequestException({
+        message: 'Thể loại đã tồn tại',
+      });
+    }
     return this.categoryService.create(createCategoryInput);
   }
 
@@ -35,5 +43,13 @@ export class CategoryService {
   async remove(id: number) {
     const user = await this.categoryService.findByPk(id);
     await user.destroy();
+  }
+
+  async checkCategoryIsExisted(categoryName: string) {
+    return await this.categoryService.findOne({
+      where: {
+        name: categoryName,
+      },
+    });
   }
 }
