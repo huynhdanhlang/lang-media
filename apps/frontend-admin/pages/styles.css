@@ -424,7 +424,10 @@ div.category-selection label {
 }
 
 div.category-selection label span.ant-radio-button-checked {
-  background: #1677ff;
+  background: purple;
+  box-shadow: 0 0 4px #eee;
+  transform: scale(1.2);
+  /* z-index: 5; */
 }
 
 .category-list,
@@ -441,4 +444,8 @@ div.category-selection label span.ant-radio-button-checked {
 
 .ant-notification-notice {
   background: gray !important;
+}
+
+:where(.css-dev-only-do-not-override-w8mnev).ant-radio-button-wrapper:not(:first-child)::before{
+  content: none;
 }

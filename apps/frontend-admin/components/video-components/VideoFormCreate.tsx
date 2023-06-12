@@ -1,6 +1,5 @@
 import {
   AlipayCircleOutlined,
-  CheckOutlined,
   LockOutlined,
   PlusOutlined,
   TaobaoCircleOutlined,
@@ -27,7 +26,7 @@ const iconStyles = {
   cursor: 'pointer',
 };
 
-const CategoryFormCreate = () => {
+const VideoFormCreate = () => {
   const { Text } = Typography;
   const [createCategory, { data, loading, error }] =
     useCreateCategoryMutation();
@@ -58,21 +57,6 @@ const CategoryFormCreate = () => {
   if (error) {
     notification.error(error);
   }
-
-  const suffix = (
-    <>
-      <p
-        style={{ color: '#F5222D', paddingRight: '10px', cursor: 'pointer' }}
-        // onClick={() => props.onRemove()}
-      >
-        ✕
-      </p>
-      <CheckOutlined
-        style={{ color: '#04BAE0' }}
-        // onClick={() => props.onSubmit()}
-      />
-    </>
-  );
 
   return (
     <>
@@ -190,4 +174,4 @@ const CategoryFormCreate = () => {
   );
 };
 
-export default CategoryFormCreate;
+export default VideoFormCreate;
