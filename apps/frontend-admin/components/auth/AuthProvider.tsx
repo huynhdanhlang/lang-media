@@ -68,11 +68,11 @@ const AuthProvider = ({ children }) => {
   // redirect accordingly
   useEffect(() => {
     const getUser = async () => {
-      const { userState: user }: IUser = JSON.parse(
+      const user: IUser = JSON.parse(
         localStorage.getItem(RECOIL_PERSIST)
       );
-      if (user) {
-        setUser(user); // user details
+      if (user?.userState) {
+        setUser(user.userState); // user details
         setIsLoading(false);
         if (isAuthRoute) await goHome();
       } else if (!isAuthRoute) {

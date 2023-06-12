@@ -12,7 +12,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import dynamic from 'next/dynamic';
-import { RECOIL_PERSIST } from '../constant/keyStore.const';
+import { RECOIL_PERSIST, USER_STATE } from '../constant/keyStore.const';
 import { UserEntity } from '@training-project/data-access';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -31,7 +31,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
       graphQLErrors.forEach(
         ({ message, locations, path, extensions }: GraphQLErrorCustom) => {
           if (extensions?.originalError?.statusCode === 401) {
+            localStorage.removeItem(RECOIL_PERSIST);
             router.replace(router.asPath, '/login');
+            router.reload();
           }
           console.log(
             `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
@@ -45,14 +47,14 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
-    const { userState }: IUser = JSON.parse(
+    const user: IUser = JSON.parse(
       localStorage.getItem(RECOIL_PERSIST)
     );
     // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
-        Authorization: `Bearer ${userState?.accessToken}`,
+        Authorization: `Bearer ${user?.userState?.accessToken}`,
       },
     };
   });

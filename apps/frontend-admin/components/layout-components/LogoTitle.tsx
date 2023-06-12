@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder, layoutStyle } from '../shared/theme';
 
 export const Logo = styled.img`
   display: inline-block;
@@ -32,8 +32,8 @@ const CNLogo = () => (
   <TitleWrapper
     style={{
       ...backgroudBorder({
-        background: 'rgb(5, 6, 8)',
         isSetBorder: false,
+        ...layoutStyle
       }),
     }}
   >

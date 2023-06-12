@@ -13,8 +13,10 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { Button, message, Space } from 'antd';
+import { Button, message, notification, Space, Typography } from 'antd';
 import { useState } from 'react';
+import { notificationStyle } from '../shared/theme';
+import { useCreateCategoryMutation } from '@training-project/data-access';
 
 const iconStyles = {
   marginInlineStart: '16px',
@@ -24,63 +26,103 @@ const iconStyles = {
   cursor: 'pointer',
 };
 
-const waitTime = (time: number = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
-
 const CategoryFormCreate = () => {
-  const [type, setType] = useState('ProForm');
-  const Components = {
-    ProForm,
+  const { Text } = Typography;
+  const [createCategory, { data, loading, error }] =
+    useCreateCategoryMutation();
+  const waitTime = (time: number = 100) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, time);
+    });
   };
 
-  const FormComponents = Components[type];
+  const handleSubmit = async (values: any) => {
+    await createCategory({
+      variables: {
+        createCategoryInput: {
+          name: values.name,
+        },
+      },
+    }).then(() => {
+      notification.success({
+        message: 'Đã thêm thành công',
+        style: {
+          ...notificationStyle,
+        },
+      });
+    });
+  };
+
+  if (error) {
+    notification.info({
+      ...error,
+      style: {
+        ...notificationStyle,
+      },
+    });
+  }
 
   return (
     <>
-      <div
-        style={{
-          margin: 24,
-        }}
-      >
-        <FormComponents
-          labelWidth="auto"
-          trigger={
-            <Button type="primary">
-              <PlusOutlined />
-              新建表单
-            </Button>
-          }
-          onFinish={async (values: any) => {
-            await waitTime(2000);
-            console.log(values);
-            message.success('提交成功');
-          }}
-          initialValues={{
-            name: '蚂蚁设计有限公司',
-            useMode: 'chapter',
+      <div>
+        <Text
+          style={{
+            fontSize: 28,
+            display: 'flex',
+            justifyContent: 'center',
+            fontWeight: 'bold',
           }}
         >
-          <ProForm.Group>
+          Thêm thể loại
+        </Text>
+        <div
+          style={{
+            margin: 24,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <ProForm
+            onFinish={async (values: any) => {
+              handleSubmit(values);
+            }}
+            submitter={{
+              searchConfig: {
+                submitText: 'Thêm',
+                resetText: 'Hoàn tác',
+              },
+              resetButtonProps: {
+                style: {
+                  background: 'gray',
+                },
+              },
+            }}
+          >
+            {/* <ProForm.Group> */}
             <ProFormText
               width="md"
               name="name"
-              label="签约客户名称"
-              tooltip="最长为 24 位"
-              placeholder="请输入名称"
+              label="Tên thể loại"
+              tooltip="Tên thể loại bạn muốn thêm"
+              placeholder="Nhập tên thể loại"
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Tên người dùng không hợp lệ!',
+                },
+              ]}
             />
-            <ProFormText
+            {/* <ProFormText
               width="md"
               name="company"
               label="我方公司名称"
               placeholder="请输入名称"
-            />
-          </ProForm.Group>
-          <ProForm.Group>
+            /> */}
+            {/* </ProForm.Group> */}
+            {/* <ProForm.Group>
             <ProFormText
               name={['contract', 'name']}
               width="md"
@@ -132,8 +174,9 @@ const CategoryFormCreate = () => {
             disabled
             label="商务经理"
             initialValue="启途"
-          />
-        </FormComponents>
+          /> */}
+          </ProForm>
+        </div>
       </div>
     </>
   );

@@ -408,3 +408,21 @@ body {
 #__next {
   height: 100%;
 }
+
+span,
+label,
+div {
+  color: #ffff !important;
+}
+
+.ant-pro-card-actions {
+  background: darkslategrey;
+}
+
+div.category-selection label {
+  background: bottom;
+}
+
+div.category-selection label span.ant-radio-button-checked{
+  background: #1677ff;
+}

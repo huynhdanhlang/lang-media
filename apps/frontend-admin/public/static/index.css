@@ -211,7 +211,7 @@ html {
   box-sizing: inherit;
 }
 
-main.content-layout div.ant-form-item {
+main.content-layout div.category-group {
   position: fixed;
   overflow: unset;
   z-index: 10;

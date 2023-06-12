@@ -9,23 +9,11 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import CategoryCardList from 'apps/frontend-admin/components/category-component/CategoryCardList';
+import CategoryManagement from 'apps/frontend-admin/components/category-component/CategoryManagement';
 
 export default () => {
   //   const { isAuthenticated } = useAuth0()
   //   if (!isAuthenticated) return <AuthPage />
 
-  return (
-    <Space size={'large'}>
-      <div
-        style={{
-          marginTop: 30,
-          marginLeft: 40,
-          display: 'flex',
-          // justifyContent: 'center',
-        }}
-      >
-        <CategoryCardList />
-      </div>
-    </Space>
-  );
+  return <CategoryManagement />;
 };

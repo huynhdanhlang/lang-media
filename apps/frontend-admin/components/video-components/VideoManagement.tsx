@@ -7,7 +7,6 @@ import { notification, Divider } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from './VideoCardList';
-import { backgroudBorder } from '../shared/theme';
 
 interface IVideoManagement {}
 const VideoManagement = (props: IVideoManagement) => {
@@ -30,7 +29,7 @@ const VideoManagement = (props: IVideoManagement) => {
   const renderVideoList = useCallback(() => {
     const category = categories?.findAllCategory.find((cg) => cg.name === type);
     const videoIds = category?.videos.map((video) => video.id);
-    return <VideoCardList videoIds={videoIds} isEachCategory={true}/>;
+    return <VideoCardList videoIds={videoIds} isEachCategory={true} />;
   }, [type]);
 
   const options = data?.findAllCategory.map((category) => category.name);
@@ -43,9 +42,13 @@ const VideoManagement = (props: IVideoManagement) => {
         }}
         options={options}
         radioType="button"
+        formItemProps={{
+          className: 'category-group',
+        }}
         fieldProps={{
           value: type,
           onChange: (e) => setType(e.target.value),
+          className: 'category-selection',
         }}
       />
       <div
@@ -53,7 +56,7 @@ const VideoManagement = (props: IVideoManagement) => {
           marginTop: 50,
           marginLeft: 70,
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
         }}
       >
         {renderVideoList()}
