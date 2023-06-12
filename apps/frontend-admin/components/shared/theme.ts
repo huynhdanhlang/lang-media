@@ -23,4 +23,19 @@ export const layoutStyle = {
 
 export const profileStyle = {
   background: 'rgba(220, 220, 242, 0.65)',
-}
+};
+
+export const titleStyle = {
+  fontSize: 28,
+  display: 'flex',
+  justifyContent: 'center',
+  fontWeight: 'bold',
+};
+
+export const titleFixed: CSSProperties = {
+  position: 'fixed',
+  overflow: 'unset',
+  zIndex: 10,
+  left: '50%',
+  transform: 'translateX(-50%)',
+};

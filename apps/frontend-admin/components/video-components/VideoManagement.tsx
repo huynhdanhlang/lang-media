@@ -7,6 +7,7 @@ import { notification, Divider } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from './VideoCardList';
+import { titleFixed } from '../shared/theme';
 
 interface IVideoManagement {}
 const VideoManagement = (props: IVideoManagement) => {
@@ -44,6 +45,9 @@ const VideoManagement = (props: IVideoManagement) => {
         radioType="button"
         formItemProps={{
           className: 'category-group',
+          style: {
+            ...titleFixed,
+          },
         }}
         fieldProps={{
           value: type,
@@ -56,7 +60,7 @@ const VideoManagement = (props: IVideoManagement) => {
           marginTop: 50,
           marginLeft: 70,
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'start',
         }}
       >
         {renderVideoList()}

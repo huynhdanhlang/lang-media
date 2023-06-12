@@ -16,7 +16,6 @@ import { colors } from './categoryStyle';
 
 const CategoryCardList = () => {
   const { loading, data, error } = useFindAllCategoryQuery();
-  if (loading) return <Loading />;
   if (error) {
     notification.error(error);
   }
@@ -26,13 +25,17 @@ const CategoryCardList = () => {
       {data &&
         data.findAllCategory.map((category) => (
           <ProCard
+            loading={loading}
             title={category.name}
+            hoverable={true}
+            className="category-list"
             style={{
-              maxWidth: 500,
+              width: 260,
               ...backgroudBorder({
                 background: `#${colors[Math.floor(Math.random() * length)]}`,
                 isSetBorder: false,
               }),
+              filter: 'brightness(0.8)',
             }}
             bordered
             actions={[
@@ -44,6 +47,12 @@ const CategoryCardList = () => {
             {/* <div>{category.}</div> */}
           </ProCard>
         ))}
+      <style jsx global>{`
+        .ant-pro-card .ant-pro-card-title {
+          font-size: 18px;
+          font-weight: bold;
+        }
+      `}</style>
     </Space>
   );
 };

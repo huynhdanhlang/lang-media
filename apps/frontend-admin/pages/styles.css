@@ -423,6 +423,22 @@ div.category-selection label {
   background: bottom;
 }
 
-div.category-selection label span.ant-radio-button-checked{
+div.category-selection label span.ant-radio-button-checked {
   background: #1677ff;
+}
+
+.category-list,
+.video-list {
+  transition: transform 0.2s; /* Animation */
+  margin: 0 auto;
+}
+.category-list:hover,
+.video-list:hover {
+  box-shadow: 0 0 4px #eee;
+  transform: scale(1.2);
+  z-index: 10;
+}
+
+.ant-notification-notice {
+  background: gray !important;
 }

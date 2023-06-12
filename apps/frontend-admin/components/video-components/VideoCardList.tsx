@@ -30,7 +30,6 @@ const VideoCardList = (props: IVideoList) => {
       },
     },
   });
-  if (loading) return <Loading />;
   if (error) {
     notification.error(error);
   }
@@ -40,6 +39,8 @@ const VideoCardList = (props: IVideoList) => {
         data.findAllVideo.map((video) => (
           <ProCard
             // title={video.name}
+            className="video-list"
+            loading={loading}
             style={{
               maxWidth: 500,
               ...backgroudBorder({
