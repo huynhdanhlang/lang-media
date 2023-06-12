@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { siderWidthState } from '../../stores/sider';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder, layoutStyle } from '../shared/theme';
 
 const { Sider } = Layout;
 
@@ -47,7 +47,7 @@ const CNFixedSider = ({ collapsed, setCollapsed, children }: ISider) => {
         top: 0,
         ...backgroudBorder({
           isSetBorder: true,
-          background: 'rgb(5, 6, 8)',
+          ...layoutStyle
         }),
       }}
       onBreakpoint={(collapsed) => {

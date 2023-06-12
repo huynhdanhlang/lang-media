@@ -18,7 +18,7 @@ import {
 } from '@training-project/data-access';
 import { useRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder, profileStyle } from '../shared/theme';
 const UserProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 
@@ -35,7 +35,7 @@ const UserProfile = () => {
               title="User Profile"
               style={{
                 ...backgroudBorder({
-                  background: 'rgba(220, 220, 242, 0.65)',
+                  ...profileStyle,
                   isSetBorder: true,
                 }),
               }}

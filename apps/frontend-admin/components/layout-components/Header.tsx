@@ -11,7 +11,7 @@ import { userState } from 'apps/frontend-admin/stores/user';
 import Loading from '../Loading';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthProvider';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder, layoutStyle } from '../shared/theme';
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;
@@ -90,7 +90,7 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
           width: `calc(100% - ${siderWidth}px)`,
           ...backgroudBorder({
             isSetBorder: true,
-            background: 'rgb(5, 6, 8)',
+            ...layoutStyle
           }),
         }}
       >

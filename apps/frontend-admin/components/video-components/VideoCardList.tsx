@@ -10,7 +10,7 @@ import {
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
 import Loading from '../Loading';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder, profileStyle } from '../shared/theme';
 interface IVideoList {
   videoIds?: number[];
   isEachCategory?: boolean;
@@ -39,22 +39,35 @@ const VideoCardList = (props: IVideoList) => {
       {data &&
         data.findAllVideo.map((video) => (
           <ProCard
-            title={video.name}
+            // title={video.name}
             style={{
               maxWidth: 500,
               ...backgroudBorder({
-                background: 'rgba(220, 220, 242, 0.65)',
+                ...profileStyle,
                 isSetBorder: false,
               }),
             }}
             bordered
+            bodyStyle={{
+              paddingInline: 'unset',
+              paddingBlock: 'unset',
+            }}
             actions={[
               <EditOutlined key="edit" />,
               <EllipsisOutlined key="ellipsis" />,
             ]}
           >
-            <Image width={200} height={200} src={video.poster} />
-            <div>{video.description}</div>
+            <Image width={200} height={250} src={video.poster} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                background: 'bottom',
+                fontWeight: 'lighter',
+              }}
+            >
+              {video.description}
+            </div>
           </ProCard>
         ))}
     </Space>

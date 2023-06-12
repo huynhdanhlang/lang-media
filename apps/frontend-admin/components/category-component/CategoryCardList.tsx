@@ -9,9 +9,10 @@ import {
   useFindAllCategoryQuery,
   useFindAllVideoQuery,
 } from '@training-project/data-access';
-import { Image, Space, notification } from 'antd';
+import { Image, Space, notification, Layout } from 'antd';
 import Loading from '../Loading';
 import { backgroudBorder } from '../shared/theme';
+import { colors } from './categoryStyle';
 
 const CategoryCardList = () => {
   const { loading, data, error } = useFindAllCategoryQuery();
@@ -19,6 +20,7 @@ const CategoryCardList = () => {
   if (error) {
     notification.error(error);
   }
+  const length = colors.length;
   return (
     <Space wrap size={'small'}>
       {data &&
@@ -26,9 +28,9 @@ const CategoryCardList = () => {
           <ProCard
             title={category.name}
             style={{
-              // maxWidth: 500,
+              maxWidth: 500,
               ...backgroudBorder({
-                background: 'rgba(220, 220, 242, 0.65)',
+                background: `#${colors[Math.floor(Math.random() * length)]}`,
                 isSetBorder: false,
               }),
             }}
