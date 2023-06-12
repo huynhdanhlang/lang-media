@@ -3,14 +3,17 @@ import {
   useFindAllCategoryQuery,
 } from '@training-project/data-access';
 import Loading from '../Loading';
-import { notification, Divider } from 'antd';
+import { notification, Divider, FloatButton } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from './VideoCardList';
 import { titleFixed } from '../shared/theme';
+import { useRouter } from 'next/router';
+import { PlusOutlined } from '@ant-design/icons';
 
 interface IVideoManagement {}
 const VideoManagement = (props: IVideoManagement) => {
+  const router = useRouter();
   const [categories, setCategories] = useState<FindAllCategoryQuery>(null);
   const { data, loading, error } = useFindAllCategoryQuery();
   const [type, setType] = useState<string>(null);
@@ -65,6 +68,13 @@ const VideoManagement = (props: IVideoManagement) => {
       >
         {renderVideoList()}
       </div>
+      <FloatButton
+        onClick={() => router.push('/videos/create')}
+        shape="circle"
+        type="primary"
+        style={{ right: 50 }}
+        icon={<PlusOutlined />}
+      />
     </>
   );
 };

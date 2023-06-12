@@ -1,7 +1,7 @@
 import VideoFormCreate from 'apps/frontend-admin/components/category-component/CategoryFormCreate';
 
-const CreateCategory = () => {
+const CreateCategoryCPN = () => {
   return <VideoFormCreate />;
 };
 
-export default CreateCategory;
+export default CreateCategoryCPN;

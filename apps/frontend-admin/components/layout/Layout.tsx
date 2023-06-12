@@ -45,7 +45,7 @@ const MyLayout = (props: IMyLayout) => {
           <Content
             style={{
               margin: '70px 16px 15px 16px',
-              overflowX: 'auto',
+              overflowX: 'hidden',
               height: '100%',
               // backgroundImage: `url(${'https://m.media-amazon.com/images/I/81F5PF9oHhL._AC_UF894,1000_QL80_.jpg'})`
             }}
