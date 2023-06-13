@@ -19,7 +19,7 @@ const menu = [
     <Link legacyBehavior href={keys[0]}>
       <a>
         <DashboardFilled />
-        <span>{COMPONENTS.DASHBOARD}</span>
+        <span className='text-style'>{COMPONENTS.DASHBOARD}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -27,7 +27,7 @@ const menu = [
     <Link legacyBehavior href={keys[1]}>
       <a>
         <TeamOutlined />
-        <span>{COMPONENTS.VIDEO_MANAGEMENT}</span>
+        <span className='text-style'>{COMPONENTS.VIDEO_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -35,7 +35,7 @@ const menu = [
     <Link legacyBehavior href={keys[2]}>
       <a>
         <MenuOutlined />
-        <span>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
+        <span className='text-style'>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,

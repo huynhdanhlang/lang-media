@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import { Logo } from './LogoTitle';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Icon, { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
+import Icon, {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { siderWidthState } from 'apps/frontend-admin/stores/sider';
 import { userState } from 'apps/frontend-admin/stores/user';
@@ -130,7 +134,7 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
                 style={{ fontSize: 16, marginRight: 15 }}
                 title="User"
               />
-              <span>{String(user.fullname)}</span>
+              <span className="text-style">{String(user.fullname)}</span>
             </HeaderBlock>
           </Dropdown>
         </div>

@@ -91,6 +91,7 @@ const CategoryFormCreate = () => {
           margin: '50px 24px 24px 24px',
           display: 'flex',
           justifyContent: 'center',
+          border: '1px solid rgba(152, 188, 252, 0.16)',
         }}
       >
         <ProForm
@@ -107,6 +108,9 @@ const CategoryFormCreate = () => {
                 background: 'gray',
               },
             },
+          }}
+          style={{
+            margin: 24,
           }}
         >
           {/* <ProForm.Group> */}

@@ -54,8 +54,8 @@ const VideoCardList = (props: IVideoList) => {
               paddingBlock: 'unset',
             }}
             actions={[
-              <EditOutlined key="edit" />,
-              <EllipsisOutlined key="ellipsis" />,
+              <EditOutlined key="edit" className="text-style" />,
+              <EllipsisOutlined key="ellipsis" className="text-style" />,
             ]}
           >
             <Image width={200} height={250} src={video.poster} />
@@ -66,6 +66,7 @@ const VideoCardList = (props: IVideoList) => {
                 background: 'bottom',
                 fontWeight: 'lighter',
               }}
+              className="text-style"
             >
               {video.description}
             </div>
