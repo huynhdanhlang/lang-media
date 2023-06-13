@@ -9,38 +9,38 @@ import {
   useFindAllCategoryQuery,
   useFindAllVideoQuery,
 } from '@training-project/data-access';
-import { Image, Space, notification, Layout } from 'antd';
+import { Image, Space, notification, Layout, Typography } from 'antd';
 import Loading from '../Loading';
 import { backgroudBorder } from '../shared/theme';
-import { colors } from './categoryStyle';
+import { randomColor } from '../shared/utils';
 
 const CategoryCardList = () => {
   const { loading, data, error } = useFindAllCategoryQuery();
   if (error) {
     notification.error(error);
   }
-  const length = colors.length;
+  const { Text } = Typography;
   return (
     <Space wrap size={'small'}>
       {data &&
         data.findAllCategory.map((category) => (
           <ProCard
             loading={loading}
-            title={category.name}
+            title={<Text className="text-style">{category.name}</Text>}
             hoverable={true}
             className="category-list"
             style={{
               width: 260,
               ...backgroudBorder({
-                background: `#${colors[Math.floor(Math.random() * length)]}`,
+                background: `#${randomColor()}`,
                 isSetBorder: false,
               }),
               filter: 'brightness(0.8)',
             }}
             bordered
             actions={[
-              <EditOutlined key="edit" />,
-              <EllipsisOutlined key="ellipsis" />,
+              <EditOutlined key="edit" className="text-style" />,
+              <EllipsisOutlined key="ellipsis" className="text-style" />,
             ]}
           >
             {/* <Image width={200} height={200} src={video.poster} /> */}
@@ -48,7 +48,7 @@ const CategoryCardList = () => {
           </ProCard>
         ))}
       <style jsx global>{`
-        .ant-pro-card .ant-pro-card-title {
+        div.ant-pro-card-header div.ant-pro-card-title span.text-style {
           font-size: 18px;
           font-weight: bold;
         }

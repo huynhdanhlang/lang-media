@@ -12,10 +12,7 @@ generates:
       withComponent: false
       withHOC: false
       useIndexSignature: true
-      contextType: ./schema#IApolloServerContext
-      mappers:
-        Video: apps/backend/src/database/models/event.model#Video
-        User: apps/backend/src/database/models/user.model#User
-        Category: apps/backend/src/database/models/user.model#Category
+      scalars:
+        Upload: import('graphql-upload').FileUpload
         
         

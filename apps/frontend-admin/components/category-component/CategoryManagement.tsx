@@ -26,6 +26,7 @@ const CategoryManagement = (props: ICategoryManagement) => {
             ...titleStyle,
             ...titleFixed,
           }}
+          className="text-style"
         >
           Danh mục phim
         </Typography.Text>
