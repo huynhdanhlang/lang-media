@@ -4,6 +4,7 @@ import { UpdateCategoryInput } from './dto/update-category.input';
 import { InjectModel } from '@nestjs/sequelize';
 import Category from '../database/models/Category';
 import { Attributes, FindOptions, Model } from 'sequelize';
+import { checkIsExisted } from '../helper/model';
 
 @Injectable()
 export class CategoryService {
@@ -11,10 +12,13 @@ export class CategoryService {
     @InjectModel(Category) private categoryService: typeof Category
   ) {}
   async create(createCategoryInput: CreateCategoryInput) {
-    const isExisted = await this.checkCategoryIsExisted(
-      createCategoryInput.name
-    );
-    if (isExisted) {
+    const category = await checkIsExisted({
+      service: this.categoryService,
+      where: {
+        name: createCategoryInput.name,
+      },
+    });
+    if (category) {
       throw new BadRequestException({
         message: 'Thể loại đã tồn tại',
       });
@@ -43,13 +47,5 @@ export class CategoryService {
   async remove(id: number) {
     const user = await this.categoryService.findByPk(id);
     await user.destroy();
-  }
-
-  async checkCategoryIsExisted(categoryName: string) {
-    return await this.categoryService.findOne({
-      where: {
-        name: categoryName,
-      },
-    });
   }
 }

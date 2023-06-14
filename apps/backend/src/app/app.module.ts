@@ -21,6 +21,7 @@ import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheContr
 import { AuthenticationModule } from '../authentication/authentication.module';
 import * as Joi from 'joi';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { TeleClientModule } from '../tele-client/tele-client.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -90,6 +91,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       ttl: 60,
       limit: 10,
     }),
+    TeleClientModule
   ],
   controllers: [AppController],
   providers: [
