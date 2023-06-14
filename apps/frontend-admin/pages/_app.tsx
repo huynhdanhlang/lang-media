@@ -91,11 +91,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Làng media admin</title>
       </Head>
-      <NextNProgress />
       <RecoilRoot>
         <ApolloProvider client={client}>
           <AuthProvider>
             <MyLayout>
+              <NextNProgress />
               <Component {...pageProps} key={router.asPath} />
             </MyLayout>
           </AuthProvider>

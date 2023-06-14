@@ -8,11 +8,10 @@ export class TeleClientService {
   constructor(@InjectBot() private bot: Telegraf<TelegrafContext>) {}
 
   async getMe() {
-    return await this.bot.telegram.getUpdates(0, 100, 10, ['channel_post', 'message']);
-    // const data = await axios.post(
-    //   'http://35.208.177.98:8081/bot6276168906:AAGwhMMAdZGBh0BFx7lBDPu2zQ1fXBnf0es/getUpdates',
-    //   {}
-    // );
-    // return data.data;
+    return await this.bot.telegram.getMe();
+  }
+
+  getBotInstance() {
+    return this.bot;
   }
 }
