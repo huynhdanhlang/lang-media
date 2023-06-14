@@ -430,12 +430,13 @@ div.category-selection label span.ant-radio-button-checked {
 }
 
 .category-list,
-.video-list {
+.video-list,
+.tag-list {
   transition: transform 0.2s; /* Animation */
-  margin: 0 auto;
 }
 .category-list:hover,
-.video-list:hover {
+.video-list:hover,
+.tag-list:hover {
   box-shadow: 0 0 4px #eee;
   transform: scale(1.2);
   z-index: 10;
@@ -461,4 +462,9 @@ div.category-selection label span.ant-radio-button-checked {
 :where(.css-dev-only-do-not-override-w8mnev).ant-select-dropdown
   .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   background-color: cadetblue;
+}
+
+.ant-tag-close-icon {
+  display: inline-flex;
+  align-items: center;
 }

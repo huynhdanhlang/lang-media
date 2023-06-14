@@ -6,28 +6,29 @@ import {
   DashboardFilled,
   TrophyFilled,
   CodeSandboxCircleFilled,
-  TeamOutlined,
+  VideoCameraFilled,
   HistoryOutlined,
   MenuOutlined,
+  TagFilled,
 } from '@ant-design/icons';
 import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
 import { backgroudBorder, layoutStyle } from '../shared/theme';
-const keys = ['/', '/videos', '/categories'];
+const keys = ['/', '/videos', '/categories', '/tags'];
 
 const menu = [
   <Menu.Item key={keys[0]}>
     <Link legacyBehavior href={keys[0]}>
       <a>
         <DashboardFilled />
-        <span className='text-style'>{COMPONENTS.DASHBOARD}</span>
+        <span className="text-style">{COMPONENTS.DASHBOARD}</span>
       </a>
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[1]}>
     <Link legacyBehavior href={keys[1]}>
       <a>
-        <TeamOutlined />
-        <span className='text-style'>{COMPONENTS.VIDEO_MANAGEMENT}</span>
+        <VideoCameraFilled />
+        <span className="text-style">{COMPONENTS.VIDEO_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -35,7 +36,15 @@ const menu = [
     <Link legacyBehavior href={keys[2]}>
       <a>
         <MenuOutlined />
-        <span className='text-style'>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
+        <span className="text-style">{COMPONENTS.CATEGORY_MANAGEMENT}</span>
+      </a>
+    </Link>
+  </Menu.Item>,
+  <Menu.Item key={keys[3]}>
+    <Link legacyBehavior href={keys[3]}>
+      <a>
+        <TagFilled />
+        <span className="text-style">{COMPONENTS.TAG_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -69,7 +78,7 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
         padding: '16px 0',
         ...backgroudBorder({
           isSetBorder: false,
-          ...layoutStyle
+          ...layoutStyle,
         }),
       }}
       onClick={({ key }) => {

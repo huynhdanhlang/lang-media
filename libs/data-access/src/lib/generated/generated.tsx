@@ -422,19 +422,26 @@ export type CreateCategoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CategoryEntity', name: string } };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CategoryEntity', name: string, id: number } };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string }> | null };
+export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string, id: number }> | null };
 
 export type FindOneTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string } | null };
+export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string, id: number } | null };
+
+export type CreateTagMutationVariables = Exact<{
+  createTagInput: CreateTagInput;
+}>;
+
+
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'TagEntity', name: string, id: number } };
 
 export type FindAllUserQueryVariables = Exact<{
   userFilter?: InputMaybe<UserFilter>;
@@ -662,6 +669,7 @@ export const CreateCategoryDocument = gql`
     mutation createCategory($createCategoryInput: CreateCategoryInput!) {
   createCategory(createCategoryInput: $createCategoryInput) {
     name
+    id
   }
 }
     `;
@@ -695,6 +703,7 @@ export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {
     name
+    id
   }
 }
     `;
@@ -729,6 +738,7 @@ export const FindOneTagDocument = gql`
     query findOneTag($id: Int!) {
   findOneTag(id: $id) {
     name
+    id
   }
 }
     `;
@@ -760,6 +770,40 @@ export function useFindOneTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type FindOneTagQueryHookResult = ReturnType<typeof useFindOneTagQuery>;
 export type FindOneTagLazyQueryHookResult = ReturnType<typeof useFindOneTagLazyQuery>;
 export type FindOneTagQueryResult = Apollo.QueryResult<FindOneTagQuery, FindOneTagQueryVariables>;
+export const CreateTagDocument = gql`
+    mutation createTag($createTagInput: CreateTagInput!) {
+  createTag(createTagInput: $createTagInput) {
+    name
+    id
+  }
+}
+    `;
+export type CreateTagMutationFn = Apollo.MutationFunction<CreateTagMutation, CreateTagMutationVariables>;
+
+/**
+ * __useCreateTagMutation__
+ *
+ * To run a mutation, you first call `useCreateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTagMutation, { data, loading, error }] = useCreateTagMutation({
+ *   variables: {
+ *      createTagInput: // value for 'createTagInput'
+ *   },
+ * });
+ */
+export function useCreateTagMutation(baseOptions?: Apollo.MutationHookOptions<CreateTagMutation, CreateTagMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument, options);
+      }
+export type CreateTagMutationHookResult = ReturnType<typeof useCreateTagMutation>;
+export type CreateTagMutationResult = Apollo.MutationResult<CreateTagMutation>;
+export type CreateTagMutationOptions = Apollo.BaseMutationOptions<CreateTagMutation, CreateTagMutationVariables>;
 export const FindAllUserDocument = gql`
     query findAllUser($userFilter: UserFilter) {
   findAllUser(userFilter: $userFilter) {

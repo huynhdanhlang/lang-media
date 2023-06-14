@@ -1,11 +1,20 @@
 query findAllTag {
   findAllTag {
     name
+    id
   }
 }
 
 query findOneTag($id: Int!) {
   findOneTag(id: $id) {
     name
+    id
+  }
+}
+
+mutation createTag($createTagInput: CreateTagInput!) {
+  createTag(createTagInput: $createTagInput) {
+    name,
+    id
   }
 }

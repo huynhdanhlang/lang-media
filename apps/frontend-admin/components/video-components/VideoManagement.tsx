@@ -60,7 +60,7 @@ const VideoManagement = (props: IVideoManagement) => {
       />
       <div
         style={{
-          marginTop: 50,
+          marginTop: 70,
           marginLeft: 70,
           display: 'flex',
           justifyContent: 'start',
