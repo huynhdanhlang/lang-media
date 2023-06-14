@@ -5,3 +5,5 @@
 - [Base-on/Knowledge][Add docs on accessing response via GraphQL context](https://github.com/nestjs/docs.nestjs.com/pull/2146/commits/b36e78b791c1d717ec6257367b6e246b882625d4)
 - [Knowledge][Functions with sequelize transactions and not transactions](https://stackoverflow.com/questions/64860963/functions-with-sequelize-transactions-and-not-transactions)
 - [Knowledge][npm install and build of forked github repo](https://stackoverflow.com/questions/40528053/npm-install-and-build-of-forked-github-repo/57829251#57829251)
+- [Telegram Bot API](https://github.com/tdlib/telegram-bot-api)
+- [TDLight Telegram Bot API](https://github.com/tdlight-team/tdlight-telegram-bot-api)
