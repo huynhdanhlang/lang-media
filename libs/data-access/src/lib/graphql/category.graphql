@@ -37,5 +37,6 @@ query findOneCategory($id: Int!) {
 mutation createCategory($createCategoryInput: CreateCategoryInput!) {
   createCategory(createCategoryInput: $createCategoryInput) {
     name
+    id
   }
 }

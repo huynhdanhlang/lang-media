@@ -12,9 +12,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import dynamic from 'next/dynamic';
-import { RECOIL_PERSIST, USER_STATE } from '../constant/keyStore.const';
-import { UserEntity } from '@training-project/data-access';
-import { useEffect, useState } from 'react';
+import { RECOIL_PERSIST } from '../constant/keyStore.const';
 import { useRouter } from 'next/router';
 import { onError } from '@apollo/client/link/error';
 import { GraphQLErrorCustom } from '../components/shared/error';
@@ -47,9 +45,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
-    const user: IUser = JSON.parse(
-      localStorage.getItem(RECOIL_PERSIST)
-    );
+    const user: IUser = JSON.parse(localStorage.getItem(RECOIL_PERSIST));
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -83,14 +79,19 @@ function CustomApp({ Component, pageProps }: AppProps) {
     }
   );
 
+  const NextNProgress = dynamic(() => import('nextjs-progressbar'), {
+    ssr: false,
+  });
+
   if (typeof window === 'undefined') {
     return <></>;
   }
   return (
     <>
       <Head>
-        <title>Welcome to frontend-admin!</title>
+        <title>Làng media admin</title>
       </Head>
+      <NextNProgress />
       <RecoilRoot>
         <ApolloProvider client={client}>
           <AuthProvider>

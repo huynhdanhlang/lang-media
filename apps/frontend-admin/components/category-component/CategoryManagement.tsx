@@ -33,7 +33,7 @@ const CategoryManagement = (props: ICategoryManagement) => {
       </div>
       <div
         style={{
-          marginTop: 50,
+          marginTop: 70,
           marginLeft: 70,
           height: '100%',
           // display: 'flex',

@@ -17,7 +17,11 @@ import {
 import { Button, message, notification, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
-import { useCreateCategoryMutation } from '@training-project/data-access';
+import {
+  useCreateCategoryMutation,
+  useFindAllCategoryQuery,
+  useFindAllTagQuery,
+} from '@training-project/data-access';
 import axios from 'axios';
 import { DefaultOptionType } from 'antd/es/select';
 import { randomColor } from '../shared/utils';
@@ -34,8 +38,35 @@ const iconStyles = {
 const VideoFormCreate = () => {
   const { Text } = Typography;
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
-  const [createCategory, { data, loading, error }] =
-    useCreateCategoryMutation();
+  const [tags, setTags] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const {
+    loading: tagLoading,
+    data: tagData,
+    error: tagError,
+  } = useFindAllTagQuery();
+  const {
+    loading: categoryLoading,
+    data: categoryData,
+    error: categoryError,
+  } = useFindAllCategoryQuery();
+
+  const mapSelectOption = (data: any[]) => {
+    return data.map((val) => ({
+      label: val.name,
+      value: val.id,
+    }));
+  };
+
+  useEffect(() => {
+    if (tagData && tagData.findAllTag) {
+      setTags(mapSelectOption(tagData.findAllTag));
+    }
+    if (categoryData && categoryData.findAllCategory) {
+      setCategories(mapSelectOption(categoryData.findAllCategory));
+    }
+  }, [tagData, categoryData]);
+
   const waitTime = (time: number = 100) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -73,15 +104,15 @@ const VideoFormCreate = () => {
     // });
   };
 
-  if (data) {
-    notification.success({
-      message: 'Đã thêm thành công',
-    });
-  }
+  // if (data) {
+  //   notification.success({
+  //     message: 'Đã thêm thành công',
+  //   });
+  // }
 
-  if (error) {
-    notification.error(error);
-  }
+  // if (error) {
+  //   notification.error(error);
+  // }
   const fileList: UploadFile[] = [
     {
       uid: '0',
@@ -195,7 +226,7 @@ const VideoFormCreate = () => {
               showSearch
               options={countries}
               width="md"
-              name="country"
+              name="countries"
               label={<Text className="text-style">Quốc gia</Text>}
               fieldProps={{
                 dropdownStyle: {
@@ -217,7 +248,7 @@ const VideoFormCreate = () => {
               showSearch
               width="md"
               options={countries}
-              name="language"
+              name="languages"
               label={<Text className="text-style">Ngôn ngữ</Text>}
               fieldProps={{
                 dropdownStyle: {
@@ -233,6 +264,53 @@ const VideoFormCreate = () => {
                 {
                   required: true,
                   message: 'Ngôn ngữ là bắt buộc!',
+                },
+              ]}
+            />
+          </ProForm.Group>
+          <ProForm.Group>
+            <ProFormSelect
+              showSearch
+              options={categories}
+              width="md"
+              name="categories"
+              label={<Text className="text-style">Thể loại</Text>}
+              fieldProps={{
+                dropdownStyle: {
+                  background: 'lightblue',
+                  color: 'black; !improtant',
+                },
+                mode: 'tags',
+              }}
+              placeholder={'Chọn thể loại cho video'}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Thể loại là bắt buộc!',
+                },
+              ]}
+            />
+            <ProFormSelect
+              showSearch
+              width="md"
+              options={tags}
+              name="tags"
+              label={<Text className="text-style">Tag</Text>}
+              fieldProps={{
+                dropdownStyle: {
+                  background: 'lightblue',
+                  color: 'black; !improtant',
+                },
+                mode: 'tags',
+                className: 'select-item-video-form',
+              }}
+              placeholder={'Chọn tag'}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Tag là bắt buộc!',
                 },
               ]}
             />
