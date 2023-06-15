@@ -14,9 +14,7 @@ import { getBotToken } from 'nestjs-telegraf';
 import { Telegraf } from 'telegraf';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    bodyParser: true,
-  });
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.use(
     helmet({
