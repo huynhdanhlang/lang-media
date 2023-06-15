@@ -17,10 +17,12 @@ import { useRouter } from 'next/router';
 import { onError } from '@apollo/client/link/error';
 import { GraphQLErrorCustom } from '../components/shared/error';
 import { IUser } from '../components/shared/user';
+import { createUploadLink } from 'apollo-upload-client';
+import { notification } from 'antd';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const httpLink = createHttpLink({
+  const httpLink = createUploadLink({
     uri: `${process.env.NEXT_PUBLIC_BASE_API}/graphql`,
   });
 
@@ -29,6 +31,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       graphQLErrors.forEach(
         ({ message, locations, path, extensions }: GraphQLErrorCustom) => {
           if (extensions?.originalError?.statusCode === 401) {
+            notification.error(extensions?.originalError);
             localStorage.removeItem(RECOIL_PERSIST);
             router.replace(router.asPath, '/login');
             router.reload();
@@ -51,6 +54,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       headers: {
         ...headers,
         Authorization: `Bearer ${user?.userState?.accessToken}`,
+        'Apollo-Require-Preflight': 'true',
       },
     };
   });

@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
 import {
   useCreateCategoryMutation,
+  useCreateVideoMutation,
   useFindAllCategoryQuery,
   useFindAllTagQuery,
 } from '@training-project/data-access';
@@ -50,6 +51,8 @@ const VideoFormCreate = () => {
     data: categoryData,
     error: categoryError,
   } = useFindAllCategoryQuery();
+
+  const [createVideo, { data, error, loading }] = useCreateVideoMutation();
 
   const mapSelectOption = (data: any[]) => {
     return data.map((val) => ({
@@ -95,13 +98,27 @@ const VideoFormCreate = () => {
       '🚀 ~ file: VideoFormCreate.tsx:63 ~ handleSubmit ~ values:',
       values
     );
-    // createCategory({
-    //   variables: {
-    //     createCategoryInput: {
-    //       name: values.name,
-    //     },
-    //   },
-    // });
+    console.log(
+      values.poster[0].originFileObj,
+      values['video-trailer'][0].originFileObj,
+      values.video[0].originFileObj
+    );
+
+    createVideo({
+      variables: {
+        createVideoDto: {
+          country: values.countries.join('|'),
+          description: values.description,
+          name: values.name,
+          posterImage: values.poster[0].originFileObj,
+          trailerVideo: values['video-trailer'][0].originFileObj,
+          video: values.video[0].originFileObj,
+          language: values.languages.join('|'),
+          categories: values.categories.join('|'),
+          tags: values.tags.join('|'),
+        },
+      },
+    });
   };
 
   // if (data) {

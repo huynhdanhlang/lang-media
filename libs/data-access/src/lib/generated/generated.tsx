@@ -19,6 +19,8 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: { input: import('graphql-upload').FileUpload; output: import('graphql-upload').FileUpload; }
 };
 
 export type CategoryEntity = {
@@ -72,14 +74,16 @@ export type CreateUserInput = {
   username: Scalars['String']['input'];
 };
 
-export type CreateVideoInput = {
+export type CreateVideoDto = {
+  categories: Scalars['String']['input'];
   country: Scalars['String']['input'];
   description: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  poster?: InputMaybe<Scalars['String']['input']>;
-  trailerUrl?: InputMaybe<Scalars['String']['input']>;
-  url: Scalars['String']['input'];
+  posterImage: Scalars['Upload']['input'];
+  tags: Scalars['String']['input'];
+  trailerVideo: Scalars['Upload']['input'];
+  video: Scalars['Upload']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -143,7 +147,7 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationCreateVideoArgs = {
-  createVideoInput: CreateVideoInput;
+  createVideoDto: CreateVideoDto;
 };
 
 
@@ -301,7 +305,7 @@ export type UpdateVideoInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
-  url: Scalars['String']['input'];
+  url?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -355,7 +359,7 @@ export type VideoEntity = {
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
-  poster?: Maybe<Scalars['String']['output']>;
+  poster: Scalars['String']['output'];
   tags: Array<TagEntity>;
   trailerUrl?: Maybe<Scalars['String']['output']>;
   url: Scalars['String']['output'];
@@ -408,14 +412,14 @@ export type FindAllCategoryQueryVariables = Exact<{
 }>;
 
 
-export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> }> | null };
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster: string, description: string }> }> | null };
 
 export type FindOneCategoryQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> } | null };
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster: string, description: string }> } | null };
 
 export type CreateCategoryMutationVariables = Exact<{
   createCategoryInput: CreateCategoryInput;
@@ -483,14 +487,21 @@ export type FindAllVideoQueryVariables = Exact<{
 }>;
 
 
-export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
 
 export type FindOneVideoQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster: string, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+
+export type CreateVideoMutationVariables = Exact<{
+  createVideoDto: CreateVideoDto;
+}>;
+
+
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'VideoEntity', id: number, name: string, url: string, language?: string | null, view?: number | null, description: string, poster: string } };
 
 
 export const LoginDocument = gql`
@@ -1099,3 +1110,42 @@ export function useFindOneVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type FindOneVideoQueryHookResult = ReturnType<typeof useFindOneVideoQuery>;
 export type FindOneVideoLazyQueryHookResult = ReturnType<typeof useFindOneVideoLazyQuery>;
 export type FindOneVideoQueryResult = Apollo.QueryResult<FindOneVideoQuery, FindOneVideoQueryVariables>;
+export const CreateVideoDocument = gql`
+    mutation createVideo($createVideoDto: CreateVideoDto!) {
+  createVideo(createVideoDto: $createVideoDto) {
+    id
+    name
+    url
+    language
+    view
+    description
+    poster
+  }
+}
+    `;
+export type CreateVideoMutationFn = Apollo.MutationFunction<CreateVideoMutation, CreateVideoMutationVariables>;
+
+/**
+ * __useCreateVideoMutation__
+ *
+ * To run a mutation, you first call `useCreateVideoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVideoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVideoMutation, { data, loading, error }] = useCreateVideoMutation({
+ *   variables: {
+ *      createVideoDto: // value for 'createVideoDto'
+ *   },
+ * });
+ */
+export function useCreateVideoMutation(baseOptions?: Apollo.MutationHookOptions<CreateVideoMutation, CreateVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVideoMutation, CreateVideoMutationVariables>(CreateVideoDocument, options);
+      }
+export type CreateVideoMutationHookResult = ReturnType<typeof useCreateVideoMutation>;
+export type CreateVideoMutationResult = Apollo.MutationResult<CreateVideoMutation>;
+export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<CreateVideoMutation, CreateVideoMutationVariables>;
