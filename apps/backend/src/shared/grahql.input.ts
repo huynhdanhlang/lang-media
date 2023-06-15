@@ -1,4 +1,5 @@
 import { IsMimeType, IsString } from 'class-validator';
+import {Readable as ReadableStream} from 'stream';
 
 abstract class FileUploadDto {
   @IsString()
@@ -11,7 +12,7 @@ abstract class FileUploadDto {
   @IsString()
   public encoding!: string;
 
-  public createReadStream: () => NodeJS.ReadStream;
+  public createReadStream: () => ReadableStream;
 }
 
 interface IUploaderMiddlewareOptions {

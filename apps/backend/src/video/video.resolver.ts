@@ -18,7 +18,7 @@ import { TagService } from '../tag/tag.service';
 import Tag from '../database/models/Tag';
 import { VideoFilter } from './dto/video-filter.input';
 import { TeleClientService } from '../tele-client/tele-client.service';
-
+import fetch from 'node-fetch';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(
@@ -46,56 +46,16 @@ export class VideoResolver {
       name,
       language
     );
-    const {
-      createReadStream: createReadStreamPoster,
-      encoding: encodingPoster,
-      filename: filenamePoster,
-      mimetype: mimetypePoster,
-    } = await posterImage;
-    console.log(
-      '🚀 ~ file: video.resolver.ts:40 ~ VideoResolver ~ mimetypePoster:',
-      mimetypePoster
-    );
-    const {
-      createReadStream: createReadStreamVideo,
-      encoding: encodingVideo,
-      filename: filenameVideo,
-      mimetype: mimetypeVideo,
-    } = await video;
-    console.log(
-      '🚀 ~ file: video.resolver.ts:47 ~ VideoResolver ~ mimetypeVideo:',
-      mimetypeVideo
-    );
-    const {
-      createReadStream: createReadStreamTrailer,
-      encoding: encodingTrailer,
-      filename: filenameTrailer,
-      mimetype: mimetypeTrailer,
-    } = await trailerVideo;
-    console.log(
-      '🚀 ~ file: video.resolver.ts:75 ~ VideoResolver ~ mimetypeTrailer:',
-      mimetypeTrailer
-    );
-    console.log(
-      '🚀 ~ file: video.resolver.ts:75 ~ VideoResolver ~ filenameTrailer:',
-      filenameTrailer
-    );
-    console.log(
-      '🚀 ~ file: video.resolver.ts:75 ~ VideoResolver ~ encodingTrailer:',
-      encodingTrailer
-    );
-    console.log(
-      '🚀 ~ file: video.resolver.ts:54 ~ VideoResolver ~ mimetypeTrailer:',
-      mimetypeTrailer
-    );
-
-    console.log(createReadStreamTrailer());
-
-    const message_id = await this.teleService.uploadFile(
-      createReadStreamTrailer(),
-      filenameTrailer
-    );
-    return message_id;
+    const medias = await Promise.all([posterImage, video, trailerVideo]);
+    const mediaFiles = this.teleService.buildMediGroupType(medias);
+    const mediaGroupFiles = await this.teleService.uploadFile(mediaFiles);
+    console.log(mediaGroupFiles[1]['video'].file_id);
+    const url = await this.teleService
+      .getBotInstance()
+      .telegram.getFile(mediaGroupFiles[1]['video'].file_id);
+    console.log(url);
+    
+    return mediaGroupFiles;
     // return this.videoService.create({});
   }
 
