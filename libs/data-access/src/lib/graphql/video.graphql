@@ -33,3 +33,15 @@ query findOneVideo($id: Int!) {
     }
   }
 }
+
+mutation createVideo($createVideoDto: CreateVideoDto!) {
+  createVideo(createVideoDto: $createVideoDto) {
+    id
+    name
+    url
+    language
+    view
+    description
+    poster
+  }
+}
