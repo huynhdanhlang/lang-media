@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectBot } from 'nestjs-telegraf';
 import { Telegraf } from 'telegraf';
-import { TelegrafContext } from './tele.interface';
+import { IMediaGroupFile, TelegrafContext } from './tele.interface';
+import { MediaGroup } from 'telegraf/typings/telegram-types';
+import { fromStream } from 'file-type';
+import { FileUploadDto } from '../shared/grahql.input';
+import { compressImage, streamToBuffer } from '../helper/grapql-upload.helper';
 @Injectable()
 export class TeleClientService {
   constructor(
@@ -18,25 +22,35 @@ export class TeleClientService {
     return this.bot;
   }
 
-  // [
-  //   {
-  //     media:{
-  //       source: file,
-  //       filename
-  //     },
-  //     type:'audio'
-  //   }
-  // ]
-  async uploadFile(file: NodeJS.ReadableStream, filename: string) {
-    const sentFile = await this.bot.telegram.sendVideo(
+  buildMediGroupType(files: FileUploadDto[]): IMediaGroupFile[] {
+    return files.map((file) => ({
+      file: file.createReadStream(),
+      filename: file.filename,
+      mimetype: file.mimetype,
+    }));
+  }
+
+  mapMediaGroupFile(medias: IMediaGroupFile[]): MediaGroup {
+    return medias.map((media) => {
+      console.log(media.mimetype);
+      const type = media.mimetype.split('/')[1] == 'mp4' ? 'video' : 'photo';
+      return {
+        media: {
+          source: media.file,
+          filename: media.filename,
+        },
+        type,
+      };
+    });
+  }
+  async uploadFile(medias: IMediaGroupFile[]) {
+    const mediaFiles = this.mapMediaGroupFile(medias);
+    const sentFile = await this.bot.telegram.sendMediaGroup(
       this.configService.get('TELE_PRIVATE_CHAT_ID'),
-      {
-        source: file,
-        filename,
-      },
+      mediaFiles,
       {}
     );
-    return sentFile.message_id;
+    return sentFile;
   }
 
   async deleteFile(messageId: number) {
