@@ -1,13 +1,24 @@
-import { Field, InputType } from '@nestjs/graphql';
-import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
-import { FileUpload } from 'graphql-upload/Upload.mjs';
+import { IsMimeType, IsString } from 'class-validator';
 
-@InputType()
-export class CreateFileInput {
-  @Field(() => String)
-  name: string;
-  @Field(() => String)
-  breed: string;
-  @Field(() => GraphQLUpload)
-  image: Promise<FileUpload>;
+abstract class FileUploadDto {
+  @IsString()
+  public filename!: string;
+  
+  @IsString()
+  @IsMimeType()
+  public mimetype!: string;
+
+  @IsString()
+  public encoding!: string;
+
+  public createReadStream: () => NodeJS.ReadStream;
 }
+
+interface IUploaderMiddlewareOptions {
+  maxFieldSize?: number;
+  maxFileSize?: number;
+  maxFiles?: number;
+}
+
+export { FileUploadDto, IUploaderMiddlewareOptions };
+

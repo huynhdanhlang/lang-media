@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { getBotToken } from 'nestjs-telegraf';
 import { Telegraf } from 'telegraf';
-
+import { graphqlUploadExpress } from 'graphql-upload';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
@@ -41,6 +41,10 @@ async function bootstrap() {
         app.use(bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
       });
     });
+  app.use(
+    '/graphql',
+    graphqlUploadExpress({ maxFileSize: 50000000, maxFiles: 10 })
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Project demo')

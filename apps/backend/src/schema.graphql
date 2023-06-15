@@ -43,7 +43,7 @@ type VideoEntity {
   country: String!
   tags: [TagEntity!]!
   description: String!
-  poster: String
+  poster: String!
 }
 
 type CategoryEntity {
@@ -133,13 +133,13 @@ input VideoFilter {
 }
 
 input VideoWherClause {
-  url: String
-  trailerUrl: String
   language: String
   view: Int
   country: String
-  poster: String
   description: String
+  url: String
+  trailerUrl: String
+  poster: String
   id: [Int!]
 }
 
@@ -172,7 +172,7 @@ type Mutation {
   createRole(createRoleInput: CreateRoleInput!): RoleEntity!
   updateRole(updateRoleInput: UpdateRoleInput!): RoleEntity!
   removeRole(id: Int!): RoleEntity!
-  createVideo(createVideoInput: CreateVideoInput!): VideoEntity!
+  createVideo(createVideoDto: CreateVideoDto!): VideoEntity!
   updateVideo(updateVideoInput: UpdateVideoInput!): VideoEntity!
   removeVideo(id: Int!): VideoEntity!
   createTag(createTagInput: CreateTagInput!): TagEntity!
@@ -213,25 +213,30 @@ input UpdateRoleInput {
   id: Int!
 }
 
-input CreateVideoInput {
+input CreateVideoDto {
   name: String!
-  url: String!
-  trailerUrl: String
+  video: Upload!
+  trailerVideo: Upload!
   language: String
   view: Int
   country: String!
-  poster: String
+  posterImage: Upload!
   description: String!
+  categories: String!
+  tags: String!
 }
 
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
 input UpdateVideoInput {
-  url: String!
-  trailerUrl: String
   language: String
   view: Int
   country: String!
-  poster: String
   description: String!
+  url: String
+  trailerUrl: String
+  poster: String
   id: Int!
 }
 

@@ -1,8 +1,8 @@
-import { CreateVideoInput } from '@graphqlTypes';
+import { UpdateVideoInput } from '@graphqlTypes';
 import { Field, Int, ObjectType, PartialType } from '@nestjs/graphql';
 import { TagEntity } from '../../tag/entities/tag.entity';
 @ObjectType()
-export class VideoEntity implements CreateVideoInput {
+export class VideoEntity implements UpdateVideoInput {
   description: string;
   @Field(() => Int)
   id: number;
@@ -20,6 +20,5 @@ export class VideoEntity implements CreateVideoInput {
   country: string;
   @Field(() => [TagEntity])
   tags: TagEntity[];
-  poster?: string;
-  
+  poster: string;
 }
