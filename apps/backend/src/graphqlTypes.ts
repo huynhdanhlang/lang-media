@@ -65,13 +65,13 @@ export interface VideoFilter {
 }
 
 export interface VideoWherClause {
-    url?: Nullable<string>;
-    trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country?: Nullable<string>;
-    poster?: Nullable<string>;
     description?: Nullable<string>;
+    url?: Nullable<string>;
+    trailerUrl?: Nullable<string>;
+    poster?: Nullable<string>;
     id?: Nullable<number[]>;
 }
 
@@ -120,25 +120,27 @@ export interface UpdateRoleInput {
     id: number;
 }
 
-export interface CreateVideoInput {
+export interface CreateVideoDto {
     name: string;
-    url: string;
-    trailerUrl?: Nullable<string>;
+    video: Upload;
+    trailerVideo: Upload;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
-    poster?: Nullable<string>;
+    posterImage: Upload;
     description: string;
+    categories: string;
+    tags: string;
 }
 
 export interface UpdateVideoInput {
-    url: string;
-    trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
-    poster?: Nullable<string>;
     description: string;
+    url?: Nullable<string>;
+    trailerUrl?: Nullable<string>;
+    poster?: Nullable<string>;
     id: number;
 }
 
@@ -197,7 +199,7 @@ export interface VideoEntity {
     country: string;
     tags: TagEntity[];
     description: string;
-    poster?: Nullable<string>;
+    poster: string;
 }
 
 export interface CategoryEntity {
@@ -231,7 +233,7 @@ export interface IMutation {
     createRole(createRoleInput: CreateRoleInput): RoleEntity | Promise<RoleEntity>;
     updateRole(updateRoleInput: UpdateRoleInput): RoleEntity | Promise<RoleEntity>;
     removeRole(id: number): RoleEntity | Promise<RoleEntity>;
-    createVideo(createVideoInput: CreateVideoInput): VideoEntity | Promise<VideoEntity>;
+    createVideo(createVideoDto: CreateVideoDto): VideoEntity | Promise<VideoEntity>;
     updateVideo(updateVideoInput: UpdateVideoInput): VideoEntity | Promise<VideoEntity>;
     removeVideo(id: number): VideoEntity | Promise<VideoEntity>;
     createTag(createTagInput: CreateTagInput): TagEntity | Promise<TagEntity>;
@@ -246,4 +248,5 @@ export interface IMutation {
 
 export type DateTime = any;
 export type JSON = any;
+export type Upload = any;
 type Nullable<T> = T | null;

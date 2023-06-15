@@ -6,4 +6,7 @@
 - [Knowledge][Functions with sequelize transactions and not transactions](https://stackoverflow.com/questions/64860963/functions-with-sequelize-transactions-and-not-transactions)
 - [Knowledge][npm install and build of forked github repo](https://stackoverflow.com/questions/40528053/npm-install-and-build-of-forked-github-repo/57829251#57829251)
 - [Telegram Bot API](https://github.com/tdlib/telegram-bot-api)
-- [TDLight Telegram Bot API](https://github.com/tdlight-team/tdlight-telegram-bot-api)
+- [Knowledge][TDLight Telegram Bot API](https://github.com/tdlight-team/tdlight-telegram-bot-api)
+- [Issue][Apollo Client "This operation has been blocked as a potential Cross-Site Request Forgery (CSRF)"](https://stackoverflow.com/questions/74581070/apollo-client-this-operation-has-been-blocked-as-a-potential-cross-site-request)
+- [Issue][Graphql-upload issue](https://github.com/jaydenseric/graphql-upload/issues/358)
+- [Issue][Variable "$file" got invalid value {}; Upload value invalid](https://stackoverflow.com/questions/64658321/variable-file-got-invalid-value-upload-value-invalid)

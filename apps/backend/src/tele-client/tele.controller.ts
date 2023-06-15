@@ -1,15 +1,12 @@
 import {
-  Body,
   Controller,
   Get,
   Injectable,
   Post,
-  Req,
-  Res,
-  UseInterceptors,
+  Req
 } from '@nestjs/common';
-import { TeleClientService } from './tele-client.service';
 import { Request } from 'express';
+import { TeleClientService } from './tele-client.service';
 
 @Injectable()
 @Controller('telegram')
