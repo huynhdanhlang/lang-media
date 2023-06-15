@@ -9,11 +9,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { TeleClientService } from './tele-client.service';
-import { Context, Ctx, On, Update } from 'nestjs-telegraf';
-import { TelegrafContext } from './tele.interface';
+import { Request } from 'express';
 
 @Injectable()
-@Update()
 @Controller('telegram')
 export class TeleControlelr {
   constructor(private teleService: TeleClientService) {}
@@ -24,10 +22,7 @@ export class TeleControlelr {
   }
 
   @Post('/webhook')
-  @On('text')
-  async getWebhookInfo(@Context() cxt: TelegrafContext) {
-    console.log(cxt);
-
-    return await cxt.reply('helllo');
+  async getWebhookInfo(@Req() req: Request) {
+    console.log(req.body);
   }
 }

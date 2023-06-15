@@ -4,6 +4,7 @@ import { TelegrafModule } from 'nestjs-telegraf';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TeleControlelr } from './tele.controller';
 import { HttpModule } from '@nestjs/axios';
+import { BotProvider } from './bot.provider';
 
 @Module({
   imports: [
@@ -21,13 +22,14 @@ import { HttpModule } from '@nestjs/axios';
         options: {
           telegram: {
             apiRoot: configService.get('TELE_OWN_API_URL'),
+            webhookReply: true,
           },
         },
       }),
       inject: [ConfigService],
     }),
   ],
-  providers: [TeleClientService],
+  providers: [TeleClientService, BotProvider],
   exports: [TeleClientService],
   controllers: [TeleControlelr],
 })
