@@ -22,6 +22,7 @@ import {
   useCreateVideoMutation,
   useFindAllCategoryQuery,
   useFindAllTagQuery,
+  useInitializeMultipartUploadMutation,
 } from '@training-project/data-access';
 import axios from 'axios';
 import { DefaultOptionType } from 'antd/es/select';
@@ -53,6 +54,10 @@ const VideoFormCreate = () => {
   } = useFindAllCategoryQuery();
 
   const [createVideo, { data, error, loading }] = useCreateVideoMutation();
+  const [
+    initializeMultipartUpload,
+    { data: multiPartData, error: multiPartError },
+  ] = useInitializeMultipartUploadMutation();
 
   const mapSelectOption = (data: any[]) => {
     return data.map((val) => ({
@@ -104,21 +109,29 @@ const VideoFormCreate = () => {
       values.video[0].originFileObj
     );
 
-    createVideo({
-      variables: {
-        createVideoDto: {
-          country: values.countries.join('|'),
-          description: values.description,
-          name: values.name,
-          posterImage: values.poster[0].originFileObj,
-          trailerVideo: values['video-trailer'][0].originFileObj,
-          video: values.video[0].originFileObj,
-          language: values.languages.join('|'),
-          categories: values.categories.join('|'),
-          tags: values.tags.join('|'),
-        },
-      },
-    });
+    // initializeMultipartUpload({
+    //   variables:{
+    //     initMultiPart:{
+    //       fileExt,
+    //       filename
+    //     }
+    //   }
+    // })
+    // createVideo({
+    //   variables: {
+    //     createVideoDto: {
+    //       country: values.countries.join('|'),
+    //       description: values.description,
+    //       name: values.name,
+    //       posterImage: values.poster[0].originFileObj,
+    //       trailerVideo: values['video-trailer'][0].originFileObj,
+    //       video: values.video[0].originFileObj,
+    //       language: values.languages.join('|'),
+    //       categories: values.categories.join('|'),
+    //       tags: values.tags.join('|'),
+    //     },
+    //   },
+    // });
   };
 
   // if (data) {

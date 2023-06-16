@@ -7,24 +7,24 @@ import { GraphQLUpload } from 'graphql-upload';
 export class CreateVideoDto {
   @Field(() => String)
   name: string;
-  @Field(() => GraphQLUpload)
-  @ValidatePromise()
-  @Type(() => FileUploadDto)
-  video: Promise<FileUploadDto>;
-  @Field(() => GraphQLUpload)
-  @ValidatePromise()
-  @Type(() => FileUploadDto)
-  trailerVideo: Promise<FileUploadDto>;
+  // @Field(() => GraphQLUpload)
+  // @ValidatePromise()
+  // @Type(() => FileUploadDto)
+  // video: Promise<FileUploadDto>;
+  // @Field(() => GraphQLUpload)
+  // @ValidatePromise()
+  // @Type(() => FileUploadDto)
+  // trailerVideo: Promise<FileUploadDto>;
   @Field(() => String, { nullable: true })
   language?: string;
   @Field(() => Int, { nullable: true })
   view?: number;
   @Field(() => String)
   country: string;
-  @Field(() => GraphQLUpload)
-  @ValidatePromise()
-  @Type(() => FileUploadDto)
-  posterImage: Promise<FileUploadDto>;
+  // @Field(() => GraphQLUpload)
+  // @ValidatePromise()
+  // @Type(() => FileUploadDto)
+  // posterImage: Promise<FileUploadDto>;
   description: string;
   categories: string;
   tags: string;
@@ -34,9 +34,9 @@ export class CreateVideoDto {
 export class CreateVideoInput extends OmitType(CreateVideoDto, [
   'categories',
   'tags',
-  'posterImage',
-  'video',
-  'trailerVideo',
+  // 'posterImage',
+  // 'video',
+  // 'trailerVideo',
 ]) {
   url?: string;
   trailerUrl?: string;

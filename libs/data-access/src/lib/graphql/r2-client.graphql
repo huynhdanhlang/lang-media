@@ -1,0 +1,16 @@
+mutation initializeMultipartUpload($initMultiPart: InitMultiPart!) {
+  initializeMultipartUpload(initMultiPart: $initMultiPart) {
+    fileId
+    fileKey
+  }
+}
+
+mutation getMultipartPreSignedUrls(
+  $multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!
+) {
+  getMultipartPreSignedUrls(
+    multiPartPreSignedUrlDto: $multiPartPreSignedUrlDto
+  ) {
+    parts
+  }
+}

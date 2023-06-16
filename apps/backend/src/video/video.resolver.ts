@@ -1,24 +1,23 @@
+import { UseGuards } from '@nestjs/common';
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
-import { VideoService } from './video.service';
-import { CreateVideoDto } from './dto/create-video.input';
-import { UpdateVideoInput } from './dto/update-video.input';
-import { VideoEntity } from './entities/video.entity';
 import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
-import { UseGuards } from '@nestjs/common';
+import Tag from '../database/models/Tag';
 import { TagEntity } from '../tag/entities/tag.entity';
 import { TagService } from '../tag/tag.service';
-import Tag from '../database/models/Tag';
-import { VideoFilter } from './dto/video-filter.input';
 import { TeleClientService } from '../tele-client/tele-client.service';
-import fetch from 'node-fetch';
+import { CreateVideoDto } from './dto/create-video.input';
+import { UpdateVideoInput } from './dto/update-video.input';
+import { VideoFilter } from './dto/video-filter.input';
+import { VideoEntity } from './entities/video.entity';
+import { VideoService } from './video.service';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(
@@ -30,15 +29,7 @@ export class VideoResolver {
   @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => VideoEntity)
   async createVideo(@Args('createVideoDto') createVideoDto: CreateVideoDto) {
-    const {
-      posterImage,
-      video,
-      trailerVideo,
-      country,
-      description,
-      name,
-      language,
-    } = createVideoDto;
+    const { country, description, name, language } = createVideoDto;
     console.log(
       '🚀 ~ file: video.resolver.ts:34 ~ VideoResolver ~ country,description,name,language:',
       country,
@@ -46,20 +37,10 @@ export class VideoResolver {
       name,
       language
     );
-    const medias = await Promise.all([posterImage, video, trailerVideo]);
-    const mediaFiles = this.teleService.buildMediGroupType(medias);
-    const mediaGroupFiles = await this.teleService.uploadFile(mediaFiles);
-    console.log(mediaGroupFiles[1]['video'].file_id);
-    const url = await this.teleService
-      .getBotInstance()
-      .telegram.getFile(mediaGroupFiles[1]['video'].file_id);
-    console.log(url);
-    
-    return mediaGroupFiles;
     // return this.videoService.create({});
   }
 
-  @UseGuards(JwtAuthenticationGuard)
+  @UseGuards(new JwtAuthenticationGuard('videoFilter'))
   @Query(() => [VideoEntity], { nullable: true })
   findAllVideo(
     @Args('videoFilter', {
