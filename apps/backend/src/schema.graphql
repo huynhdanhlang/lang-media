@@ -57,6 +57,20 @@ type ObjectMessage {
   message: String!
 }
 
+type InitMultiPartEntity {
+  fileId: String!
+  fileKey: String!
+}
+
+type MapMultiPart {
+  signedUrl: String!
+  PartNumber: Float!
+}
+
+type IProcessingMultipartUploadEntity {
+  parts: [MapMultiPart!]!
+}
+
 type Query {
   findAllUser(userFilter: UserFilter): [UserEntity!]
   findOneUser(id: Int!): UserEntity
@@ -183,6 +197,9 @@ type Mutation {
   removeCategory(id: Int!): CategoryEntity!
   login(loginInput: LoginInput!): UserEntity!
   logout: ObjectMessage!
+  initializeMultipartUpload(initMultiPart: InitMultiPartDto!): InitMultiPartEntity!
+  getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!): IProcessingMultipartUploadEntity!
+  finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto!): IProcessingMultipartUploadEntity!
 }
 
 input CreateUserInput {
@@ -215,19 +232,13 @@ input UpdateRoleInput {
 
 input CreateVideoDto {
   name: String!
-  video: Upload!
-  trailerVideo: Upload!
   language: String
   view: Int
   country: String!
-  posterImage: Upload!
   description: String!
   categories: String!
   tags: String!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
 
 input UpdateVideoInput {
   language: String
@@ -259,4 +270,26 @@ input UpdateCategoryInput {
 input LoginInput {
   username: String!
   password: String!
+}
+
+input InitMultiPartDto {
+  filename: String!
+  fileExt: String!
+}
+
+input MultiPartPreSignedUrlDto {
+  parts: [Float!]!
+  fileKey: String!
+  fileId: String!
+}
+
+input MapMultiPartFinalDto {
+  fileKey: String!
+  fileId: String!
+  parts: [MultiPartFinal!]!
+}
+
+input MultiPartFinal {
+  PartNumber: Float!
+  ETag: String!
 }

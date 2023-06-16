@@ -22,6 +22,7 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 import * as Joi from 'joi';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TeleClientModule } from '../tele-client/tele-client.module';
+import { R2ClientModule } from '../r2-client/r2-client.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -91,7 +92,8 @@ import { TeleClientModule } from '../tele-client/tele-client.module';
       ttl: 60,
       limit: 10,
     }),
-    TeleClientModule
+    TeleClientModule,
+    R2ClientModule,
   ],
   controllers: [AppController],
   providers: [

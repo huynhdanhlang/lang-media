@@ -19,8 +19,6 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: { input: import('graphql-upload').FileUpload; output: import('graphql-upload').FileUpload; }
 };
 
 export type CategoryEntity = {
@@ -80,10 +78,7 @@ export type CreateVideoDto = {
   description: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  posterImage: Scalars['Upload']['input'];
   tags: Scalars['String']['input'];
-  trailerVideo: Scalars['Upload']['input'];
-  video: Scalars['Upload']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -99,6 +94,17 @@ export type IncludeModel = {
   where?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type InitMultiPart = {
+  fileExt: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+};
+
+export type InitMultiPartEntity = {
+  __typename?: 'InitMultiPartEntity';
+  fileId: Scalars['String']['output'];
+  fileKey: Scalars['String']['output'];
+};
+
 export type LoginInput = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
@@ -111,6 +117,7 @@ export type Mutation = {
   createTag: TagEntity;
   createUser: UserEntity;
   createVideo: VideoEntity;
+  initializeMultipartUpload: InitMultiPartEntity;
   login: UserEntity;
   logout: ObjectMessage;
   removeCategory: CategoryEntity;
@@ -148,6 +155,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationCreateVideoArgs = {
   createVideoDto: CreateVideoDto;
+};
+
+
+export type MutationInitializeMultipartUploadArgs = {
+  initMultiPart: InitMultiPart;
 };
 
 
@@ -427,6 +439,13 @@ export type CreateCategoryMutationVariables = Exact<{
 
 
 export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CategoryEntity', name: string, id: number } };
+
+export type InitializeMultipartUploadMutationVariables = Exact<{
+  initMultiPart: InitMultiPart;
+}>;
+
+
+export type InitializeMultipartUploadMutation = { __typename?: 'Mutation', initializeMultipartUpload: { __typename?: 'InitMultiPartEntity', fileId: string, fileKey: string } };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -710,6 +729,40 @@ export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const InitializeMultipartUploadDocument = gql`
+    mutation initializeMultipartUpload($initMultiPart: InitMultiPart!) {
+  initializeMultipartUpload(initMultiPart: $initMultiPart) {
+    fileId
+    fileKey
+  }
+}
+    `;
+export type InitializeMultipartUploadMutationFn = Apollo.MutationFunction<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>;
+
+/**
+ * __useInitializeMultipartUploadMutation__
+ *
+ * To run a mutation, you first call `useInitializeMultipartUploadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitializeMultipartUploadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initializeMultipartUploadMutation, { data, loading, error }] = useInitializeMultipartUploadMutation({
+ *   variables: {
+ *      initMultiPart: // value for 'initMultiPart'
+ *   },
+ * });
+ */
+export function useInitializeMultipartUploadMutation(baseOptions?: Apollo.MutationHookOptions<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>(InitializeMultipartUploadDocument, options);
+      }
+export type InitializeMultipartUploadMutationHookResult = ReturnType<typeof useInitializeMultipartUploadMutation>;
+export type InitializeMultipartUploadMutationResult = Apollo.MutationResult<InitializeMultipartUploadMutation>;
+export type InitializeMultipartUploadMutationOptions = Apollo.BaseMutationOptions<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>;
 export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {

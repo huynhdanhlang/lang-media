@@ -122,12 +122,9 @@ export interface UpdateRoleInput {
 
 export interface CreateVideoDto {
     name: string;
-    video: Upload;
-    trailerVideo: Upload;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
-    posterImage: Upload;
     description: string;
     categories: string;
     tags: string;
@@ -163,6 +160,28 @@ export interface UpdateCategoryInput {
 export interface LoginInput {
     username: string;
     password: string;
+}
+
+export interface InitMultiPartDto {
+    filename: string;
+    fileExt: string;
+}
+
+export interface MultiPartPreSignedUrlDto {
+    parts: number[];
+    fileKey: string;
+    fileId: string;
+}
+
+export interface MapMultiPartFinalDto {
+    fileKey: string;
+    fileId: string;
+    parts: MultiPartFinal[];
+}
+
+export interface MultiPartFinal {
+    PartNumber: number;
+    ETag: string;
 }
 
 export interface RoleEntity {
@@ -213,6 +232,20 @@ export interface ObjectMessage {
     message: string;
 }
 
+export interface InitMultiPartEntity {
+    fileId: string;
+    fileKey: string;
+}
+
+export interface MapMultiPart {
+    signedUrl: string;
+    PartNumber: number;
+}
+
+export interface IProcessingMultipartUploadEntity {
+    parts: MapMultiPart[];
+}
+
 export interface IQuery {
     findAllUser(userFilter?: Nullable<UserFilter>): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
     findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
@@ -244,9 +277,11 @@ export interface IMutation {
     removeCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
     login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
     logout(): ObjectMessage | Promise<ObjectMessage>;
+    initializeMultipartUpload(initMultiPart: InitMultiPartDto): InitMultiPartEntity | Promise<InitMultiPartEntity>;
+    getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto): IProcessingMultipartUploadEntity | Promise<IProcessingMultipartUploadEntity>;
+    finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto): IProcessingMultipartUploadEntity | Promise<IProcessingMultipartUploadEntity>;
 }
 
 export type DateTime = any;
 export type JSON = any;
-export type Upload = any;
 type Nullable<T> = T | null;

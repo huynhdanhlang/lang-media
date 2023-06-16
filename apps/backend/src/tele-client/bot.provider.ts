@@ -39,3 +39,8 @@ export class BotProvider {
   //   });
   // }
 }
+
+
+// curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+//      -H "Authorization: Bearer MlEMTbgoE1uTxaW9R9E8P9Vzu4gRb833sg84vYcA" \
+//      -H "Content-Type:application/json"

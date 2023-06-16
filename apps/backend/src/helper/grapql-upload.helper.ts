@@ -5,6 +5,9 @@ import {
   MAX_WIDTH,
   QUALITY_ARRAY,
 } from '../constant/graphql.const';
+import { stream, fromBuffer } from 'file-type';
+import { Readable as ReadableStream } from 'stream';
+import { ReadableStreamWithFileType } from 'file-type/core';
 
 async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const buffer: Uint8Array[] = [];
@@ -60,4 +63,10 @@ async function compressImage(buffer: Buffer, ratio?: number): Promise<Buffer> {
   return compressBuffer;
 }
 
-export { streamToBuffer, validateImage, compressImage };
+async function checkFileType(file: ReadableStream | Buffer) {
+  const fiileInstance = file instanceof ReadableStream;
+  const media = await (fiileInstance ? stream(file) : fromBuffer(file));
+  return fiileInstance ? media['fileType'] : media;
+}
+
+export { streamToBuffer, validateImage, compressImage, checkFileType };
