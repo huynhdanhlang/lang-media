@@ -237,13 +237,13 @@ export interface InitMultiPartEntity {
     fileKey: string;
 }
 
-export interface MapMultiPart {
-    signedUrl: string;
+export interface MapProcessingMultiPart {
     PartNumber: number;
+    signedUrl: string;
 }
 
 export interface IProcessingMultipartUploadEntity {
-    parts: MapMultiPart[];
+    parts: MapProcessingMultiPart[];
 }
 
 export interface IQuery {
@@ -277,11 +277,12 @@ export interface IMutation {
     removeCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
     login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
     logout(): ObjectMessage | Promise<ObjectMessage>;
-    initializeMultipartUpload(initMultiPart: InitMultiPartDto): InitMultiPartEntity | Promise<InitMultiPartEntity>;
+    initializeMultipartUpload(initMultiPartDto: InitMultiPartDto): InitMultiPartEntity | Promise<InitMultiPartEntity>;
     getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto): IProcessingMultipartUploadEntity | Promise<IProcessingMultipartUploadEntity>;
-    finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto): IProcessingMultipartUploadEntity | Promise<IProcessingMultipartUploadEntity>;
+    finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto): Nullable<Void> | Promise<Nullable<Void>>;
 }
 
 export type DateTime = any;
 export type JSON = any;
+export type Void = any;
 type Nullable<T> = T | null;

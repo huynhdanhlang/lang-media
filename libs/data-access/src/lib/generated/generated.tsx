@@ -19,6 +19,8 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
+  /** Represents NULL values */
+  Void: { input: any; output: any; }
 };
 
 export type CategoryEntity = {
@@ -87,6 +89,11 @@ export type FAttributeOptions = {
   include?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type IProcessingMultipartUploadEntity = {
+  __typename?: 'IProcessingMultipartUploadEntity';
+  parts: Array<MapProcessingMultiPart>;
+};
+
 export type IncludeModel = {
   association?: InputMaybe<Scalars['String']['input']>;
   attributes?: InputMaybe<FAttributeOptions>;
@@ -94,7 +101,7 @@ export type IncludeModel = {
   where?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type InitMultiPart = {
+export type InitMultiPartDto = {
   fileExt: Scalars['String']['input'];
   filename: Scalars['String']['input'];
 };
@@ -110,6 +117,29 @@ export type LoginInput = {
   username: Scalars['String']['input'];
 };
 
+export type MapMultiPartFinalDto = {
+  fileId: Scalars['String']['input'];
+  fileKey: Scalars['String']['input'];
+  parts: Array<MultiPartFinal>;
+};
+
+export type MapProcessingMultiPart = {
+  __typename?: 'MapProcessingMultiPart';
+  PartNumber: Scalars['Int']['output'];
+  signedUrl: Scalars['String']['output'];
+};
+
+export type MultiPartFinal = {
+  ETag: Scalars['String']['input'];
+  PartNumber: Scalars['Int']['input'];
+};
+
+export type MultiPartPreSignedUrlDto = {
+  fileId: Scalars['String']['input'];
+  fileKey: Scalars['String']['input'];
+  parts: Array<Scalars['Int']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory: CategoryEntity;
@@ -117,6 +147,8 @@ export type Mutation = {
   createTag: TagEntity;
   createUser: UserEntity;
   createVideo: VideoEntity;
+  finalizeMultipartUpload?: Maybe<Scalars['Void']['output']>;
+  getMultipartPreSignedUrls: IProcessingMultipartUploadEntity;
   initializeMultipartUpload: InitMultiPartEntity;
   login: UserEntity;
   logout: ObjectMessage;
@@ -158,8 +190,18 @@ export type MutationCreateVideoArgs = {
 };
 
 
+export type MutationFinalizeMultipartUploadArgs = {
+  mapMultiPartFinalDto: MapMultiPartFinalDto;
+};
+
+
+export type MutationGetMultipartPreSignedUrlsArgs = {
+  multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto;
+};
+
+
 export type MutationInitializeMultipartUploadArgs = {
-  initMultiPart: InitMultiPart;
+  initMultiPartDto: InitMultiPartDto;
 };
 
 
@@ -441,11 +483,25 @@ export type CreateCategoryMutationVariables = Exact<{
 export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CategoryEntity', name: string, id: number } };
 
 export type InitializeMultipartUploadMutationVariables = Exact<{
-  initMultiPart: InitMultiPart;
+  initMultiPartDto: InitMultiPartDto;
 }>;
 
 
 export type InitializeMultipartUploadMutation = { __typename?: 'Mutation', initializeMultipartUpload: { __typename?: 'InitMultiPartEntity', fileId: string, fileKey: string } };
+
+export type GetMultipartPreSignedUrlsMutationVariables = Exact<{
+  multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto;
+}>;
+
+
+export type GetMultipartPreSignedUrlsMutation = { __typename?: 'Mutation', getMultipartPreSignedUrls: { __typename?: 'IProcessingMultipartUploadEntity', parts: Array<{ __typename?: 'MapProcessingMultiPart', PartNumber: number, signedUrl: string }> } };
+
+export type FinalizeMultipartUploadMutationVariables = Exact<{
+  mapMultiPartFinalDto: MapMultiPartFinalDto;
+}>;
+
+
+export type FinalizeMultipartUploadMutation = { __typename?: 'Mutation', finalizeMultipartUpload?: any | null };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -730,8 +786,8 @@ export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCatego
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const InitializeMultipartUploadDocument = gql`
-    mutation initializeMultipartUpload($initMultiPart: InitMultiPart!) {
-  initializeMultipartUpload(initMultiPart: $initMultiPart) {
+    mutation initializeMultipartUpload($initMultiPartDto: InitMultiPartDto!) {
+  initializeMultipartUpload(initMultiPartDto: $initMultiPartDto) {
     fileId
     fileKey
   }
@@ -752,7 +808,7 @@ export type InitializeMultipartUploadMutationFn = Apollo.MutationFunction<Initia
  * @example
  * const [initializeMultipartUploadMutation, { data, loading, error }] = useInitializeMultipartUploadMutation({
  *   variables: {
- *      initMultiPart: // value for 'initMultiPart'
+ *      initMultiPartDto: // value for 'initMultiPartDto'
  *   },
  * });
  */
@@ -763,6 +819,73 @@ export function useInitializeMultipartUploadMutation(baseOptions?: Apollo.Mutati
 export type InitializeMultipartUploadMutationHookResult = ReturnType<typeof useInitializeMultipartUploadMutation>;
 export type InitializeMultipartUploadMutationResult = Apollo.MutationResult<InitializeMultipartUploadMutation>;
 export type InitializeMultipartUploadMutationOptions = Apollo.BaseMutationOptions<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>;
+export const GetMultipartPreSignedUrlsDocument = gql`
+    mutation getMultipartPreSignedUrls($multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!) {
+  getMultipartPreSignedUrls(multiPartPreSignedUrlDto: $multiPartPreSignedUrlDto) {
+    parts {
+      PartNumber
+      signedUrl
+    }
+  }
+}
+    `;
+export type GetMultipartPreSignedUrlsMutationFn = Apollo.MutationFunction<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>;
+
+/**
+ * __useGetMultipartPreSignedUrlsMutation__
+ *
+ * To run a mutation, you first call `useGetMultipartPreSignedUrlsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetMultipartPreSignedUrlsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getMultipartPreSignedUrlsMutation, { data, loading, error }] = useGetMultipartPreSignedUrlsMutation({
+ *   variables: {
+ *      multiPartPreSignedUrlDto: // value for 'multiPartPreSignedUrlDto'
+ *   },
+ * });
+ */
+export function useGetMultipartPreSignedUrlsMutation(baseOptions?: Apollo.MutationHookOptions<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>(GetMultipartPreSignedUrlsDocument, options);
+      }
+export type GetMultipartPreSignedUrlsMutationHookResult = ReturnType<typeof useGetMultipartPreSignedUrlsMutation>;
+export type GetMultipartPreSignedUrlsMutationResult = Apollo.MutationResult<GetMultipartPreSignedUrlsMutation>;
+export type GetMultipartPreSignedUrlsMutationOptions = Apollo.BaseMutationOptions<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>;
+export const FinalizeMultipartUploadDocument = gql`
+    mutation finalizeMultipartUpload($mapMultiPartFinalDto: MapMultiPartFinalDto!) {
+  finalizeMultipartUpload(mapMultiPartFinalDto: $mapMultiPartFinalDto)
+}
+    `;
+export type FinalizeMultipartUploadMutationFn = Apollo.MutationFunction<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>;
+
+/**
+ * __useFinalizeMultipartUploadMutation__
+ *
+ * To run a mutation, you first call `useFinalizeMultipartUploadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFinalizeMultipartUploadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [finalizeMultipartUploadMutation, { data, loading, error }] = useFinalizeMultipartUploadMutation({
+ *   variables: {
+ *      mapMultiPartFinalDto: // value for 'mapMultiPartFinalDto'
+ *   },
+ * });
+ */
+export function useFinalizeMultipartUploadMutation(baseOptions?: Apollo.MutationHookOptions<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>(FinalizeMultipartUploadDocument, options);
+      }
+export type FinalizeMultipartUploadMutationHookResult = ReturnType<typeof useFinalizeMultipartUploadMutation>;
+export type FinalizeMultipartUploadMutationResult = Apollo.MutationResult<FinalizeMultipartUploadMutation>;
+export type FinalizeMultipartUploadMutationOptions = Apollo.BaseMutationOptions<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>;
 export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {

@@ -1,5 +1,5 @@
-mutation initializeMultipartUpload($initMultiPart: InitMultiPart!) {
-  initializeMultipartUpload(initMultiPart: $initMultiPart) {
+mutation initializeMultipartUpload($initMultiPartDto: InitMultiPartDto!) {
+  initializeMultipartUpload(initMultiPartDto: $initMultiPartDto) {
     fileId
     fileKey
   }
@@ -11,6 +11,13 @@ mutation getMultipartPreSignedUrls(
   getMultipartPreSignedUrls(
     multiPartPreSignedUrlDto: $multiPartPreSignedUrlDto
   ) {
-    parts
+    parts {
+      PartNumber
+      signedUrl
+    }
   }
+}
+
+mutation finalizeMultipartUpload($mapMultiPartFinalDto: MapMultiPartFinalDto!) {
+  finalizeMultipartUpload(mapMultiPartFinalDto: $mapMultiPartFinalDto)
 }

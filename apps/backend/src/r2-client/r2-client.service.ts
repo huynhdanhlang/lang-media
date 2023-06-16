@@ -12,12 +12,12 @@ import { orderBy } from 'lodash';
 
 @Injectable()
 export class R2ClientService {
-  private readonly loggerService: LoggerService;
+  private readonly logger: LoggerService;
   constructor(
     @InjectS3() private readonly s3: S3,
     private configService: ConfigService
   ) {
-    this.loggerService = new Logger(R2ClientService.name);
+    this.logger = new Logger(R2ClientService.name);
   }
 
   async initializeMultipartUpload(filename: string, fileExt: string) {
@@ -74,7 +74,7 @@ export class R2ClientService {
         parts: partSignedUrlList,
       };
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
 
       if (fileId) {
         await this.s3.abortMultipartUpload(multipartParams);
@@ -100,7 +100,7 @@ export class R2ClientService {
       // URL to the resource just uploaded to the cloud storage
       return completeMultipartUploadOutput;
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
 
       if (fileId) {
         await this.s3.abortMultipartUpload(multipartParams);

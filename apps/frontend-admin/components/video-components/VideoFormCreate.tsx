@@ -20,8 +20,10 @@ import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
 import {
   useCreateCategoryMutation,
   useCreateVideoMutation,
+  useFinalizeMultipartUploadMutation,
   useFindAllCategoryQuery,
   useFindAllTagQuery,
+  useGetMultipartPreSignedUrlsMutation,
   useInitializeMultipartUploadMutation,
 } from '@training-project/data-access';
 import axios from 'axios';
@@ -58,6 +60,14 @@ const VideoFormCreate = () => {
     initializeMultipartUpload,
     { data: multiPartData, error: multiPartError },
   ] = useInitializeMultipartUploadMutation();
+  const [
+    getMultipartPreSignedUrl,
+    { data: multiPartDataSigned, error: multiPartErrorSinged },
+  ] = useGetMultipartPreSignedUrlsMutation();
+  const [
+    finalizeMultipartUpload,
+    { data: multiPartDataFinal, error: multiPartErrorFinal },
+  ] = useFinalizeMultipartUploadMutation();
 
   const mapSelectOption = (data: any[]) => {
     return data.map((val) => ({

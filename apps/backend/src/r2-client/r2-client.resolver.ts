@@ -12,15 +12,16 @@ import {
   MapMultiPartFinalDto,
   MultiPartPreSignedUrlDto,
 } from './dto/multipart.input';
+import { Void } from '../utils/graphql';
 
 @Resolver('r2-client')
 export class R2ClientResolver {
   constructor(private readonly r2ClientService: R2ClientService) {}
 
   @Mutation(() => InitMultiPartEntity)
-  @UseGuards(new JwtAuthenticationGuard('initMultiPart'))
+  @UseGuards(new JwtAuthenticationGuard('initMultiPartDto'))
   async initializeMultipartUpload(
-    @Args('initMultiPart', {
+    @Args('initMultiPartDto', {
       nullable: false,
     })
     initMultiPartDto: InitMultiPartDto,
@@ -52,7 +53,7 @@ export class R2ClientResolver {
     res.send(result);
   }
 
-  @Mutation(() => IProcessingMultipartUploadEntity)
+  @Mutation(() => Void, { nullable: true })
   @UseGuards(new JwtAuthenticationGuard('mapMultiPartFinalDto'))
   async finalizeMultipartUpload(
     @Args('mapMultiPartFinalDto', {

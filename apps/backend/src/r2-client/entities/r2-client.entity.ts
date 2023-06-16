@@ -1,19 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class InitMultiPartEntity {
   fileId: string;
   fileKey: string;
 }
-
 @ObjectType()
-export class MapMultiPart {
+export class MapProcessingMultiPart {
   signedUrl: string;
+  @Field(() => Int)
   PartNumber: number;
 }
-
 @ObjectType()
 export class IProcessingMultipartUploadEntity {
-  @Field(() => [MapMultiPart])
-  parts: MapMultiPart[];
+  @Field(() => [MapProcessingMultiPart])
+  parts: MapProcessingMultiPart[];
 }
