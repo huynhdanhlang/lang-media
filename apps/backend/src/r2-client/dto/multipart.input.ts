@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType, PickType } from '@nestjs/graphql';
+import { Field, InputType, Int, PickType } from '@nestjs/graphql';
 
 @InputType()
 export class InitMultiPartDto {
@@ -10,12 +10,13 @@ export class InitMultiPartDto {
 export class MultiPartPreSignedUrlDto {
   fileKey: string;
   fileId: string;
-  @Field(() => [Number])
+  @Field(() => [Int])
   parts: number;
 }
 
 @InputType()
 export class MultiPartFinal {
+  @Field(() => Int)
   PartNumber: number;
   ETag: string;
 }

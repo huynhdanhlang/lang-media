@@ -1,5 +1,5 @@
 import { UpdateVideoInput } from '@graphqlTypes';
-import { Field, Int, ObjectType, PartialType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { TagEntity } from '../../tag/entities/tag.entity';
 @ObjectType()
 export class VideoEntity implements UpdateVideoInput {

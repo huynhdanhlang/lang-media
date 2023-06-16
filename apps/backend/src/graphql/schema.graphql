@@ -62,13 +62,13 @@ type InitMultiPartEntity {
   fileKey: String!
 }
 
-type MapMultiPart {
+type MapProcessingMultiPart {
+  PartNumber: Int!
   signedUrl: String!
-  PartNumber: Float!
 }
 
 type IProcessingMultipartUploadEntity {
-  parts: [MapMultiPart!]!
+  parts: [MapProcessingMultiPart!]!
 }
 
 type Query {
@@ -197,9 +197,9 @@ type Mutation {
   removeCategory(id: Int!): CategoryEntity!
   login(loginInput: LoginInput!): UserEntity!
   logout: ObjectMessage!
-  initializeMultipartUpload(initMultiPart: InitMultiPartDto!): InitMultiPartEntity!
+  initializeMultipartUpload(initMultiPartDto: InitMultiPartDto!): InitMultiPartEntity!
   getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!): IProcessingMultipartUploadEntity!
-  finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto!): IProcessingMultipartUploadEntity!
+  finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto!): Void
 }
 
 input CreateUserInput {
@@ -278,10 +278,13 @@ input InitMultiPartDto {
 }
 
 input MultiPartPreSignedUrlDto {
-  parts: [Float!]!
+  parts: [Int!]!
   fileKey: String!
   fileId: String!
 }
+
+"""Represents NULL values"""
+scalar Void
 
 input MapMultiPartFinalDto {
   fileKey: String!
@@ -290,6 +293,6 @@ input MapMultiPartFinalDto {
 }
 
 input MultiPartFinal {
-  PartNumber: Float!
+  PartNumber: Int!
   ETag: String!
 }
