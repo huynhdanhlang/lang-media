@@ -137,7 +137,7 @@ export type MultiPartFinal = {
 export type MultiPartPreSignedUrlDto = {
   fileId: Scalars['String']['input'];
   fileKey: Scalars['String']['input'];
-  parts: Array<Scalars['Int']['input']>;
+  parts: Scalars['Int']['input'];
 };
 
 export type Mutation = {
