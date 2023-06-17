@@ -34,7 +34,7 @@ export class R2ClientResolver {
       filename,
       fileExt
     );
-    res.send(result);
+    return result;
   }
 
   @Mutation(() => IProcessingMultipartUploadEntity)
@@ -50,7 +50,7 @@ export class R2ClientResolver {
     const result = await this.r2ClientService.getMultipartPreSignedUrls(
       multiPartPreSignedUrlDto
     );
-    res.send(result);
+    return result;
   }
 
   @Mutation(() => Void, { nullable: true })
@@ -63,7 +63,9 @@ export class R2ClientResolver {
     @Context() ctx: GraphQLContext
   ) {
     const { res } = ctx;
-    await this.r2ClientService.finalizeMultipartUpload(mapMultiPartFinalDto);
-    res.send();
+    const result = await this.r2ClientService.finalizeMultipartUpload(
+      mapMultiPartFinalDto
+    );
+    return result;
   }
 }
