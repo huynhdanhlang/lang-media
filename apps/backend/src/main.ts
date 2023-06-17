@@ -56,6 +56,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   app.enableCors({
     origin: '*',
+    exposedHeaders: ['ETag'],
   });
   await app.listen(port);
   Logger.log(

@@ -278,7 +278,7 @@ input InitMultiPartDto {
 }
 
 input MultiPartPreSignedUrlDto {
-  parts: [Int!]!
+  parts: Int!
   fileKey: String!
   fileId: String!
 }

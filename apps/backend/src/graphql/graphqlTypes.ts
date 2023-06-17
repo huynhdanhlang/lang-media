@@ -168,7 +168,7 @@ export interface InitMultiPartDto {
 }
 
 export interface MultiPartPreSignedUrlDto {
-    parts: number[];
+    parts: number;
     fileKey: string;
     fileId: string;
 }

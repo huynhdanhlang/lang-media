@@ -10,7 +10,7 @@ export class InitMultiPartDto {
 export class MultiPartPreSignedUrlDto {
   fileKey: string;
   fileId: string;
-  @Field(() => [Int])
+  @Field(() => Int)
   parts: number;
 }
 

@@ -1,7 +1,7 @@
 import { Injectable, Logger, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectS3, S3 } from 'nestjs-s3';
-import { v5 as uuidV5 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 import {
   MapMultiPartFinalDto,
   MultiPartPreSignedUrlDto,
@@ -21,11 +21,7 @@ export class R2ClientService {
   }
 
   async initializeMultipartUpload(filename: string, fileExt: string) {
-    const key =
-      fileExt +
-      '/' +
-      uuidV5(filename, this.configService.get('R2_ACCESS_KEY_ID')) +
-      fileExt;
+    const key = fileExt + '/' + uuidV4() + filename;
     const multipartUpload = await this.s3.createMultipartUpload(
       {
         Bucket: this.configService.get('R2_BUCKET_NAME'),
