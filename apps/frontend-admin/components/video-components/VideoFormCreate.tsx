@@ -1,24 +1,11 @@
 import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  PlusOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
-import {
   ProForm,
-  ProFormDateRangePicker,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
   ProFormUploadButton,
 } from '@ant-design/pro-components';
-import { Button, message, notification, Space, Typography } from 'antd';
-import { useEffect, useState } from 'react';
-import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
 import {
-  useCreateCategoryMutation,
   useCreateVideoMutation,
   useFinalizeMultipartUploadMutation,
   useFindAllCategoryQuery,
@@ -26,10 +13,15 @@ import {
   useGetMultipartPreSignedUrlsMutation,
   useInitializeMultipartUploadMutation,
 } from '@training-project/data-access';
-import axios from 'axios';
+import { Typography } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { randomColor } from '../shared/utils';
 import { UploadFile } from 'antd/lib/upload';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { titleFixed, titleStyle } from '../shared/theme';
+import { randomColor } from '../shared/utils';
+import { Uploader } from './Upload';
+import { fetcher } from 'apps/frontend-admin/utils/fetcher';
 
 const iconStyles = {
   marginInlineStart: '16px',
@@ -44,6 +36,7 @@ const VideoFormCreate = () => {
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [uploader, setUploader] = useState<Uploader[]>([]);
   const {
     loading: tagLoading,
     data: tagData,
@@ -95,9 +88,12 @@ const VideoFormCreate = () => {
 
   useEffect(() => {
     async function getCountries() {
-      const { data } = await axios.get(
-        'https://trial.mobiscroll.com/content/countries.json'
-      );
+      const { data } = await fetcher({
+        url: 'https://trial.mobiscroll.com/content/countries.json',
+        method: 'GET',
+        data: {},
+        isApiServer: false,
+      });
       const countries: any = [];
       for (let i = 0; i < data.length; ++i) {
         const country = data[i];
@@ -109,14 +105,37 @@ const VideoFormCreate = () => {
   }, []);
 
   const handleSubmit = async (values: any) => {
-    console.log(
-      '🚀 ~ file: VideoFormCreate.tsx:63 ~ handleSubmit ~ values:',
-      values
-    );
-    console.log(
+    const files: File[] = [
       values.poster[0].originFileObj,
       values['video-trailer'][0].originFileObj,
-      values.video[0].originFileObj
+      values.video[0].originFileObj,
+    ];
+
+    Promise.all(
+      files.map((file) => {
+        const uploader = new Uploader({
+          file: file,
+          fileName: file.name,
+          initializeMultipartUpload,
+          getMultipartPreSignedUrl,
+          finalizeMultipartUpload,
+        });
+        let percentage = undefined;
+        setUploader((upd) => [...upd, uploader]);
+        uploader
+          .onProgress(({ percentage: newPercentage }) => {
+            // to avoid the same percentage to be logged twice
+            if (newPercentage !== percentage) {
+              percentage = newPercentage;
+              console.log(`${percentage}%`);
+            }
+          })
+          .onError((error) => {
+            console.error(error);
+          });
+
+        uploader.start();
+      })
     );
 
     // initializeMultipartUpload({
@@ -142,6 +161,14 @@ const VideoFormCreate = () => {
     //     },
     //   },
     // });
+  };
+
+  const onCancel = () => {
+    if (uploader) {
+      uploader.forEach((up) => {
+        up.abort();
+      });
+    }
   };
 
   // if (data) {
@@ -201,6 +228,7 @@ const VideoFormCreate = () => {
           onFinish={async (values: any) => {
             await handleSubmit(values);
           }}
+          onReset={() => onCancel()}
           submitter={{
             searchConfig: {
               submitText: 'Thêm',
