@@ -468,3 +468,7 @@ div.category-selection label span.ant-radio-button-checked {
   display: inline-flex;
   align-items: center;
 }
+
+.ant-progress-text {
+  color: white !important;
+}

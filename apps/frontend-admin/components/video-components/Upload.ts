@@ -12,6 +12,8 @@ interface IUploaderOptions {
   fileName: string;
   chunkSize?: number;
   threadsQuantity?: number;
+  videoId: number;
+  fieldType: string;
   initializeMultipartUpload: (options) => any;
   getMultipartPreSignedUrl: (options) => any;
   finalizeMultipartUpload: (options) => any;
@@ -30,6 +32,8 @@ export class Uploader {
   uploadedParts: MultiPartFinal[];
   fileId: string;
   fileKey: string;
+  videoId: number;
+  fieldType: string;
   onProgressFn: (onProgress: IOnProcess) => void;
   onErrorFn: (error) => void;
   initializeMultipartUpload: (options) => any;
@@ -52,6 +56,8 @@ export class Uploader {
     this.uploadedParts = [];
     this.fileId = '';
     this.fileKey = '';
+    this.videoId = options.videoId;
+    this.fieldType = options.fieldType;
     this.onProgressFn = () => {};
     this.onErrorFn = () => {};
     this.initializeMultipartUpload = options.initializeMultipartUpload;
@@ -194,6 +200,8 @@ export class Uploader {
         fileId: this.fileId,
         fileKey: this.fileKey,
         parts: this.uploadedParts,
+        fieldType: this.fieldType,
+        videoId: this.videoId,
       };
 
       // await fetcher({
