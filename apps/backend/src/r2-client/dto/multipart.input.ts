@@ -28,4 +28,6 @@ export class MapMultiPartFinalDto extends PickType(MultiPartPreSignedUrlDto, [
 ]) {
   @Field(() => [MultiPartFinal])
   parts: MultiPartFinal[];
+  fieldType: string;
+  videoId: number;
 }

@@ -26,8 +26,10 @@ export class CreateVideoDto {
   // @Type(() => FileUploadDto)
   // posterImage: Promise<FileUploadDto>;
   description: string;
-  categories: string;
-  tags: string;
+  @Field(() => [Int])
+  categories: number[];
+  @Field(() => [Int])
+  tags: number[];
 }
 
 @InputType()

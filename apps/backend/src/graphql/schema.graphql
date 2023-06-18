@@ -36,14 +36,14 @@ type TagEntity {
 type VideoEntity {
   id: Int!
   name: String!
-  url: String!
+  url: String
   trailerUrl: String
   language: String
   view: Int
   country: String!
   tags: [TagEntity!]!
   description: String!
-  poster: String!
+  poster: String
 }
 
 type CategoryEntity {
@@ -235,20 +235,20 @@ input CreateVideoDto {
   language: String
   view: Int
   country: String!
+  categories: [Int!]!
+  tags: [Int!]!
   description: String!
-  categories: String!
-  tags: String!
 }
 
 input UpdateVideoInput {
   language: String
   view: Int
-  country: String!
-  description: String!
+  country: String
+  description: String
   url: String
   trailerUrl: String
   poster: String
-  id: Int!
+  id: Int
 }
 
 input CreateTagInput {
@@ -290,6 +290,8 @@ input MapMultiPartFinalDto {
   fileKey: String!
   fileId: String!
   parts: [MultiPartFinal!]!
+  fieldType: String!
+  videoId: Float!
 }
 
 input MultiPartFinal {

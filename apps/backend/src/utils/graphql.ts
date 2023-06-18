@@ -1,5 +1,5 @@
 import { ExecutionContext } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import { GqlExecutionContext, registerEnumType } from '@nestjs/graphql';
 import { GraphQLScalarType } from 'graphql';
 
 function getRequestGraphQL(context: ExecutionContext, args: any[]) {
@@ -32,4 +32,11 @@ const Void = new GraphQLScalarType({
     return null;
   },
 });
+
+export enum FileFiledType {
+  POSTER_URL = 'poster',
+  VIDEO_URL = 'url',
+  TRAILER_URL = 'trailerUrl',
+}
+
 export { Void, getRequestGraphQL };

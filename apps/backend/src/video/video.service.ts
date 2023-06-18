@@ -1,15 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVideoInput } from './dto/create-video.input';
+import { CreateVideoDto, CreateVideoInput } from './dto/create-video.input';
 import { UpdateVideoInput } from './dto/update-video.input';
 import { InjectModel } from '@nestjs/sequelize';
 import Video from '../database/models/Video';
 import { Attributes, FindOptions, Model } from 'sequelize';
+import Tag from '../database/models/Tag';
+import Category from '../database/models/Category';
+import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class VideoService {
-  constructor(@InjectModel(Video) private videoService: typeof Video) {}
-  async create(createVideoInput: CreateVideoInput) {
-    return this.videoService.create(createVideoInput);
+  constructor(
+    @InjectModel(Video) private videoService: typeof Video,
+    private sequelize: Sequelize
+  ) {}
+  async create(createVideoDto: CreateVideoDto) {
+    const { categories, tags } = createVideoDto;
+    delete createVideoDto.categories;
+    delete createVideoDto.tags;
+    // @ts-ignore
+    const video = await this.videoService.create(createVideoDto);
+    await video.$set('tags', tags, {
+      through: () => Tag,
+    });
+    await video.$set('categories', categories, {
+      through: () => Category,
+    });
+    return video;
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {

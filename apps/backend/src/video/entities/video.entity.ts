@@ -9,7 +9,7 @@ export class VideoEntity implements UpdateVideoInput {
   @Field(() => String)
   name: string;
   @Field(() => String)
-  url: string;
+  url?: string;
   @Field(() => String, { nullable: true })
   trailerUrl?: string;
   @Field(() => String, { nullable: true })
@@ -20,5 +20,5 @@ export class VideoEntity implements UpdateVideoInput {
   country: string;
   @Field(() => [TagEntity])
   tags: TagEntity[];
-  poster: string;
+  poster?: string;
 }
