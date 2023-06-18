@@ -28,6 +28,8 @@ const iconStyles = {
 };
 
 const CategoryFormCreate = () => {
+  const { useForm } = ProForm;
+  const [form] = useForm();
   const { Text } = Typography;
   const [createCategory, { data, loading, error }] =
     useCreateCategoryMutation();
@@ -96,8 +98,10 @@ const CategoryFormCreate = () => {
         }}
       >
         <ProForm
+          form={form}
           onFinish={async (values: any) => {
             await handleSubmit(values);
+            form.resetFields();
           }}
           submitter={{
             searchConfig: {
