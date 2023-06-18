@@ -9,13 +9,16 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { UploadPartCommand } from '@aws-sdk/client-s3';
 import { orderBy } from 'lodash';
+import { VideoService } from '../video/video.service';
+import { FileFiledType } from '../utils/graphql';
 
 @Injectable()
 export class R2ClientService {
   private readonly logger: LoggerService;
   constructor(
     @InjectS3() private readonly s3: S3,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private videoService: VideoService
   ) {
     this.logger = new Logger(R2ClientService.name);
   }
@@ -79,7 +82,7 @@ export class R2ClientService {
   }
 
   async finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto) {
-    const { fileId, fileKey, parts } = mapMultiPartFinalDto;
+    const { fileId, fileKey, parts, fieldType, videoId } = mapMultiPartFinalDto;
     const multipartParams = {
       Bucket: this.configService.get('R2_BUCKET_NAME'),
       Key: fileKey,
@@ -94,7 +97,24 @@ export class R2ClientService {
         await this.s3.completeMultipartUpload(multipartParams);
       // completeMultipartUploadOutput.Location represents the
       // URL to the resource just uploaded to the cloud storage
-      return completeMultipartUploadOutput;
+      // await this.videoService.update(1,{})
+      const filePath = completeMultipartUploadOutput.Key;
+      let updateField = {};
+      switch (fieldType) {
+        case FileFiledType.POSTER_URL:
+          updateField[FileFiledType.POSTER_URL] = filePath;
+        case FileFiledType.TRAILER_URL:
+          updateField[FileFiledType.TRAILER_URL] = filePath;
+        case FileFiledType.VIDEO_URL:
+          updateField[FileFiledType.VIDEO_URL] = filePath;
+      }
+
+      await this.videoService.update(videoId, {
+        ...updateField,
+      });
+      return {
+        ETag: completeMultipartUploadOutput.ETag,
+      };
     } catch (error) {
       this.logger.error(error);
 

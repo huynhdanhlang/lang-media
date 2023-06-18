@@ -3,12 +3,14 @@ import { R2ClientService } from './r2-client.service';
 import { S3Module } from 'nestjs-s3';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { R2ClientResolver } from './r2-client.resolver';
+import { VideoModule } from '../video/video.module';
 
 @Module({
   controllers: [],
   providers: [R2ClientService, R2ClientResolver],
   exports: [R2ClientService],
   imports: [
+    VideoModule,
     S3Module.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

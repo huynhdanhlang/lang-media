@@ -18,6 +18,7 @@ import { UpdateVideoInput } from './dto/update-video.input';
 import { VideoFilter } from './dto/video-filter.input';
 import { VideoEntity } from './entities/video.entity';
 import { VideoService } from './video.service';
+import Category from '../database/models/Category';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(
@@ -29,15 +30,8 @@ export class VideoResolver {
   @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => VideoEntity)
   async createVideo(@Args('createVideoDto') createVideoDto: CreateVideoDto) {
-    const { country, description, name, language } = createVideoDto;
-    console.log(
-      '🚀 ~ file: video.resolver.ts:34 ~ VideoResolver ~ country,description,name,language:',
-      country,
-      description,
-      name,
-      language
-    );
-    // return this.videoService.create({});
+    console.log("🚀 ~ file: video.resolver.ts:33 ~ VideoResolver ~ createVideo ~ createVideoDto:", createVideoDto)
+    return await this.videoService.create(createVideoDto);
   }
 
   @UseGuards(new JwtAuthenticationGuard('videoFilter'))

@@ -125,20 +125,20 @@ export interface CreateVideoDto {
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
+    categories: number[];
+    tags: number[];
     description: string;
-    categories: string;
-    tags: string;
 }
 
 export interface UpdateVideoInput {
     language?: Nullable<string>;
     view?: Nullable<number>;
-    country: string;
-    description: string;
+    country?: Nullable<string>;
+    description?: Nullable<string>;
     url?: Nullable<string>;
     trailerUrl?: Nullable<string>;
     poster?: Nullable<string>;
-    id: number;
+    id?: Nullable<number>;
 }
 
 export interface CreateTagInput {
@@ -177,6 +177,8 @@ export interface MapMultiPartFinalDto {
     fileKey: string;
     fileId: string;
     parts: MultiPartFinal[];
+    fieldType: string;
+    videoId: number;
 }
 
 export interface MultiPartFinal {
@@ -211,14 +213,14 @@ export interface TagEntity {
 export interface VideoEntity {
     id: number;
     name: string;
-    url: string;
+    url?: Nullable<string>;
     trailerUrl?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country: string;
     tags: TagEntity[];
     description: string;
-    poster: string;
+    poster?: Nullable<string>;
 }
 
 export interface CategoryEntity {
