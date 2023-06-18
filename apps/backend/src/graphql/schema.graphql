@@ -52,11 +52,6 @@ type CategoryEntity {
   videos: [VideoEntity!]!
 }
 
-type ObjectMessage {
-  statusCode: Int
-  message: String!
-}
-
 type InitMultiPartEntity {
   fileId: String!
   fileKey: String!
@@ -71,12 +66,18 @@ type IProcessingMultipartUploadEntity {
   parts: [MapProcessingMultiPart!]!
 }
 
+type ObjectMessage {
+  statusCode: Int
+  message: String!
+}
+
 type Query {
   findAllUser(userFilter: UserFilter): [UserEntity!]
   findOneUser(id: Int!): UserEntity
   role(id: Int!): RoleEntity!
   findAllVideo(videoFilter: VideoFilter): [VideoEntity!]
   findOneVideo(id: Int!): VideoEntity
+  findAllVieoByCategrory(categoryId: Int!): [VideoEntity!]!
   findAllTag: [TagEntity!]
   findOneTag(id: Int!): TagEntity
   findAllCategory(categoryFilter: CategoryFilter): [CategoryEntity!]
@@ -195,11 +196,11 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
   removeCategory(id: Int!): CategoryEntity!
-  login(loginInput: LoginInput!): UserEntity!
-  logout: ObjectMessage!
   initializeMultipartUpload(initMultiPartDto: InitMultiPartDto!): InitMultiPartEntity!
   getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!): IProcessingMultipartUploadEntity!
   finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto!): Void
+  login(loginInput: LoginInput!): UserEntity!
+  logout: ObjectMessage!
 }
 
 input CreateUserInput {
@@ -267,11 +268,6 @@ input UpdateCategoryInput {
   id: Int!
 }
 
-input LoginInput {
-  username: String!
-  password: String!
-}
-
 input InitMultiPartDto {
   filename: String!
   fileExt: String!
@@ -297,4 +293,9 @@ input MapMultiPartFinalDto {
 input MultiPartFinal {
   PartNumber: Int!
   ETag: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
 }
