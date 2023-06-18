@@ -82,6 +82,7 @@ const CategoryFormCreate = () => {
             ...titleStyle,
             ...titleFixed,
           }}
+          className="text-style"
         >
           Thêm thể loại
         </Text>
@@ -117,7 +118,7 @@ const CategoryFormCreate = () => {
           <ProFormText
             width="md"
             name="name"
-            label="Tên thể loại"
+            label={<Text className="text-style">Tên thể loại</Text>}
             tooltip="Tên thể loại bạn muốn thêm"
             placeholder="Nhập tên thể loại"
             required
