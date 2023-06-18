@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { R2ClientService } from './r2-client.service';
 import { S3Module } from 'nestjs-s3';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -10,7 +10,7 @@ import { VideoModule } from '../video/video.module';
   providers: [R2ClientService, R2ClientResolver],
   exports: [R2ClientService],
   imports: [
-    VideoModule,
+    forwardRef(() => VideoModule),
     S3Module.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

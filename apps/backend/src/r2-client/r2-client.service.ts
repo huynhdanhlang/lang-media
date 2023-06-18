@@ -1,4 +1,10 @@
-import { Injectable, Logger, LoggerService } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  LoggerService,
+  forwardRef,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectS3, S3 } from 'nestjs-s3';
 import { v4 as uuidV4 } from 'uuid';
@@ -7,7 +13,7 @@ import {
   MultiPartPreSignedUrlDto,
 } from './dto/multipart.input';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { UploadPartCommand } from '@aws-sdk/client-s3';
+import { GetObjectCommand, UploadPartCommand } from '@aws-sdk/client-s3';
 import { orderBy } from 'lodash';
 import { VideoService } from '../video/video.service';
 import { FileFiledType } from '../utils/graphql';
@@ -18,7 +24,7 @@ export class R2ClientService {
   constructor(
     @InjectS3() private readonly s3: S3,
     private configService: ConfigService,
-    private videoService: VideoService
+    @Inject(forwardRef(() => VideoService)) private videoService: VideoService
   ) {
     this.logger = new Logger(R2ClientService.name);
   }
@@ -100,15 +106,13 @@ export class R2ClientService {
       // await this.videoService.update(1,{})
       const filePath = completeMultipartUploadOutput.Key;
       let updateField = {};
-      switch (fieldType) {
-        case FileFiledType.POSTER_URL:
-          updateField[FileFiledType.POSTER_URL] = filePath;
-        case FileFiledType.TRAILER_URL:
-          updateField[FileFiledType.TRAILER_URL] = filePath;
-        case FileFiledType.VIDEO_URL:
-          updateField[FileFiledType.VIDEO_URL] = filePath;
+      if (fieldType === FileFiledType.POSTER_URL) {
+        updateField[FileFiledType.POSTER_URL] = filePath;
+      } else if (fieldType === FileFiledType.TRAILER_URL) {
+        updateField[FileFiledType.TRAILER_URL] = filePath;
+      } else {
+        updateField[FileFiledType.VIDEO_URL] = filePath;
       }
-
       await this.videoService.update(videoId, {
         ...updateField,
       });
@@ -122,5 +126,18 @@ export class R2ClientService {
         await this.s3.abortMultipartUpload(multipartParams);
       }
     }
+  }
+
+  async getSignedUrl(key: string) {
+    return await getSignedUrl(
+      this.s3,
+      new GetObjectCommand({
+        Bucket: this.configService.get('R2_BUCKET_NAME'),
+        Key: key,
+      }),
+      {
+        expiresIn: this.configService.get('R2_SIGNED_URL_EXPIRE_TIME'),
+      }
+    );
   }
 }

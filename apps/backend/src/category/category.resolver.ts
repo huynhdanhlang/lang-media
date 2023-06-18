@@ -13,15 +13,11 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { VideoEntity } from '../video/entities/video.entity';
 import Video from '../database/models/Video';
-import { VideoService } from '../video/video.service';
 import { CategoryFilter } from './dto/category-filter.input';
 
 @Resolver(() => CategoryEntity)
 export class CategoryResolver {
-  constructor(
-    private readonly categoryService: CategoryService,
-    private videoService: VideoService
-  ) {}
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => CategoryEntity)
   createCategory(

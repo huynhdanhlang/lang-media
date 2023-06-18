@@ -157,11 +157,6 @@ export interface UpdateCategoryInput {
     id: number;
 }
 
-export interface LoginInput {
-    username: string;
-    password: string;
-}
-
 export interface InitMultiPartDto {
     filename: string;
     fileExt: string;
@@ -184,6 +179,11 @@ export interface MapMultiPartFinalDto {
 export interface MultiPartFinal {
     PartNumber: number;
     ETag: string;
+}
+
+export interface LoginInput {
+    username: string;
+    password: string;
 }
 
 export interface RoleEntity {
@@ -229,11 +229,6 @@ export interface CategoryEntity {
     videos: VideoEntity[];
 }
 
-export interface ObjectMessage {
-    statusCode?: Nullable<number>;
-    message: string;
-}
-
 export interface InitMultiPartEntity {
     fileId: string;
     fileKey: string;
@@ -248,12 +243,18 @@ export interface IProcessingMultipartUploadEntity {
     parts: MapProcessingMultiPart[];
 }
 
+export interface ObjectMessage {
+    statusCode?: Nullable<number>;
+    message: string;
+}
+
 export interface IQuery {
     findAllUser(userFilter?: Nullable<UserFilter>): Nullable<UserEntity[]> | Promise<Nullable<UserEntity[]>>;
     findOneUser(id: number): Nullable<UserEntity> | Promise<Nullable<UserEntity>>;
     role(id: number): RoleEntity | Promise<RoleEntity>;
     findAllVideo(videoFilter?: Nullable<VideoFilter>): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
     findOneVideo(id: number): Nullable<VideoEntity> | Promise<Nullable<VideoEntity>>;
+    findAllVieoByCategrory(categoryId: number): VideoEntity[] | Promise<VideoEntity[]>;
     findAllTag(): Nullable<TagEntity[]> | Promise<Nullable<TagEntity[]>>;
     findOneTag(id: number): Nullable<TagEntity> | Promise<Nullable<TagEntity>>;
     findAllCategory(categoryFilter?: Nullable<CategoryFilter>): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;
@@ -277,11 +278,11 @@ export interface IMutation {
     createCategory(createCategoryInput: CreateCategoryInput): CategoryEntity | Promise<CategoryEntity>;
     updateCategory(updateCategoryInput: UpdateCategoryInput): CategoryEntity | Promise<CategoryEntity>;
     removeCategory(id: number): CategoryEntity | Promise<CategoryEntity>;
-    login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
-    logout(): ObjectMessage | Promise<ObjectMessage>;
     initializeMultipartUpload(initMultiPartDto: InitMultiPartDto): InitMultiPartEntity | Promise<InitMultiPartEntity>;
     getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto): IProcessingMultipartUploadEntity | Promise<IProcessingMultipartUploadEntity>;
     finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto): Nullable<Void> | Promise<Nullable<Void>>;
+    login(loginInput: LoginInput): UserEntity | Promise<UserEntity>;
+    logout(): ObjectMessage | Promise<ObjectMessage>;
 }
 
 export type DateTime = any;

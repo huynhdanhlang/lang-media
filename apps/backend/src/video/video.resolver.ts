@@ -30,7 +30,10 @@ export class VideoResolver {
   @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => VideoEntity)
   async createVideo(@Args('createVideoDto') createVideoDto: CreateVideoDto) {
-    console.log("🚀 ~ file: video.resolver.ts:33 ~ VideoResolver ~ createVideo ~ createVideoDto:", createVideoDto)
+    console.log(
+      '🚀 ~ file: video.resolver.ts:33 ~ VideoResolver ~ createVideo ~ createVideoDto:',
+      createVideoDto
+    );
     return await this.videoService.create(createVideoDto);
   }
 
@@ -69,5 +72,12 @@ export class VideoResolver {
   @Mutation(() => VideoEntity)
   removeVideo(@Args('id', { type: () => Int }) id: number) {
     return this.videoService.remove(id);
+  }
+
+  @Query(() => [VideoEntity])
+  async findAllVieoByCategrory(
+    @Args('categoryId', { type: () => Int }) categoryId: number
+  ) {
+    return this.videoService.getVideoByCategory(categoryId);
   }
 }
