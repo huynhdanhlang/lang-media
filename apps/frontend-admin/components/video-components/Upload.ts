@@ -93,12 +93,6 @@ export class Uploader {
         },
       });
 
-      // const initializeReponse = await fetcher({
-      //   url: '/api/uploads/initializeMultipartUpload',
-      //   method: 'POST',
-      //   data: videoInitializationUploadInput,
-      // });
-
       const AWSFileDataOutput = multiPartData;
 
       this.fileId = AWSFileDataOutput.initializeMultipartUpload.fileId;
@@ -112,12 +106,6 @@ export class Uploader {
         fileKey: this.fileKey,
         parts: numberOfparts,
       };
-
-      // const urlsResponse = await fetcher({
-      //   url: '/grapql',
-      //   method: 'POST',
-      //   data: AWSMultipartFileDataInput,
-      // });
 
       const { data: multiPartDataSigned } = await this.getMultipartPreSignedUrl(
         {
@@ -203,12 +191,7 @@ export class Uploader {
         fieldType: this.fieldType,
         videoId: this.videoId,
       };
-
-      // await fetcher({
-      //   url: '/graphql',
-      //   method: 'POST',
-      //   data: videoFinalizationMultiPartInput,
-      // });
+      console.log("🚀 ~ file: Upload.ts:194 ~ Uploader ~ sendCompleteRequest ~ videoFinalizationMultiPartInput:", videoFinalizationMultiPartInput)
 
       await this.finalizeMultipartUpload({
         variables: {

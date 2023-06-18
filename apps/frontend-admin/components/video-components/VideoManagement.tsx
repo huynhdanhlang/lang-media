@@ -33,7 +33,15 @@ const VideoManagement = (props: IVideoManagement) => {
   const renderVideoList = useCallback(() => {
     const category = categories?.findAllCategory.find((cg) => cg.name === type);
     const videoIds = category?.videos.map((video) => video.id);
-    return <VideoCardList videoIds={videoIds} isEachCategory={true} />;
+    return (
+      category && (
+        <VideoCardList
+          videoIds={videoIds}
+          isEachCategory={true}
+          categoryId={category.id}
+        />
+      )
+    );
   }, [type]);
 
   const options = data?.findAllCategory.map((category) => category.name);

@@ -6,7 +6,7 @@ import {
 import { ProCard } from '@ant-design/pro-components';
 import {
   VideoEntity,
-  useFindAllVideoQuery,
+  useFindAllVieoByCategroryQuery,
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
 import Loading from '../Loading';
@@ -14,20 +14,12 @@ import { backgroudBorder, profileStyle } from '../shared/theme';
 interface IVideoList {
   videoIds?: number[];
   isEachCategory?: boolean;
+  categoryId: number;
 }
 const VideoCardList = (props: IVideoList) => {
-  const buildQuery = props.isEachCategory
-    ? {
-        where: {
-          id: props.videoIds,
-        },
-      }
-    : {};
-  const { loading, data, error } = useFindAllVideoQuery({
+  const { loading, data, error } = useFindAllVieoByCategroryQuery({
     variables: {
-      videoFilter: {
-        ...buildQuery,
-      },
+      categoryId: props.categoryId,
     },
   });
   if (error) {
@@ -36,7 +28,7 @@ const VideoCardList = (props: IVideoList) => {
   return (
     <Space wrap size={'small'}>
       {data &&
-        data.findAllVideo.map((video) => (
+        data.findAllVieoByCategrory.map((video) => (
           <ProCard
             // title={video.name}
             className="video-list"
