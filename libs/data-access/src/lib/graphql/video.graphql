@@ -34,6 +34,24 @@ query findOneVideo($id: Int!) {
   }
 }
 
+query findAllVieoByCategrory($categoryId: Int!) {
+  findAllVieoByCategrory(categoryId: $categoryId) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    description
+    poster
+    tags {
+      id
+      name
+    }
+  }
+}
+
 mutation createVideo($createVideoDto: CreateVideoDto!) {
   createVideo(createVideoDto: $createVideoDto) {
     id

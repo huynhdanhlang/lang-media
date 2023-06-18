@@ -15,23 +15,12 @@ import {
 } from '@training-project/data-access';
 import { Typography, Progress, notification } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { RcFile, UploadFile } from 'antd/lib/upload';
-import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { titleFixed, titleStyle } from '../shared/theme';
 import { randomColor } from '../shared/utils';
 import { Uploader } from './Upload';
 import { fetcher } from 'apps/frontend-admin/utils/fetcher';
 import { FILE_FIELD_TYPE } from 'apps/frontend-admin/constant/upload.const';
-import { UploadFileStatus } from 'antd/lib/upload/interface';
-
-const iconStyles = {
-  marginInlineStart: '16px',
-  color: 'rgba(0, 0, 0, 0.2)',
-  fontSize: '24px',
-  verticalAlign: 'middle',
-  cursor: 'pointer',
-};
 
 interface IFiles {
   [key: string]: File;
@@ -46,27 +35,6 @@ interface IFilePercentage {
   [key: string]: IFileList;
 }
 
-class ICustomUploadFile implements UploadFile {
-  uid: string;
-  size?: number;
-  name: string;
-  fileName?: string;
-  lastModified?: number;
-  lastModifiedDate?: Date;
-  url?: string;
-  status?: UploadFileStatus;
-  percent?: number;
-  thumbUrl?: string;
-  crossOrigin?: '' | 'anonymous' | 'use-credentials';
-  originFileObj?: RcFile;
-  response?: any;
-  error?: any;
-  linkProps?: any;
-  type?: string;
-  xhr?: any;
-  preview?: string;
-  fieldType: string;
-}
 const VideoFormCreate = () => {
   const { Text } = Typography;
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
@@ -235,7 +203,8 @@ const VideoFormCreate = () => {
   };
 
   const onCancel = () => {
-    if (uploaderList) {
+    if (Object.keys(uploaderList).length) {
+      setUploaderList({});
       Object.values(uploaderList).forEach((up) => {
         up.uploader.abort();
       });
