@@ -75,12 +75,12 @@ export type CreateUserInput = {
 };
 
 export type CreateVideoDto = {
-  categories: Scalars['String']['input'];
+  categories: Array<Scalars['Int']['input']>;
   country: Scalars['String']['input'];
   description: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  tags: Scalars['String']['input'];
+  tags: Array<Scalars['Int']['input']>;
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 

@@ -13,15 +13,17 @@ import {
   useGetMultipartPreSignedUrlsMutation,
   useInitializeMultipartUploadMutation,
 } from '@training-project/data-access';
-import { Typography } from 'antd';
+import { Typography, Progress, notification } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { UploadFile } from 'antd/lib/upload';
+import { RcFile, UploadFile } from 'antd/lib/upload';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { titleFixed, titleStyle } from '../shared/theme';
 import { randomColor } from '../shared/utils';
 import { Uploader } from './Upload';
 import { fetcher } from 'apps/frontend-admin/utils/fetcher';
+import { FILE_FIELD_TYPE } from 'apps/frontend-admin/constant/upload.const';
+import { UploadFileStatus } from 'antd/lib/upload/interface';
 
 const iconStyles = {
   marginInlineStart: '16px',
@@ -31,12 +33,46 @@ const iconStyles = {
   cursor: 'pointer',
 };
 
+interface IFiles {
+  [key: string]: File;
+}
+
+interface IFileList {
+  percentage: number;
+  uploader: Uploader;
+}
+
+interface IFilePercentage {
+  [key: string]: IFileList;
+}
+
+class ICustomUploadFile implements UploadFile {
+  uid: string;
+  size?: number;
+  name: string;
+  fileName?: string;
+  lastModified?: number;
+  lastModifiedDate?: Date;
+  url?: string;
+  status?: UploadFileStatus;
+  percent?: number;
+  thumbUrl?: string;
+  crossOrigin?: '' | 'anonymous' | 'use-credentials';
+  originFileObj?: RcFile;
+  response?: any;
+  error?: any;
+  linkProps?: any;
+  type?: string;
+  xhr?: any;
+  preview?: string;
+  fieldType: string;
+}
 const VideoFormCreate = () => {
   const { Text } = Typography;
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [uploader, setUploader] = useState<Uploader[]>([]);
+  const [uploaderList, setUploaderList] = useState<IFilePercentage>({});
   const {
     loading: tagLoading,
     data: tagData,
@@ -78,6 +114,36 @@ const VideoFormCreate = () => {
     }
   }, [tagData, categoryData]);
 
+  const processBar = useCallback(
+    (fieldType: string) => {
+      if (Object.keys(uploaderList).length) {
+        const percentage = uploaderList[fieldType].percentage;
+        return (
+          <Progress
+            trailColor="lightblue"
+            status={percentage === 100 ? 'success' : 'active'}
+            percent={percentage}
+            key={fieldType}
+          />
+        );
+      }
+    },
+    [uploaderList]
+  );
+
+  useEffect(() => {
+    if (Object.keys(uploaderList).length) {
+      const isSuccess = Object.values(uploaderList).every(
+        (uploader) => uploader.percentage === 100
+      );
+      if (isSuccess) {
+        notification.success({
+          message: 'Thêm video thành công',
+        });
+      }
+    }
+  }, [uploaderList]);
+
   const waitTime = (time: number = 100) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -105,29 +171,58 @@ const VideoFormCreate = () => {
   }, []);
 
   const handleSubmit = async (values: any) => {
-    const files: File[] = [
-      values.poster[0].originFileObj,
-      values['video-trailer'][0].originFileObj,
-      values.video[0].originFileObj,
-    ];
-
+    const files: IFiles = {
+      POSTER_URL: values.poster[0].originFileObj,
+      TRAILER_URL: values['video-trailer'][0].originFileObj,
+      VIDEO_URL: values.video[0].originFileObj,
+    };
+    const { data: video } = await createVideo({
+      variables: {
+        createVideoDto: {
+          country: values.countries.join('|'),
+          description: values.description,
+          name: values.name,
+          language: values.languages.join('|'),
+          categories: values.categories,
+          tags: values.tags,
+        },
+      },
+    });
+    if (error) {
+      notification.error(error);
+      return;
+    }
     Promise.all(
-      files.map((file) => {
+      Object.entries(files).map(([key, file]) => {
+        const fieldType = FILE_FIELD_TYPE[key];
         const uploader = new Uploader({
           file: file,
           fileName: file.name,
           initializeMultipartUpload,
           getMultipartPreSignedUrl,
           finalizeMultipartUpload,
+          videoId: video.createVideo.id,
+          fieldType,
         });
         let percentage = undefined;
-        setUploader((upd) => [...upd, uploader]);
+        setUploaderList((upd) => ({
+          ...upd,
+          [fieldType]: {
+            uploader,
+          },
+        }));
         uploader
           .onProgress(({ percentage: newPercentage }) => {
             // to avoid the same percentage to be logged twice
             if (newPercentage !== percentage) {
               percentage = newPercentage;
               console.log(`${percentage}%`);
+              setUploaderList((upd) => ({
+                ...upd,
+                [fieldType]: {
+                  percentage,
+                },
+              }));
             }
           })
           .onError((error) => {
@@ -137,70 +232,17 @@ const VideoFormCreate = () => {
         uploader.start();
       })
     );
-
-    // initializeMultipartUpload({
-    //   variables:{
-    //     initMultiPart:{
-    //       fileExt,
-    //       filename
-    //     }
-    //   }
-    // })
-    // createVideo({
-    //   variables: {
-    //     createVideoDto: {
-    //       country: values.countries.join('|'),
-    //       description: values.description,
-    //       name: values.name,
-    //       posterImage: values.poster[0].originFileObj,
-    //       trailerVideo: values['video-trailer'][0].originFileObj,
-    //       video: values.video[0].originFileObj,
-    //       language: values.languages.join('|'),
-    //       categories: values.categories.join('|'),
-    //       tags: values.tags.join('|'),
-    //     },
-    //   },
-    // });
   };
 
   const onCancel = () => {
-    if (uploader) {
-      uploader.forEach((up) => {
-        up.abort();
+    if (uploaderList) {
+      Object.values(uploaderList).forEach((up) => {
+        up.uploader.abort();
       });
     }
+    setUploaderList({});
   };
 
-  // if (data) {
-  //   notification.success({
-  //     message: 'Đã thêm thành công',
-  //   });
-  // }
-
-  // if (error) {
-  //   notification.error(error);
-  // }
-  const fileList: UploadFile[] = [
-    {
-      uid: '0',
-      name: 'xxx.png',
-      status: 'uploading',
-      percent: 33,
-    },
-    {
-      uid: '-1',
-      name: 'yyy.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      thumbUrl:
-        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-2',
-      name: 'zzz.png',
-      status: 'error',
-    },
-  ];
   return (
     <>
       <div>
@@ -384,76 +426,67 @@ const VideoFormCreate = () => {
             />
           </ProForm.Group>
           <ProForm.Group>
-            <ProFormUploadButton
-              max={1}
-              // fileList={fileList}
-              listType="picture"
-              name={'poster'}
-              title={'Tải lên poster'}
-              label={<Text className="text-style">Poster</Text>}
-              fieldProps={{
-                className: 'text-style',
-              }}
-              required
-              rules={[
-                {
-                  required: true,
-                  message: 'Poster là bắt buộc!',
-                },
-              ]}
-            />
-            <ProFormUploadButton
-              max={1}
-              // fileList={fileList}
-              listType="picture"
-              name="video"
-              title={'Tải lên video'}
-              label={<Text className="text-style">Video</Text>}
-              fieldProps={{
-                className: 'text-style',
-              }}
-              required
-              rules={[
-                {
-                  required: true,
-                  message: 'Video là bắt buộc!',
-                },
-              ]}
-            />
-            <ProFormUploadButton
-              max={1}
-              // fileList={fileList}
-              listType="picture"
-              name={'video-trailer'}
-              title={'Tải lên trailer video'}
-              label={<Text className="text-style">Trailer video</Text>}
-              fieldProps={{
-                className: 'text-style',
-              }}
-              required
-              rules={[
-                {
-                  required: true,
-                  message: 'Trailer video là bắt buộc!',
-                },
-              ]}
-            />
+            <div>
+              <ProFormUploadButton
+                max={1}
+                listType="picture"
+                name={'poster'}
+                title={'Tải lên poster'}
+                label={<Text className="text-style">Poster</Text>}
+                fieldProps={{
+                  className: 'text-style',
+                }}
+                required
+                rules={[
+                  {
+                    required: true,
+                    message: 'Poster là bắt buộc!',
+                  },
+                ]}
+              />
+              {processBar(FILE_FIELD_TYPE.POSTER_URL)}
+            </div>
+            <div>
+              <ProFormUploadButton
+                max={1}
+                listType="picture"
+                name="video"
+                title={'Tải lên video'}
+                label={<Text className="text-style">Video</Text>}
+                fieldProps={{
+                  className: 'text-style',
+                }}
+                required
+                rules={[
+                  {
+                    required: true,
+                    message: 'Video là bắt buộc!',
+                  },
+                ]}
+              />
+              {processBar(FILE_FIELD_TYPE.VIDEO_URL)}
+            </div>
+            <div>
+              <ProFormUploadButton
+                max={1}
+                listType="picture"
+                name={'video-trailer'}
+                title={'Tải lên trailer video'}
+                label={<Text className="text-style">Trailer video</Text>}
+                fieldProps={{
+                  className: 'text-style',
+                }}
+                required
+                rules={[
+                  {
+                    required: true,
+                    message: 'Trailer video là bắt buộc!',
+                  },
+                ]}
+              />
+              {processBar(FILE_FIELD_TYPE.TRAILER_URL)}
+            </div>
           </ProForm.Group>
-          {/* <ProFormText width="sm" name="id" label="主合同编号" />
-          <ProFormText
-            name="project"
-            width="md"
-            disabled
-            label="项目名称"
-            initialValue="xxxx项目"
-          />
-          <ProFormText
-            width="xs"
-            name="mangerName"
-            disabled
-            label="商务经理"
-            initialValue="启途"
-          /> */}
         </ProForm>
       </div>
       <style jsx global>
