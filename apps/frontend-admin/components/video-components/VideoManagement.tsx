@@ -28,12 +28,10 @@ const VideoManagement = (props: IVideoManagement) => {
   useEffect(() => {
     if (options?.length) {
       if (!isEmpty(router.query)) {
-        const t = options.find(
+        const categoryName = options.find(
           (category) => category === router.query.categoryName
         );
-        setType(
-          options.find((category) => category === router.query.categoryName)
-        );
+        setType(categoryName);
       } else {
         setType(options[0]);
       }
