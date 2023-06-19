@@ -8,7 +8,7 @@ export const backgroudBorder = ({
   isSetBorder,
 }: IBackgroundBorder): CSSProperties => {
   return {
-    background,
+    background: background,
     border: isSetBorder ? '1px solid rgba(152, 188, 252, 0.16)' : 'inherit',
   };
 };
@@ -18,7 +18,7 @@ export const notificationStyle: CSSProperties = {
 };
 
 export const layoutStyle = {
-  background: 'rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important',
+  background: '#001529',
 };
 
 export const profileStyle = {

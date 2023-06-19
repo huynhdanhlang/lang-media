@@ -16,7 +16,7 @@ import {
 import { Typography, Progress, notification } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useCallback, useEffect, useState } from 'react';
-import { titleFixed, titleStyle } from '../shared/theme';
+import { titleFixed, titleStyle } from '@training-project/data-access';
 import { randomColor } from '../shared/utils';
 import { Uploader } from './Upload';
 import { fetcher } from 'apps/frontend-admin/utils/fetcher';

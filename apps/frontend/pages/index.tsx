@@ -1,8 +1,5 @@
 import { Layout, theme } from 'antd';
-import React from 'react';
 import styled from 'styled-components';
-import { MyHeader } from '../components/layout/Header';
-import ImageSlider from '../components/layout/Carousel';
 
 const StyledPage = styled.div`
   .page {
@@ -22,18 +19,10 @@ export function Index() {
   } = theme.useToken();
   return (
     <StyledPage>
-      <Layout
-        className="site-layout"
-        style={{ marginLeft: 200, marginRight: 200 }}
-      >
-        <MyHeader style={{ padding: 0, background: colorBgContainer }} />
-        <ImageSlider />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
-      </Layout>
+      <div>djfisbf jndejjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+        ejjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+        emmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+        ejjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjju</div>
     </StyledPage>
   );
 }

@@ -4,7 +4,7 @@ const { Content } = Layout;
 import FixedSider from '../layout-components/Sider';
 import MainLayout from '../layout-components/Main';
 import Header from '../layout-components/Header';
-import LogoTitle from '../layout-components/LogoTitle';
+import { CNLogo as LogoTitle } from '@training-project/data-access';
 import Menu from '../layout-components/Menu';
 interface IMyLayout {
   children: React.ReactNode;

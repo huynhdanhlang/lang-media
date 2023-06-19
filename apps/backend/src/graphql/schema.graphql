@@ -86,6 +86,7 @@ type Query {
 }
 
 input UserFilter {
+  order: [[String!]!]
   attributes: FAttributeOptions
   include: [IncludeModel!]
   group: String
@@ -130,6 +131,7 @@ input UserWherClause {
 }
 
 input VideoFilter {
+  order: [[String!]!]
   attributes: FAttributeOptions
   include: [IncludeModel!]
   group: String
@@ -159,6 +161,7 @@ input VideoWherClause {
 }
 
 input CategoryFilter {
+  order: [[String!]!]
   attributes: FAttributeOptions
   include: [IncludeModel!]
   group: String

@@ -2,7 +2,7 @@ import { CheckOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { useCreateCategoryMutation } from '@training-project/data-access';
 import { Typography, notification } from 'antd';
-import { titleFixed, titleStyle } from '../shared/theme';
+import { titleFixed, titleStyle } from '../../../../libs/data-access/src/shared/theme';
 
 const iconStyles = {
   marginInlineStart: '16px',

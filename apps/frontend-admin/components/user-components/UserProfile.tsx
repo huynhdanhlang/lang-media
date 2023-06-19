@@ -18,7 +18,7 @@ import {
 } from '@training-project/data-access';
 import { useRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
-import { backgroudBorder, profileStyle } from '../shared/theme';
+import { backgroudBorder, profileStyle } from '@training-project/data-access';
 const UserProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 

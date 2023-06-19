@@ -9,6 +9,7 @@
 /* eslint-disable */
 
 export interface UserFilter {
+    order?: Nullable<string[][]>;
     attributes?: Nullable<FAttributeOptions>;
     include?: Nullable<IncludeModel[]>;
     group?: Nullable<string>;
@@ -47,6 +48,7 @@ export interface UserWherClause {
 }
 
 export interface VideoFilter {
+    order?: Nullable<string[][]>;
     attributes?: Nullable<FAttributeOptions>;
     include?: Nullable<IncludeModel[]>;
     group?: Nullable<string>;
@@ -76,6 +78,7 @@ export interface VideoWherClause {
 }
 
 export interface CategoryFilter {
+    order?: Nullable<string[][]>;
     attributes?: Nullable<FAttributeOptions>;
     include?: Nullable<IncludeModel[]>;
     group?: Nullable<string>;

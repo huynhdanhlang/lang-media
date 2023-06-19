@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import CategoryCardList from './CategoryCardList';
 import { PlusCircleTwoTone, PlusOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import { titleFixed, titleStyle } from '../shared/theme';
+import { titleFixed, titleStyle } from '../../../../libs/data-access/src/shared/theme';
 
 interface ICategoryManagement {}
 const CategoryManagement = (props: ICategoryManagement) => {
