@@ -2,7 +2,7 @@ import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
 import { useFindAllCategoryQuery } from '@training-project/data-access';
 import { Space, Typography, notification } from 'antd';
-import { backgroudBorder } from '../shared/theme';
+import { backgroudBorder } from '../../../../libs/data-access/src/shared/theme';
 import { randomColor } from '../shared/utils';
 import { useRouter } from 'next/router';
 

@@ -12,7 +12,7 @@ import {
   TagFilled,
 } from '@ant-design/icons';
 import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
-import { backgroudBorder, layoutStyle } from '../shared/theme';
+import { backgroudBorder, layoutStyle } from "@training-project/data-access";
 const keys = ['/', '/videos', '/categories', '/tags'];
 
 const menu = [

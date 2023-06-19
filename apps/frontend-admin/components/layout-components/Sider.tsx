@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { siderWidthState } from '../../stores/sider';
-import { backgroudBorder, layoutStyle } from '../shared/theme';
+import { backgroudBorder, layoutStyle } from '@training-project/data-access';
 
 const { Sider } = Layout;
 

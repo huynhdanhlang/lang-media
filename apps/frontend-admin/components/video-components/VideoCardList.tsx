@@ -10,7 +10,7 @@ import {
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
 import Loading from '../Loading';
-import { backgroudBorder, profileStyle } from '../shared/theme';
+import { backgroudBorder, profileStyle } from '../../../../libs/data-access/src/shared/theme';
 interface IVideoList {
   videoIds?: number[];
   isEachCategory?: boolean;

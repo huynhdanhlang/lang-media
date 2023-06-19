@@ -1,5 +1,5 @@
 import { Typography } from 'antd';
-import { titleFixed, titleStyle } from '../shared/theme';
+import { titleFixed, titleStyle } from '@training-project/data-access';
 import { useRouter } from 'next/router';
 import TagCardList from './TagList';
 import { useCallback } from 'react';

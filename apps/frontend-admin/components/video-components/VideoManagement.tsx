@@ -7,7 +7,7 @@ import { notification, Divider, FloatButton } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from './VideoCardList';
-import { titleFixed } from '../shared/theme';
+import { titleFixed } from '@training-project/data-access';
 import { useRouter } from 'next/router';
 import { PlusOutlined } from '@ant-design/icons';
 import { isEmpty } from 'lodash';

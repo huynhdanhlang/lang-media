@@ -1,4 +1,4 @@
-import { Field, InputType } from "@nestjs/graphql";
+import { Field, InputType } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
 @InputType()
 export class FAttributeOptions {
@@ -30,4 +30,6 @@ export class BaseFilter {
   subQuery?: boolean;
   type?: string;
   useMaster?: boolean;
+  @Field(() => [[String]])
+  order: string[][];
 }

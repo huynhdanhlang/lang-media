@@ -38,6 +38,7 @@ export type CategoryFilter = {
   mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
   nest?: InputMaybe<Scalars['Boolean']['input']>;
   offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
   paranoid?: InputMaybe<Scalars['Boolean']['input']>;
   plain?: InputMaybe<Scalars['Boolean']['input']>;
   raw?: InputMaybe<Scalars['Boolean']['input']>;
@@ -395,6 +396,7 @@ export type UserFilter = {
   mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
   nest?: InputMaybe<Scalars['Boolean']['input']>;
   offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
   paranoid?: InputMaybe<Scalars['Boolean']['input']>;
   plain?: InputMaybe<Scalars['Boolean']['input']>;
   raw?: InputMaybe<Scalars['Boolean']['input']>;
@@ -436,6 +438,7 @@ export type VideoFilter = {
   mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
   nest?: InputMaybe<Scalars['Boolean']['input']>;
   offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
   paranoid?: InputMaybe<Scalars['Boolean']['input']>;
   plain?: InputMaybe<Scalars['Boolean']['input']>;
   raw?: InputMaybe<Scalars['Boolean']['input']>;

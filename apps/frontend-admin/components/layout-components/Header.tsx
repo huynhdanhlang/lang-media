@@ -1,22 +1,19 @@
-import { Layout, Dropdown, Menu, Button, notification } from 'antd';
-const { Header } = Layout;
-import styled from 'styled-components';
-import { Logo } from './LogoTitle';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import Icon, {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Dropdown, Layout, Menu } from 'antd';
 import { siderWidthState } from 'apps/frontend-admin/stores/sider';
 import { userState } from 'apps/frontend-admin/stores/user';
-import Loading from '../Loading';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { backgroudBorder, layoutStyle, profileStyle } from '@training-project/data-access';
 import { AuthContext } from '../auth/AuthProvider';
-import { backgroudBorder, layoutStyle } from '../shared/theme';
-import { profileStyle } from '../shared/theme';
+import { Logo } from '@training-project/data-access';
+const { Header } = Layout;
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;

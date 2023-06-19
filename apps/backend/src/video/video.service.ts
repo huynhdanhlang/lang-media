@@ -46,11 +46,13 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    return this.videoService.findAll(options);
+    const videos = await this.videoService.findAll(options);
+    return await this.getSignedUrlVideo(videos);
   }
 
   async findOne(id: number, options?: Omit<FindOptions<Video>, 'where'>) {
-    return this.videoService.findByPk(id, options);
+    const video = await this.videoService.findByPk(id, options);
+    return await this.getSignedUrlVideo(video);
   }
 
   async update(id: number, updateVideoInput: UpdateVideoInput) {
@@ -66,20 +68,31 @@ export class VideoService {
     await user.destroy();
   }
 
+  private async internalGetSignedUrlVideo<T>(video: T) {
+    video['url'] = await this.r2ClientService.getSignedUrl(video['url']);
+    video['poster'] = await this.r2ClientService.getSignedUrl(video['poster']);
+    video['trailerUrl'] = await this.r2ClientService.getSignedUrl(
+      video['trailerUrl']
+    );
+    return video;
+  }
+
+  async getSignedUrlVideo<T>(video: T): Promise<T> {
+    if (Array.isArray(video)) {
+      const videos = await Promise.all(
+        video.map(async (video) => {
+          return await this.internalGetSignedUrlVideo(video);
+        })
+      );
+      return <T>videos;
+    }
+    return await this.internalGetSignedUrlVideo(video);
+  }
+
   async getVideoByCategory(categoryId: number) {
     const category = await this.categroryService.findOne(categoryId, {
       include: Video,
     });
-    const videos = await Promise.all(
-      category.videos.map(async (video) => {
-        video.url = await this.r2ClientService.getSignedUrl(video.url);
-        video.poster = await this.r2ClientService.getSignedUrl(video.poster);
-        video.trailerUrl = await this.r2ClientService.getSignedUrl(
-          video.trailerUrl
-        );
-        return video;
-      })
-    );
-    return videos;
+    return await this.getSignedUrlVideo(category.videos);
   }
 }

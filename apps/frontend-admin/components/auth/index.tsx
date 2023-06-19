@@ -22,7 +22,7 @@ import Error from 'next/error';
 import { useSetRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
 import Router, { useRouter } from 'next/router';
-import { notificationStyle } from '../shared/theme';
+import { notificationStyle } from '../../../../libs/data-access/src/shared/theme';
 
 type LoginType = 'phone' | 'account';
 
