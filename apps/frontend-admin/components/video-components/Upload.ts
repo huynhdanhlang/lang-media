@@ -191,8 +191,6 @@ export class Uploader {
         fieldType: this.fieldType,
         videoId: this.videoId,
       };
-      console.log("🚀 ~ file: Upload.ts:194 ~ Uploader ~ sendCompleteRequest ~ videoFinalizationMultiPartInput:", videoFinalizationMultiPartInput)
-
       await this.finalizeMultipartUpload({
         variables: {
           mapMultiPartFinalDto: {

@@ -36,6 +36,8 @@ interface IFilePercentage {
 }
 
 const VideoFormCreate = () => {
+  const { useForm } = ProForm;
+  const [form] = useForm();
   const { Text } = Typography;
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
   const [tags, setTags] = useState([]);
@@ -108,6 +110,7 @@ const VideoFormCreate = () => {
         notification.success({
           message: 'Thêm video thành công',
         });
+        form.resetFields();
       }
     }
   }, [uploaderList]);
@@ -236,6 +239,7 @@ const VideoFormCreate = () => {
         }}
       >
         <ProForm
+          form={form}
           onFinish={async (values: any) => {
             await handleSubmit(values);
           }}
@@ -397,6 +401,7 @@ const VideoFormCreate = () => {
           <ProForm.Group>
             <div>
               <ProFormUploadButton
+                allowClear
                 max={1}
                 listType="picture"
                 name={'poster'}
@@ -417,6 +422,7 @@ const VideoFormCreate = () => {
             </div>
             <div>
               <ProFormUploadButton
+                allowClear
                 max={1}
                 listType="picture"
                 name="video"
@@ -437,6 +443,7 @@ const VideoFormCreate = () => {
             </div>
             <div>
               <ProFormUploadButton
+                allowClear
                 max={1}
                 listType="picture"
                 name={'video-trailer'}
