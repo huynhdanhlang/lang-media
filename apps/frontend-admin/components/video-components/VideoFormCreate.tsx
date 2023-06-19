@@ -111,6 +111,7 @@ const VideoFormCreate = () => {
           message: 'Thêm video thành công',
         });
         form.resetFields();
+        setUploaderList({});
       }
     }
   }, [uploaderList]);
@@ -198,6 +199,7 @@ const VideoFormCreate = () => {
           })
           .onError((error) => {
             console.error(error);
+            onCancel();
           });
 
         uploader.start();
@@ -209,7 +211,7 @@ const VideoFormCreate = () => {
     if (Object.keys(uploaderList).length) {
       setUploaderList({});
       Object.values(uploaderList).forEach((up) => {
-        up.uploader.abort();
+        up.uploader?.abort();
       });
     }
     setUploaderList({});

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Attributes, FindOptions, Model } from 'sequelize';
+import { Attributes, FindOptions, Model, Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { CategoryService } from '../category/category.service';
 import Category from '../database/models/Category';
@@ -46,7 +46,22 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    const videos = await this.videoService.findAll(options);
+    const whereToQuery = {
+      ...options.where,
+      url: {
+        [Op.ne]: null,
+      },
+      trailerUrl: {
+        [Op.ne]: null,
+      },
+      poster: {
+        [Op.ne]: null,
+      },
+    };
+    const videos = await this.videoService.findAll({
+      ...options,
+      where: whereToQuery,
+    });
     return await this.getSignedUrlVideo(videos);
   }
 
