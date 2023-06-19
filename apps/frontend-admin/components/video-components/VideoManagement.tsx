@@ -17,13 +17,13 @@ const VideoManagement = (props: IVideoManagement) => {
   const [categories, setCategories] = useState<FindAllCategoryQuery>(null);
   const { data, loading, error } = useFindAllCategoryQuery();
   const [type, setType] = useState<string>(null);
-
+  const [options, setOptions] = useState<string[]>([]);
   useEffect(() => {
     if (data && data.findAllCategory) {
       setCategories(data);
+      setOptions(data.findAllCategory.map((category) => category.name));
     }
   }, [data]);
-  const options = data?.findAllCategory.map((category) => category.name);
 
   useEffect(() => {
     if (options?.length) {
