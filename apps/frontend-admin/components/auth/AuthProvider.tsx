@@ -4,10 +4,10 @@ import {
   UserEntity,
   useLoginMutation,
   useLogoutMutation,
+  Loading,
 } from '@training-project/data-access';
 import { RECOIL_PERSIST } from 'apps/frontend-admin/constant/keyStore.const';
 import { IUser } from '../shared/user';
-import Loading from '../Loading';
 import Login from 'apps/frontend-admin/pages/login';
 import { useRecoilState } from 'recoil';
 import { userState } from 'apps/frontend-admin/stores/user';
@@ -68,9 +68,7 @@ const AuthProvider = ({ children }) => {
   // redirect accordingly
   useEffect(() => {
     const getUser = async () => {
-      const user: IUser = JSON.parse(
-        localStorage.getItem(RECOIL_PERSIST)
-      );
+      const user: IUser = JSON.parse(localStorage.getItem(RECOIL_PERSIST));
       if (user?.userState) {
         setUser(user.userState); // user details
         setIsLoading(false);

@@ -9,6 +9,7 @@ import {
   useFindAllCategoryQuery,
 } from '@training-project/data-access';
 import { useRouter } from 'next/router';
+import Search from 'antd/es/input/Search';
 export interface IBase {
   style?: React.CSSProperties;
 }
@@ -28,7 +29,20 @@ export const MyHeader = (props: IHeaders) => {
 
   const childCategories: MenuItem[] = categories?.findAllCategory?.map(
     (value) => {
-      return getItemComponent(value.name, value.id, <RightOutlined />);
+      return getItemComponent(
+        value.name,
+        value.id,
+        <RightOutlined />,
+        null,
+        null,
+        {
+          className: 'category-item',
+          style: {
+            color: 'white',
+            maxHeight: 200,
+          },
+        }
+      );
     }
   );
 
@@ -45,14 +59,42 @@ export const MyHeader = (props: IHeaders) => {
       <UnorderedListOutlined className="text-style" />,
       childCategories
     ),
+    getItemComponent(
+      <Search
+        placeholder="Nhập tên video muốn tìm"
+        allowClear
+        enterButton="Tìm kiếm"
+        size="middle"
+        onSearch={(e) => {}}
+      />,
+      'logo',
+      null,
+      null,
+      null,
+      {
+        style: {
+          marginLeft: 'auto',
+        },
+        disabled: true,
+      }
+    ),
   ];
 
   return (
-    <Menu
-      {...props}
-      mode="horizontal"
-      items={items}
-      onClick={(e) => console.log(e.key)}
-    ></Menu>
+    <>
+      <Menu
+        {...props}
+        mode="horizontal"
+        items={items}
+        onClick={(e) => console.log(e.key)}
+      ></Menu>
+      <style jsx global>
+        {`
+          .ant-menu-submenu-popup .ant-menu-sub:has(.category-item) {
+            background: #1d1d1d;
+          }
+        `}
+      </style>
+    </>
   );
 };

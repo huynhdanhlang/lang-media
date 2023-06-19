@@ -7,7 +7,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Row, Input, Button, notification } from 'antd';
 import { ColStyled, CardStyled, StyledTable } from './style';
 // import api from '../../api';
-import Loading from '../Loading';
 import Error from 'next/error';
 import moment from 'moment';
 import Router from 'next/router';
@@ -16,7 +15,7 @@ import Icon from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import { Comment } from '@ant-design/compatible';
-import { useFindAllUserQuery } from '@training-project/data-access';
+import { useFindAllUserQuery, Loading } from '@training-project/data-access';
 import { USER_TYPE } from 'apps/frontend-admin/constant/user.const';
 const UserList = () => {
   const { data, error, loading } = useFindAllUserQuery();

@@ -3,22 +3,13 @@
  * Author: Hieu Chu
  */
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Row, Descriptions, notification } from 'antd';
-import { ColStyled, CardStyled } from './style';
+import { Descriptions, Row } from 'antd';
+import { CardStyled, ColStyled } from './style';
 // import api from '../../api'
-import Loading from '../Loading';
-import Error from 'next/error';
-import Head from 'next/head';
-import moment from 'moment';
-import {
-  useFindOneUserQuery,
-  FindOneUserQuery,
-} from '@training-project/data-access';
-import { useRecoilState } from 'recoil';
-import { userState } from 'apps/frontend-admin/stores/user';
 import { backgroudBorder, profileStyle } from '@training-project/data-access';
+import { userState } from 'apps/frontend-admin/stores/user';
+import Head from 'next/head';
+import { useRecoilState } from 'recoil';
 const UserProfile = () => {
   const [user, setUser] = useRecoilState(userState);
 
