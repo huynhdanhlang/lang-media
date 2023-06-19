@@ -64,7 +64,7 @@ const ImageSlider = (props: IImageSlider) => {
     return videoList.map((videos) => (
       <div className="wrapper-img">
         {videos.map((video) => {
-          return <Logo src={video.url} style={{ ...imageStyle }} />;
+          return <Logo src={video.poster} style={{ ...imageStyle }} />;
         })}
       </div>
     ));
@@ -73,7 +73,7 @@ const ImageSlider = (props: IImageSlider) => {
   return (
     <>
       <ImagesViewerWrapper>
-        <Carousel {...props}>{renderVideoCarousel()}</Carousel>
+        <Carousel {...props} autoplay>{renderVideoCarousel()}</Carousel>
       </ImagesViewerWrapper>
       <style jsx global>
         {`

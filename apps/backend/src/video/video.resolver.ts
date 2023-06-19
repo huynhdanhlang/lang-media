@@ -36,7 +36,6 @@ export class VideoResolver {
     return await this.videoService.create(createVideoDto);
   }
 
-  @UseGuards(new JwtAuthenticationGuard('videoFilter'))
   @Query(() => [VideoEntity], { nullable: true })
   findAllVideo(
     @Args('videoFilter', {
@@ -58,16 +57,17 @@ export class VideoResolver {
     const { id } = parent;
     const video = await this.videoService.findOne(id, {
       include: Tag,
-      attributes: [],
     });
     return video.tags;
   }
 
+  @UseGuards(new JwtAuthenticationGuard('videoFilter'))
   @Mutation(() => VideoEntity)
   updateVideo(@Args('updateVideoInput') updateVideoInput: UpdateVideoInput) {
     return this.videoService.update(updateVideoInput.id, updateVideoInput);
   }
 
+  @UseGuards(new JwtAuthenticationGuard('videoFilter'))
   @Mutation(() => VideoEntity)
   removeVideo(@Args('id', { type: () => Int }) id: number) {
     return this.videoService.remove(id);
