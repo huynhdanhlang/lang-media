@@ -1,28 +1,17 @@
 import {
-  AlipayOutlined,
   LockOutlined,
-  MobileOutlined,
-  TaobaoOutlined,
-  UserOutlined,
-  WeiboOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import {
   LoginFormPage,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
+  ProFormText
 } from '@ant-design/pro-components';
 import { useLoginMutation } from '@training-project/data-access';
-import { Button, Divider, message, Space, Tabs, notification } from 'antd';
-import { FormInstance } from 'antd/lib/form';
-import { CSSProperties, useEffect } from 'react';
-import { useState } from 'react';
-import Loading from '../Loading';
-import Error from 'next/error';
-import { useSetRecoilState } from 'recoil';
+import { Tabs, notification } from 'antd';
 import { userState } from 'apps/frontend-admin/stores/user';
-import Router, { useRouter } from 'next/router';
-import { notificationStyle } from '../../../../libs/data-access/src/shared/theme';
+import { useRouter } from 'next/router';
+import { CSSProperties, useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 type LoginType = 'phone' | 'account';
 

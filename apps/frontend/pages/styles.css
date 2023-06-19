@@ -413,3 +413,10 @@ body {
 .text-style {
   color: #ffff !important;
 }
+
+.ant-menu-sub .ant-menu-item-active {
+  background-color: #313131 !important;
+}
+.ant-menu-sub .ant-menu-item-selected {
+  background-color: cadetblue !important;
+}

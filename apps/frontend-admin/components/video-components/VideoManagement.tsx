@@ -1,8 +1,8 @@
 import {
   FindAllCategoryQuery,
   useFindAllCategoryQuery,
+  Loading,
 } from '@training-project/data-access';
-import Loading from '../Loading';
 import { notification, Divider, FloatButton } from 'antd';
 import { ProFormRadio } from '@ant-design/pro-components';
 import { useCallback, useEffect, useState } from 'react';

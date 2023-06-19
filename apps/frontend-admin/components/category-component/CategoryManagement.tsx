@@ -1,15 +1,9 @@
-import {
-  FindAllCategoryQuery,
-  useFindAllCategoryQuery,
-} from '@training-project/data-access';
-import Loading from '../Loading';
-import { notification, Divider, FloatButton, Typography } from 'antd';
-import { ProFormRadio } from '@ant-design/pro-components';
-import { useCallback, useEffect, useState } from 'react';
-import CategoryCardList from './CategoryCardList';
-import { PlusCircleTwoTone, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
+import { FloatButton, Typography } from 'antd';
 import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import { titleFixed, titleStyle } from '../../../../libs/data-access/src/shared/theme';
+import CategoryCardList from './CategoryCardList';
 
 interface ICategoryManagement {}
 const CategoryManagement = (props: ICategoryManagement) => {

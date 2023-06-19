@@ -7,10 +7,13 @@ import { ProCard } from '@ant-design/pro-components';
 import {
   VideoEntity,
   useFindAllVieoByCategroryQuery,
+  Loading,
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
-import Loading from '../Loading';
-import { backgroudBorder, profileStyle } from '../../../../libs/data-access/src/shared/theme';
+import {
+  backgroudBorder,
+  profileStyle,
+} from '../../../../libs/data-access/src/shared/theme';
 interface IVideoList {
   videoIds?: number[];
   isEachCategory?: boolean;
