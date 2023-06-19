@@ -73,7 +73,7 @@ const ImageSlider = (props: IImageSlider) => {
   return (
     <>
       <ImagesViewerWrapper>
-        <Carousel {...props} autoplay>{renderVideoCarousel()}</Carousel>
+        <Carousel {...props} autoplay infinite>{renderVideoCarousel()}</Carousel>
       </ImagesViewerWrapper>
       <style jsx global>
         {`
