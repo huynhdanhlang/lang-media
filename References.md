@@ -10,3 +10,4 @@
 - [Issue][Apollo Client "This operation has been blocked as a potential Cross-Site Request Forgery (CSRF)"](https://stackoverflow.com/questions/74581070/apollo-client-this-operation-has-been-blocked-as-a-potential-cross-site-request)
 - [Issue][Graphql-upload issue](https://github.com/jaydenseric/graphql-upload/issues/358)
 - [Issue][Variable "$file" got invalid value {}; Upload value invalid](https://stackoverflow.com/questions/64658321/variable-file-got-invalid-value-upload-value-invalid)
+- [Knowledge][Multipart uploads with S3 in Node.js and React](https://blog.logrocket.com/multipart-uploads-s3-node-js-react/)

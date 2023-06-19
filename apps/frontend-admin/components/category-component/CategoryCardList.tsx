@@ -1,20 +1,13 @@
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
-import {
-  VideoEntity,
-  useFindAllCategoryQuery,
-  useFindAllVideoQuery,
-} from '@training-project/data-access';
-import { Image, Space, notification, Layout, Typography } from 'antd';
-import Loading from '../Loading';
+import { useFindAllCategoryQuery } from '@training-project/data-access';
+import { Space, Typography, notification } from 'antd';
 import { backgroudBorder } from '../shared/theme';
 import { randomColor } from '../shared/utils';
+import { useRouter } from 'next/router';
 
 const CategoryCardList = () => {
+  const router = useRouter();
   const { loading, data, error } = useFindAllCategoryQuery();
   if (error) {
     notification.error(error);
@@ -27,6 +20,7 @@ const CategoryCardList = () => {
           <ProCard
             loading={loading}
             title={<Text className="text-style">{category.name}</Text>}
+            onClick={() => router.push(`/videos?categoryName=${category.name}`)}
             hoverable={true}
             className="category-list"
             style={{

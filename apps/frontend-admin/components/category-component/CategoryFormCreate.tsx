@@ -1,23 +1,8 @@
-import {
-  AlipayCircleOutlined,
-  CheckOutlined,
-  LockOutlined,
-  PlusOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
-import {
-  ProForm,
-  ProFormDateRangePicker,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
-import { Button, message, notification, Space, Typography } from 'antd';
-import { useState } from 'react';
-import { notificationStyle, titleFixed, titleStyle } from '../shared/theme';
+import { CheckOutlined } from '@ant-design/icons';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { useCreateCategoryMutation } from '@training-project/data-access';
+import { Typography, notification } from 'antd';
+import { titleFixed, titleStyle } from '../shared/theme';
 
 const iconStyles = {
   marginInlineStart: '16px',
@@ -48,14 +33,13 @@ const CategoryFormCreate = () => {
           name: values.name,
         },
       },
+    }).then(() => {
+      notification.success({
+        message: 'Thêm thể loại thành công',
+      });
+      form.resetFields();
     });
   };
-
-  if (data) {
-    notification.success({
-      message: 'Đã thêm thành công',
-    });
-  }
 
   if (error) {
     notification.error(error);

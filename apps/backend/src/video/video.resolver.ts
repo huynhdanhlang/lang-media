@@ -18,7 +18,6 @@ import { UpdateVideoInput } from './dto/update-video.input';
 import { VideoFilter } from './dto/video-filter.input';
 import { VideoEntity } from './entities/video.entity';
 import { VideoService } from './video.service';
-import Category from '../database/models/Category';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(

@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateVideoDto, CreateVideoInput } from './dto/create-video.input';
-import { UpdateVideoInput } from './dto/update-video.input';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import Video from '../database/models/Video';
 import { Attributes, FindOptions, Model } from 'sequelize';
-import Tag from '../database/models/Tag';
-import Category from '../database/models/Category';
 import { Sequelize } from 'sequelize-typescript';
 import { CategoryService } from '../category/category.service';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import Category from '../database/models/Category';
+import Tag from '../database/models/Tag';
+import Video from '../database/models/Video';
+import { checkIsExisted } from '../helper/model';
 import { R2ClientService } from '../r2-client/r2-client.service';
+import { CreateVideoDto } from './dto/create-video.input';
+import { UpdateVideoInput } from './dto/update-video.input';
 
 @Injectable()
 export class VideoService {
@@ -20,7 +20,18 @@ export class VideoService {
     private r2ClientService: R2ClientService
   ) {}
   async create(createVideoDto: CreateVideoDto) {
-    const { categories, tags } = createVideoDto;
+    const { categories, tags, name } = createVideoDto;
+    const isExisted = await checkIsExisted({
+      service: this.videoService,
+      where: {
+        name,
+      },
+    });
+    if (isExisted) {
+      throw new BadRequestException({
+        message: 'Video đã tồn tại',
+      });
+    }
     delete createVideoDto.categories;
     delete createVideoDto.tags;
     // @ts-ignore

@@ -10,7 +10,7 @@ import VideoCardList from './VideoCardList';
 import { titleFixed } from '../shared/theme';
 import { useRouter } from 'next/router';
 import { PlusOutlined } from '@ant-design/icons';
-
+import { isEmpty } from 'lodash';
 interface IVideoManagement {}
 const VideoManagement = (props: IVideoManagement) => {
   const router = useRouter();
@@ -21,9 +21,24 @@ const VideoManagement = (props: IVideoManagement) => {
   useEffect(() => {
     if (data && data.findAllCategory) {
       setCategories(data);
-      setType(options[0]);
     }
   }, [data]);
+  const options = data?.findAllCategory.map((category) => category.name);
+
+  useEffect(() => {
+    if (options?.length) {
+      if (!isEmpty(router.query)) {
+        const t = options.find(
+          (category) => category === router.query.categoryName
+        );
+        setType(
+          options.find((category) => category === router.query.categoryName)
+        );
+      } else {
+        setType(options[0]);
+      }
+    }
+  }, [router, categories, options]);
 
   if (loading) <Loading />;
   if (error) {
@@ -43,8 +58,6 @@ const VideoManagement = (props: IVideoManagement) => {
       )
     );
   }, [type]);
-
-  const options = data?.findAllCategory.map((category) => category.name);
 
   return (
     <>
