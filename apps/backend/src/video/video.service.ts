@@ -58,6 +58,8 @@ export class VideoService {
         [Op.ne]: null,
       },
     };
+    console.log(options);
+    
     const videos = await this.videoService.findAll({
       ...options,
       where: whereToQuery,
@@ -86,9 +88,9 @@ export class VideoService {
   private async internalGetSignedUrlVideo<T>(video: T) {
     video['url'] = await this.r2ClientService.getSignedUrl(video['url']);
     video['poster'] = await this.r2ClientService.getSignedUrl(video['poster']);
-    video['trailerUrl'] = await this.r2ClientService.getSignedUrl(
-      video['trailerUrl']
-    );
+    // video['trailerUrl'] = await this.r2ClientService.getSignedUrl(
+    //   video['trailerUrl']
+    // );
     return video;
   }
 

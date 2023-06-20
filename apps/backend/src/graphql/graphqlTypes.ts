@@ -35,6 +35,8 @@ export interface FAttributeOptions {
 export interface IncludeModel {
     where?: Nullable<JSON>;
     association?: Nullable<string>;
+    as?: Nullable<string>;
+    model?: Nullable<string>;
     attributes?: Nullable<FAttributeOptions>;
     include?: Nullable<IncludeModel[]>;
 }
@@ -63,10 +65,10 @@ export interface VideoFilter {
     subQuery?: Nullable<boolean>;
     type?: Nullable<string>;
     useMaster?: Nullable<boolean>;
-    where?: Nullable<VideoWherClause>;
+    where?: Nullable<VideoWhereClause>;
 }
 
-export interface VideoWherClause {
+export interface VideoWhereClause {
     language?: Nullable<string>;
     view?: Nullable<number>;
     country?: Nullable<string>;
@@ -214,6 +216,12 @@ export interface TagEntity {
     name: string;
 }
 
+export interface CategoryEntity {
+    id: number;
+    name: string;
+    videos: VideoEntity[];
+}
+
 export interface VideoEntity {
     id: number;
     name: string;
@@ -223,14 +231,9 @@ export interface VideoEntity {
     view?: Nullable<number>;
     country: string;
     tags: TagEntity[];
+    categories: CategoryEntity[];
     description: string;
     poster?: Nullable<string>;
-}
-
-export interface CategoryEntity {
-    id: number;
-    name: string;
-    videos: VideoEntity[];
 }
 
 export interface InitMultiPartEntity {

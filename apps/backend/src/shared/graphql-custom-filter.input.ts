@@ -8,6 +8,8 @@ export class FAttributeOptions {
 @InputType()
 export class IncludeModel {
   association?: string;
+  as?: string;
+  model?: string;
   attributes?: FAttributeOptions;
   @Field(() => GraphQLJSON)
   where?: any;

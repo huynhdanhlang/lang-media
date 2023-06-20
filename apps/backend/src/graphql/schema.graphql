@@ -33,6 +33,12 @@ type TagEntity {
   name: String!
 }
 
+type CategoryEntity {
+  id: Int!
+  name: String!
+  videos: [VideoEntity!]!
+}
+
 type VideoEntity {
   id: Int!
   name: String!
@@ -42,14 +48,9 @@ type VideoEntity {
   view: Int
   country: String!
   tags: [TagEntity!]!
+  categories: [CategoryEntity!]!
   description: String!
   poster: String
-}
-
-type CategoryEntity {
-  id: Int!
-  name: String!
-  videos: [VideoEntity!]!
 }
 
 type InitMultiPartEntity {
@@ -112,6 +113,8 @@ input FAttributeOptions {
 input IncludeModel {
   where: JSON
   association: String
+  as: String
+  model: String
   attributes: FAttributeOptions
   include: [IncludeModel!]
 }
@@ -146,10 +149,10 @@ input VideoFilter {
   subQuery: Boolean
   type: String
   useMaster: Boolean
-  where: VideoWherClause
+  where: VideoWhereClause
 }
 
-input VideoWherClause {
+input VideoWhereClause {
   language: String
   view: Int
   country: String

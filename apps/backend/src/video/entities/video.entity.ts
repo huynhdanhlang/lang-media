@@ -1,6 +1,7 @@
 import { UpdateVideoInput } from '@graphqlTypes';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { TagEntity } from '../../tag/entities/tag.entity';
+import { CategoryEntity } from '../../category/entities/category.entity';
 @ObjectType()
 export class VideoEntity implements UpdateVideoInput {
   description: string;
@@ -20,5 +21,7 @@ export class VideoEntity implements UpdateVideoInput {
   country: string;
   @Field(() => [TagEntity])
   tags: TagEntity[];
+  @Field(() => [CategoryEntity])
+  categories: CategoryEntity[];
   poster?: string;
 }

@@ -3,7 +3,7 @@ import { UpdateVideoInput } from './update-video.input';
 import { BaseFilter } from '../../shared/graphql-custom-filter.input';
 
 @InputType()
-export class VideoWherClause extends OmitType(PartialType(UpdateVideoInput), [
+export class VideoWhereClause extends OmitType(PartialType(UpdateVideoInput), [
   'id',
 ] as const) {
   @Field(() => [Int])
@@ -12,5 +12,5 @@ export class VideoWherClause extends OmitType(PartialType(UpdateVideoInput), [
 
 @InputType()
 export class VideoFilter extends PartialType(BaseFilter) {
-  where?: VideoWherClause;
+  where?: VideoWhereClause;
 }
