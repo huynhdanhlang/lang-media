@@ -3,8 +3,6 @@
  * Author: Hieu Chu
  */
 
-import { colors } from '../category-component/categoryStyle';
-
 export const validateLatitude = (rule, value, callback) => {
   if (!value || !value.trim()) return callback();
   if (isNaN(value)) {
@@ -41,9 +39,4 @@ export const convertNonAccent = (str) => {
   str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, '');
   str = str.replace(/\u02C6|\u0306|\u031B/g, '');
   return str;
-};
-
-export const randomColor = () => {
-  const length = colors.length;
-  return colors[Math.floor(Math.random() * length)];
 };

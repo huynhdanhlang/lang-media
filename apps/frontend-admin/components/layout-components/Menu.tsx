@@ -37,7 +37,7 @@ const menu = [
       </a>
     </Link>
   </Menu.Item>,
-  <Menu.Item key={keys[2]}>
+  <Menu.Item key={keys[1]}>
     <Link legacyBehavior href={keys[1]}>
       <a>
         <MenuOutlined />
@@ -45,7 +45,7 @@ const menu = [
       </a>
     </Link>
   </Menu.Item>,
-  <Menu.Item key={keys[3]}>
+  <Menu.Item key={keys[2]}>
     <Link legacyBehavior href={keys[2]}>
       <a>
         <TagFilled />

@@ -25,11 +25,7 @@ export function Index() {
         <VideoCardList />
       </StyledPage>{' '}
       <style jsx global>
-        {`
-          .wrapper-img {
-            display: flex !important;
-          }
-        `}
+        {``}
       </style>
     </>
   );

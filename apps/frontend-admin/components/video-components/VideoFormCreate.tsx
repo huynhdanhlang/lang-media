@@ -6,6 +6,7 @@ import {
   ProFormUploadButton,
 } from '@ant-design/pro-components';
 import {
+  randomColor,
   useCreateVideoMutation,
   useFinalizeMultipartUploadMutation,
   useFindAllCategoryQuery,
@@ -17,7 +18,6 @@ import { Typography, Progress, notification } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useCallback, useEffect, useState } from 'react';
 import { titleFixed, titleStyle } from '@training-project/data-access';
-import { randomColor } from '../shared/utils';
 import { Uploader } from './Upload';
 import { fetcher } from 'apps/frontend-admin/utils/fetcher';
 import { FILE_FIELD_TYPE } from 'apps/frontend-admin/constant/upload.const';
