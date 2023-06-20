@@ -5,9 +5,9 @@ import { Space, Input, Tag, Tooltip, theme } from 'antd';
 import {
   useCreateTagMutation,
   useFindAllTagQuery,
-  Loading
+  Loading,
+  randomColor
 } from '@training-project/data-access';
-import { randomColor } from '../shared/utils';
 
 const TagList: React.FC = () => {
   const { loading, data, error } = useFindAllTagQuery();

@@ -1,9 +1,10 @@
 import {
   Loading,
   Logo,
+  randomColor,
   useFindOneVideoQuery,
 } from '@training-project/data-access';
-import { Col, Divider, Image, Row, notification } from 'antd';
+import { Button, Col, Divider, Image, Row, Tag, notification } from 'antd';
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import VideoCardList from 'apps/frontend/components/video/VideoCardList';
 import { useRouter } from 'next/router';
@@ -46,7 +47,16 @@ const VideoDetail = (props: IVideoDetail) => {
             <Divider type="vertical" style={{ height: '100%' }} />
           </Col>
           <Col className="text-style">
-            <Col>{data.findOneVideo.name}</Col>
+            <Col
+              style={{
+                fontSize: 24,
+                width: 500,
+                wordWrap: 'break-word',
+                display: 'flex',
+              }}
+            >
+              {data.findOneVideo.name}
+            </Col>
             <Row style={{ width: '100%' }}>
               <Col>Số tập: {'9/9'}</Col>
               <Col>
@@ -62,13 +72,39 @@ const VideoDetail = (props: IVideoDetail) => {
                   style={{ height: '100%', margin: 30 }}
                 />
               </Col>
-              <Col span={5}>
+              <Col style={{ width: 200, wordWrap: 'break-word' }}>
                 Thể loại:{' '}
                 {data.findOneVideo.categories
                   .map((category) => category.name)
                   .join(', ')}
               </Col>
             </Row>
+            <Col
+              style={{
+                position: 'absolute',
+                height: '10px',
+                bottom: 0,
+                right: 0,
+                margin: '20px',
+                left: 0,
+              }}
+            >
+              <Button type="primary" style={{ width: '50%' }}>
+                Xem phim
+              </Button>
+            </Col>
+          </Col>
+          <Col>
+            <span className="text-style">Tags : </span>
+            {data.findOneVideo.tags.map((tag) => (
+              <Tag
+                style={{
+                  background: `#${randomColor()}`,
+                }}
+              >
+                {tag.name}
+              </Tag>
+            ))}
           </Col>
         </Row>
         <div>
