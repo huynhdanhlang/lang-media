@@ -1,4 +1,4 @@
-import { Layout, theme } from 'antd';
+import { Layout, theme, Divider } from 'antd';
 import styled from 'styled-components';
 import VideoCardList from '../components/video/VideoCardList';
 
@@ -19,9 +19,19 @@ export function Index() {
     token: { colorBgContainer },
   } = theme.useToken();
   return (
-    <StyledPage>
-      <VideoCardList/>
-    </StyledPage>
+    <>
+      <StyledPage>
+        <Divider className="text-style">Mới cập nhật</Divider>
+        <VideoCardList />
+      </StyledPage>{' '}
+      <style jsx global>
+        {`
+          .wrapper-img {
+            display: flex !important;
+          }
+        `}
+      </style>
+    </>
   );
 }
 

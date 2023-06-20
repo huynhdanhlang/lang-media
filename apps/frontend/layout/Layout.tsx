@@ -4,14 +4,23 @@ import ImageSlider from '../components/layout/Carousel';
 import { Content, Footer } from 'antd/es/layout/layout';
 import { CNLogo as LogoTitle } from '@training-project/data-access';
 import { backgroudBorder, layoutStyle } from '@training-project/data-access';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 interface ILayout {
   children: React.ReactNode;
 }
 const LayoutCPN = (props: ILayout) => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const router = useRouter();
+  const [isShowImageSidler, setIsShowImageSidler] = useState(false);
+
+  useEffect(() => {
+    console.log(router.asPath);
+
+    if (router.asPath === '/' || router.asPath === 'videos') {
+      setIsShowImageSidler(true);
+    }
+  }, [router]);
   return (
     <Layout
       className="site-layout"
@@ -37,7 +46,6 @@ const LayoutCPN = (props: ILayout) => {
       >
         <LogoTitle />
       </MyHeader>
-      <ImageSlider />
       <Content
         style={{
           margin: '24px 16px 0',
@@ -46,6 +54,9 @@ const LayoutCPN = (props: ILayout) => {
           minHeight: 'calc(100vh - 550px)', // 550px comming from header + footer
         }}
       >
+        {isShowImageSidler && (
+          <ImageSlider style={{ height: 400, border: 'unset' }} />
+        )}
         {props.children}
       </Content>
       <Footer

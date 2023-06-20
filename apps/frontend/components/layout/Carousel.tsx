@@ -9,6 +9,7 @@ import {
   useFindAllVideoQuery,
 } from '@training-project/data-access';
 import { chunk } from 'lodash';
+import { useRouter } from 'next/router';
 const contentStyle: CSSProperties = {
   height: '160px',
   color: '#fff',
@@ -17,7 +18,14 @@ const contentStyle: CSSProperties = {
   // background: '#364d79',
 };
 
-interface IImageSlider extends IBase {}
+interface IImageSlider extends IBase {
+  categoryIds?: number[];
+  numberOfCol?: number;
+  limit?: number;
+  style?: CSSProperties;
+  onClick?: (video: VideoEntity) => void;
+  currentVideoId?: number;
+}
 
 const ImagesViewerWrapper = styled.div`
   .ant-carousel img {
@@ -34,37 +42,65 @@ const ImagesViewerWrapper = styled.div`
   }
 `;
 
-const imageStyle = {
-  height: 400,
-  border: 'unset',
-};
-
 const ImageSlider = (props: IImageSlider) => {
   const [videoList, setVideoList] = useState<any[][]>([]);
-  const { data: videos, loading } = useFindAllVideoQuery({
-    variables: {
-      videoFilter: {
-        limit: 6,
-        order: [['view', 'DESC']],
-      },
-    },
-  });
+  const router = useRouter();
+  const whereToQuery = props.categoryIds?.length
+    ? {
+        variables: {
+          videoFilter: {
+            include: [
+              {
+                association: 'categories',
+                where: {
+                  id: props.categoryIds,
+                },
+              },
+            ],
+          },
+        },
+      }
+    : {
+        variables: {
+          videoFilter: {
+            limit: props.limit ?? 6,
+            order: [['view', 'DESC']],
+          },
+        },
+      };
+  const { data: videos, loading } = useFindAllVideoQuery(whereToQuery);
   useEffect(() => {
     if (videos?.findAllVideo.length) {
-      const videoSlice = chunk(videos.findAllVideo, 2);
-      console.log(
-        '🚀 ~ file: Carousel.tsx:51 ~ useEffect ~ videoSlice:',
-        videoSlice
+      const videoSlice = chunk(
+        videos.findAllVideo.filter(
+          (video) => video.id !== props.currentVideoId
+        ),
+        props.numberOfCol ?? 2
       );
       setVideoList(videoSlice);
     }
   }, [videos]);
 
+  const handleOnClick = (video: VideoEntity) => {
+    if (props.onClick) {
+      props.onClick(video);
+    } else {
+      router.push(`/${video.name}/${video.id}`);
+    }
+  };
+
   const renderVideoCarousel = useCallback(() => {
     return videoList.map((videos) => (
       <div className="wrapper-img">
         {videos.map((video) => {
-          return <Logo src={video.poster} style={{ ...imageStyle }} />;
+          return (
+            <Logo
+              className="logo-image"
+              src={video.poster}
+              style={{ ...props.style }}
+              onClick={() => handleOnClick(video)}
+            />
+          );
         })}
       </div>
     ));
@@ -73,12 +109,26 @@ const ImageSlider = (props: IImageSlider) => {
   return (
     <>
       <ImagesViewerWrapper>
-        <Carousel {...props} autoplay infinite>{renderVideoCarousel()}</Carousel>
+        <Carousel {...props} autoplay infinite>
+          {renderVideoCarousel()}
+        </Carousel>
       </ImagesViewerWrapper>
       <style jsx global>
         {`
           .wrapper-img {
             display: flex !important;
+          }
+          .logo-image {
+            transition: transform 0.2s; /* Animation */
+            cursor: pointer;
+          }
+           {
+            /* .logo-image:hover {
+            box-shadow: 0 0 4px #eee;
+            transform: scale(1.2);
+            z-index: 10;
+            cursor: pointer;
+          } */
           }
         `}
       </style>
