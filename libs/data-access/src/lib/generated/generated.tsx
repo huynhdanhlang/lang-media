@@ -97,9 +97,11 @@ export type IProcessingMultipartUploadEntity = {
 };
 
 export type IncludeModel = {
+  as?: InputMaybe<Scalars['String']['input']>;
   association?: InputMaybe<Scalars['String']['input']>;
   attributes?: InputMaybe<FAttributeOptions>;
   include?: InputMaybe<Array<IncludeModel>>;
+  model?: InputMaybe<Scalars['String']['input']>;
   where?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -419,6 +421,7 @@ export type UserWherClause = {
 
 export type VideoEntity = {
   __typename?: 'VideoEntity';
+  categories: Array<CategoryEntity>;
   country: Scalars['String']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -447,10 +450,10 @@ export type VideoFilter = {
   subQuery?: InputMaybe<Scalars['Boolean']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
   useMaster?: InputMaybe<Scalars['Boolean']['input']>;
-  where?: InputMaybe<VideoWherClause>;
+  where?: InputMaybe<VideoWhereClause>;
 };
 
-export type VideoWherClause = {
+export type VideoWhereClause = {
   country?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Array<Scalars['Int']['input']>>;
@@ -574,21 +577,21 @@ export type FindAllVideoQueryVariables = Exact<{
 }>;
 
 
-export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> | null };
 
 export type FindOneVideoQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> } | null };
 
 export type FindAllVieoByCategroryQueryVariables = Exact<{
   categoryId: Scalars['Int']['input'];
 }>;
 
 
-export type FindAllVieoByCategroryQuery = { __typename?: 'Query', findAllVieoByCategrory: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> };
+export type FindAllVieoByCategroryQuery = { __typename?: 'Query', findAllVieoByCategrory: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> };
 
 export type CreateVideoMutationVariables = Exact<{
   createVideoDto: CreateVideoDto;
@@ -1227,6 +1230,10 @@ export const FindAllVideoDocument = gql`
       id
       name
     }
+    categories {
+      id
+      name
+    }
   }
 }
     `;
@@ -1274,6 +1281,10 @@ export const FindOneVideoDocument = gql`
       id
       name
     }
+    categories {
+      id
+      name
+    }
   }
 }
     `;
@@ -1318,6 +1329,10 @@ export const FindAllVieoByCategroryDocument = gql`
     description
     poster
     tags {
+      id
+      name
+    }
+    categories {
       id
       name
     }

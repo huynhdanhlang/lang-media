@@ -13,6 +13,10 @@ query findAllVideo($videoFilter: VideoFilter) {
       id
       name
     }
+    categories {
+      id
+      name
+    }
   }
 }
 
@@ -31,6 +35,10 @@ query findOneVideo($id: Int!) {
       id
       name
     }
+    categories {
+      id
+      name
+    }
   }
 }
 
@@ -46,6 +54,10 @@ query findAllVieoByCategrory($categoryId: Int!) {
     description
     poster
     tags {
+      id
+      name
+    }
+    categories {
       id
       name
     }

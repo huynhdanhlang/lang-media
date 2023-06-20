@@ -5,8 +5,10 @@ import {
   backgroudBorder,
   profileStyle,
 } from '../../../../libs/data-access/src/shared/theme';
+import { useRouter } from 'next/router';
 interface IVideoList {}
 const VideoCardList = (props: IVideoList) => {
+  const router = useRouter();
   const { loading, data, error } = useFindAllVideoQuery();
   if (error) {
     notification.error(error);
@@ -18,6 +20,7 @@ const VideoCardList = (props: IVideoList) => {
           data.findAllVideo.map((video) => (
             <ProCard
               // title={video.name}
+              onClick={(e) => router.push(`${video.name}/${video.id}`)}
               className="video-list"
               loading={loading}
               style={{
