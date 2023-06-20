@@ -87,7 +87,7 @@ const VideoFormCreate = () => {
   const processBar = useCallback(
     (fieldType: string) => {
       if (Object.keys(uploaderList).length) {
-        const percentage = uploaderList[fieldType].percentage;
+        const percentage = uploaderList[fieldType]?.percentage;
         return (
           <Progress
             trailColor="lightblue"
@@ -143,9 +143,9 @@ const VideoFormCreate = () => {
   }, []);
 
   const handleSubmit = async (values: any) => {
+    // TRAILER_URL: values['video-trailer'][0].originFileObj,
     const files: IFiles = {
       POSTER_URL: values.poster[0].originFileObj,
-      TRAILER_URL: values['video-trailer'][0].originFileObj,
       VIDEO_URL: values.video[0].originFileObj,
     };
     const { data: video } = await createVideo({
@@ -157,6 +157,7 @@ const VideoFormCreate = () => {
           language: values.languages.join('|'),
           categories: values.categories,
           tags: values.tags,
+          trailerUrl: values['video-trailer'],
         },
       },
     });
@@ -199,7 +200,6 @@ const VideoFormCreate = () => {
           })
           .onError((error) => {
             console.error(error);
-            onCancel();
           });
 
         uploader.start();
@@ -293,19 +293,6 @@ const VideoFormCreate = () => {
               ]}
             />
           </ProForm.Group>
-          {/* <ProForm.Group>
-            <ProFormText
-              name={['contract', 'name']}
-              width="md"
-              label="合同名称"
-              placeholder="请输入名称"
-            />
-            <ProFormDateRangePicker
-              width="md"
-              name={['contract', 'createTime']}
-              label="合同生效时间"
-            />
-          </ProForm.Group> */}
           <ProForm.Group>
             <ProFormSelect
               showSearch
@@ -400,7 +387,11 @@ const VideoFormCreate = () => {
               ]}
             />
           </ProForm.Group>
-          <ProForm.Group>
+          <ProForm.Group
+            spaceProps={{
+              className: 'space-url-item',
+            }}
+          >
             <div>
               <ProFormUploadButton
                 allowClear
@@ -443,7 +434,20 @@ const VideoFormCreate = () => {
               />
               {processBar(FILE_FIELD_TYPE.VIDEO_URL)}
             </div>
-            <div>
+            <ProFormText
+              width="md"
+              name="video-trailer"
+              label={<Text className="text-style">Trailer url</Text>}
+              placeholder="Nhập url trailer video"
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Trailer url là bắt buộc!',
+                },
+              ]}
+            />
+            {/* <div>
               <ProFormUploadButton
                 allowClear
                 max={1}
@@ -463,7 +467,7 @@ const VideoFormCreate = () => {
                 ]}
               />
               {processBar(FILE_FIELD_TYPE.TRAILER_URL)}
-            </div>
+            </div> */}
           </ProForm.Group>
         </ProForm>
       </div>
@@ -471,6 +475,9 @@ const VideoFormCreate = () => {
         {`
           div.select-item-video-form span.ant-select-selection-item {
             background: #${randomColor()};
+          }
+          span.ant-btn-icon span.anticon-delete {
+            color: white !important;
           }
         `}
       </style>

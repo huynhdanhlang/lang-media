@@ -154,8 +154,8 @@ input VideoWherClause {
   view: Int
   country: String
   description: String
-  url: String
   trailerUrl: String
+  url: String
   poster: String
   id: [Int!]
 }
@@ -242,6 +242,7 @@ input CreateVideoDto {
   categories: [Int!]!
   tags: [Int!]!
   description: String!
+  trailerUrl: String!
 }
 
 input UpdateVideoInput {
@@ -249,8 +250,8 @@ input UpdateVideoInput {
   view: Int
   country: String
   description: String
-  url: String
   trailerUrl: String
+  url: String
   poster: String
   id: Int
 }

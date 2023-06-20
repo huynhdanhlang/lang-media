@@ -71,8 +71,8 @@ export interface VideoWherClause {
     view?: Nullable<number>;
     country?: Nullable<string>;
     description?: Nullable<string>;
-    url?: Nullable<string>;
     trailerUrl?: Nullable<string>;
+    url?: Nullable<string>;
     poster?: Nullable<string>;
     id?: Nullable<number[]>;
 }
@@ -131,6 +131,7 @@ export interface CreateVideoDto {
     categories: number[];
     tags: number[];
     description: string;
+    trailerUrl: string;
 }
 
 export interface UpdateVideoInput {
@@ -138,8 +139,8 @@ export interface UpdateVideoInput {
     view?: Nullable<number>;
     country?: Nullable<string>;
     description?: Nullable<string>;
-    url?: Nullable<string>;
     trailerUrl?: Nullable<string>;
+    url?: Nullable<string>;
     poster?: Nullable<string>;
     id?: Nullable<number>;
 }

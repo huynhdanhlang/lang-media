@@ -30,6 +30,7 @@ export class CreateVideoDto {
   categories: number[];
   @Field(() => [Int])
   tags: number[];
+  trailerUrl: string;
 }
 
 @InputType()
@@ -41,6 +42,5 @@ export class CreateVideoInput extends OmitType(CreateVideoDto, [
   // 'trailerVideo',
 ]) {
   url?: string;
-  trailerUrl?: string;
   poster?: string;
 }

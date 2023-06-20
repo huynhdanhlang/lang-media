@@ -108,8 +108,8 @@ export class R2ClientService {
       let updateField = {};
       if (fieldType === FileFiledType.POSTER_URL) {
         updateField[FileFiledType.POSTER_URL] = filePath;
-      } else if (fieldType === FileFiledType.TRAILER_URL) {
-        updateField[FileFiledType.TRAILER_URL] = filePath;
+      // } else if (fieldType === FileFiledType.TRAILER_URL) {
+      //   updateField[FileFiledType.TRAILER_URL] = filePath;
       } else {
         updateField[FileFiledType.VIDEO_URL] = filePath;
       }

@@ -82,6 +82,7 @@ export type CreateVideoDto = {
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   tags: Array<Scalars['Int']['input']>;
+  trailerUrl: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 

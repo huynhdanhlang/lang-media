@@ -12,20 +12,25 @@ import {
   TagFilled,
 } from '@ant-design/icons';
 import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
-import { backgroudBorder, layoutStyle } from "@training-project/data-access";
-const keys = ['/', '/videos', '/categories', '/tags'];
+import { backgroudBorder, layoutStyle } from '@training-project/data-access';
+const keys = [
+  // '/',
+   '/videos',
+  '/categories',
+  '/tags',
+];
 
 const menu = [
+  // <Menu.Item key={keys[0]}>
+  //   <Link legacyBehavior href={keys[0]}>
+  //     <a>
+  //       <DashboardFilled />
+  //       <span className="text-style">{COMPONENTS.DASHBOARD}</span>
+  //     </a>
+  //   </Link>
+  // </Menu.Item>,
   <Menu.Item key={keys[0]}>
     <Link legacyBehavior href={keys[0]}>
-      <a>
-        <DashboardFilled />
-        <span className="text-style">{COMPONENTS.DASHBOARD}</span>
-      </a>
-    </Link>
-  </Menu.Item>,
-  <Menu.Item key={keys[1]}>
-    <Link legacyBehavior href={keys[1]}>
       <a>
         <VideoCameraFilled />
         <span className="text-style">{COMPONENTS.VIDEO_MANAGEMENT}</span>
@@ -33,7 +38,7 @@ const menu = [
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[2]}>
-    <Link legacyBehavior href={keys[2]}>
+    <Link legacyBehavior href={keys[1]}>
       <a>
         <MenuOutlined />
         <span className="text-style">{COMPONENTS.CATEGORY_MANAGEMENT}</span>
@@ -41,7 +46,7 @@ const menu = [
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[3]}>
-    <Link legacyBehavior href={keys[3]}>
+    <Link legacyBehavior href={keys[2]}>
       <a>
         <TagFilled />
         <span className="text-style">{COMPONENTS.TAG_MANAGEMENT}</span>

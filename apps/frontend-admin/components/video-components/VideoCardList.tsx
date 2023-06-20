@@ -58,12 +58,33 @@ const VideoCardList = (props: IVideoList) => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                background: 'bottom',
-                fontWeight: 'lighter',
               }}
-              className="text-style"
             >
-              {video.description}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: 150,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    minWidth: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                    className="text-style"
+                  >
+                    {video.name}
+                  </div>
+                </div>
+              </div>
             </div>
           </ProCard>
         ))}
