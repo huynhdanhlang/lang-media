@@ -18,6 +18,8 @@ import { UpdateVideoInput } from './dto/update-video.input';
 import { VideoFilter } from './dto/video-filter.input';
 import { VideoEntity } from './entities/video.entity';
 import { VideoService } from './video.service';
+import { CategoryEntity } from '../category/entities/category.entity';
+import Category from '../database/models/Category';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(
@@ -29,10 +31,6 @@ export class VideoResolver {
   @UseGuards(JwtAuthenticationGuard)
   @Mutation(() => VideoEntity)
   async createVideo(@Args('createVideoDto') createVideoDto: CreateVideoDto) {
-    console.log(
-      '🚀 ~ file: video.resolver.ts:33 ~ VideoResolver ~ createVideo ~ createVideoDto:',
-      createVideoDto
-    );
     return await this.videoService.create(createVideoDto);
   }
 
@@ -59,6 +57,15 @@ export class VideoResolver {
       include: Tag,
     });
     return video.tags;
+  }
+
+  @ResolveField(() => CategoryEntity, { nullable: true })
+  async categories(@Parent() parent: VideoEntity) {
+    const { id } = parent;
+    const video = await this.videoService.findOne(id, {
+      include: Category,
+    });
+    return video.categories;
   }
 
   @UseGuards(new JwtAuthenticationGuard('videoFilter'))
