@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { userState } from '../stores/user';
-import { UserEntity, useLogoutMutation } from '@training-project/data-access';
-import { useRouter } from 'next/router';
+import VideoManagement from '../components/video-components/VideoManagement';
 
 const StyledPage = styled.div`
   .page {
@@ -11,7 +7,6 @@ const StyledPage = styled.div`
 `;
 
 export function Index() {
-
   /*
    * Replace the elements below with your own.
    *
@@ -40,9 +35,10 @@ export function Index() {
 
   // return <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} />;
   return (
-    <StyledPage>
-      <div>sdjfsdhfiu</div>
-    </StyledPage>
+    <VideoManagement />
+    // <StyledPage>
+
+    // </StyledPage>
   );
 }
 
