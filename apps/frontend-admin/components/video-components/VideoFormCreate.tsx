@@ -54,7 +54,8 @@ const VideoFormCreate = () => {
     error: categoryError,
   } = useFindAllCategoryQuery();
 
-  const [createVideo, { data, error, loading }] = useCreateVideoMutation();
+  const [createVideo, { error: createVideoError, loading }] =
+    useCreateVideoMutation();
   const [
     initializeMultipartUpload,
     { data: multiPartData, error: multiPartError },
@@ -67,6 +68,22 @@ const VideoFormCreate = () => {
     finalizeMultipartUpload,
     { data: multiPartDataFinal, error: multiPartErrorFinal },
   ] = useFinalizeMultipartUploadMutation();
+
+  useEffect(() => {
+    const error =
+      multiPartError ||
+      multiPartErrorSinged ||
+      multiPartErrorFinal ||
+      createVideoError;
+    if (error) {
+      notification.error(error);
+    }
+  }, [
+    multiPartError,
+    multiPartErrorSinged,
+    multiPartErrorFinal,
+    createVideoError,
+  ]);
 
   const mapSelectOption = (data: any[]) => {
     return data.map((val) => ({
@@ -161,10 +178,7 @@ const VideoFormCreate = () => {
         },
       },
     });
-    if (error) {
-      notification.error(error);
-      return;
-    }
+    if (!video) return;
     Promise.all(
       Object.entries(files).map(([key, file]) => {
         const fieldType = FILE_FIELD_TYPE[key];
@@ -199,9 +213,10 @@ const VideoFormCreate = () => {
             }
           })
           .onError((error) => {
+            onCancel();
             console.error(error);
+            notification.error(error);
           });
-
         uploader.start();
       })
     );
@@ -209,12 +224,12 @@ const VideoFormCreate = () => {
 
   const onCancel = () => {
     if (Object.keys(uploaderList).length) {
-      setUploaderList({});
       Object.values(uploaderList).forEach((up) => {
         up.uploader?.abort();
       });
     }
     setUploaderList({});
+    form.resetFields();
   };
 
   return (

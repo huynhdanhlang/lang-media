@@ -1,16 +1,16 @@
+import { PlusOutlined } from '@ant-design/icons';
+import { ProFormRadio } from '@ant-design/pro-components';
 import {
   FindAllCategoryQuery,
-  useFindAllCategoryQuery,
   Loading,
+  titleFixed,
+  useFindAllCategoryQuery,
 } from '@training-project/data-access';
-import { notification, Divider, FloatButton } from 'antd';
-import { ProFormRadio } from '@ant-design/pro-components';
+import { FloatButton, notification } from 'antd';
+import { isEmpty } from 'lodash';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import VideoCardList from './VideoCardList';
-import { titleFixed } from '@training-project/data-access';
-import { useRouter } from 'next/router';
-import { PlusOutlined } from '@ant-design/icons';
-import { isEmpty } from 'lodash';
 interface IVideoManagement {}
 const VideoManagement = (props: IVideoManagement) => {
   const router = useRouter();

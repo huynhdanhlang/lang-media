@@ -1,14 +1,11 @@
 import {
   Loading,
-  Logo,
   randomColor,
-  useFindOneVideoQuery,
+  useFindOneVideoQuery
 } from '@training-project/data-access';
 import { Button, Col, Divider, Image, Row, Tag, notification } from 'antd';
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
-import VideoCardList from 'apps/frontend/components/video/VideoCardList';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 interface IVideoDetail {
   // id: number;
 }

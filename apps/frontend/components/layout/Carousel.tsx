@@ -92,9 +92,10 @@ const ImageSlider = (props: IImageSlider) => {
   const renderVideoCarousel = useCallback(() => {
     return videoList.map((videos) => (
       <div className="wrapper-img">
-        {videos.map((video) => {
+        {videos.map((video: VideoEntity) => {
           return (
             <Logo
+              key={video.id}
               className="logo-image"
               src={video.poster}
               style={{ ...props.style }}

@@ -1,24 +1,22 @@
-import { AppProps } from 'next/app';
-import Head from 'next/head';
-import './styles.css';
-import '../public/static/index.css';
-import { RecoilRoot } from 'recoil';
 import {
-  ApolloProvider,
   ApolloClient,
-  InMemoryCache,
-  createHttpLink,
+  ApolloProvider,
   DefaultOptions,
+  InMemoryCache
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import dynamic from 'next/dynamic';
-import { RECOIL_PERSIST } from '../constant/keyStore.const';
-import { useRouter } from 'next/router';
 import { onError } from '@apollo/client/link/error';
+import { createUploadLink } from 'apollo-upload-client';
+import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { RecoilRoot } from 'recoil';
 import { GraphQLErrorCustom } from '../components/shared/error';
 import { IUser } from '../components/shared/user';
-import { createUploadLink } from 'apollo-upload-client';
-import { notification } from 'antd';
+import { RECOIL_PERSIST } from '../constant/keyStore.const';
+import '../public/static/index.css';
+import './styles.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -31,7 +29,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
       graphQLErrors.forEach(
         ({ message, locations, path, extensions }: GraphQLErrorCustom) => {
           if (extensions?.originalError?.statusCode === 401) {
-            notification.error(extensions?.originalError);
             localStorage.removeItem(RECOIL_PERSIST);
             router.replace(router.asPath, '/login');
             router.reload();
