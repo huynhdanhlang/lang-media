@@ -48,7 +48,7 @@ export class R2ClientService {
   async getMultipartPreSignedUrls(
     multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto
   ) {
-    const { fileKey, fileId, parts } = multiPartPreSignedUrlDto;
+    const { fileKey, fileId, parts, videoId } = multiPartPreSignedUrlDto;
     const multipartParams = {
       Bucket: this.configService.get('R2_BUCKET_NAME'),
       Key: fileKey,
@@ -82,6 +82,7 @@ export class R2ClientService {
       this.logger.error(error);
 
       if (fileId) {
+        await this.videoService.remove(videoId);
         await this.s3.abortMultipartUpload(multipartParams);
       }
     }
@@ -108,21 +109,19 @@ export class R2ClientService {
       let updateField = {};
       if (fieldType === FileFiledType.POSTER_URL) {
         updateField[FileFiledType.POSTER_URL] = filePath;
-      // } else if (fieldType === FileFiledType.TRAILER_URL) {
-      //   updateField[FileFiledType.TRAILER_URL] = filePath;
+        // } else if (fieldType === FileFiledType.TRAILER_URL) {
+        //   updateField[FileFiledType.TRAILER_URL] = filePath;
       } else {
         updateField[FileFiledType.VIDEO_URL] = filePath;
       }
       await this.videoService.update(videoId, {
         ...updateField,
       });
-      return {
-        ETag: completeMultipartUploadOutput.ETag,
-      };
     } catch (error) {
       this.logger.error(error);
 
       if (fileId) {
+        await this.videoService.remove(videoId);
         await this.s3.abortMultipartUpload(multipartParams);
       }
     }

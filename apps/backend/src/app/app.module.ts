@@ -83,9 +83,6 @@ import { Void } from '../utils/graphql';
             responseCachePlugin(),
           ],
           context: ({ req, res }) => ({ req, res }),
-          resolvers: {
-            Void: Void,
-          },
         };
         return apolloConfig;
       },

@@ -170,16 +170,17 @@ export interface InitMultiPartDto {
 
 export interface MultiPartPreSignedUrlDto {
     parts: number;
+    videoId: number;
     fileKey: string;
     fileId: string;
 }
 
 export interface MapMultiPartFinalDto {
+    videoId: number;
     fileKey: string;
     fileId: string;
     parts: MultiPartFinal[];
     fieldType: string;
-    videoId: number;
 }
 
 export interface MultiPartFinal {
@@ -261,7 +262,7 @@ export interface IQuery {
     role(id: number): RoleEntity | Promise<RoleEntity>;
     findAllVideo(videoFilter?: Nullable<VideoFilter>): Nullable<VideoEntity[]> | Promise<Nullable<VideoEntity[]>>;
     findOneVideo(id: number): Nullable<VideoEntity> | Promise<Nullable<VideoEntity>>;
-    findAllVieoByCategrory(categoryId: number): VideoEntity[] | Promise<VideoEntity[]>;
+    findAllVideoByCategory(categoryId: number): VideoEntity[] | Promise<VideoEntity[]>;
     findAllTag(): Nullable<TagEntity[]> | Promise<Nullable<TagEntity[]>>;
     findOneTag(id: number): Nullable<TagEntity> | Promise<Nullable<TagEntity>>;
     findAllCategory(categoryFilter?: Nullable<CategoryFilter>): Nullable<CategoryEntity[]> | Promise<Nullable<CategoryEntity[]>>;

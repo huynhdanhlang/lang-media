@@ -78,7 +78,7 @@ type Query {
   role(id: Int!): RoleEntity!
   findAllVideo(videoFilter: VideoFilter): [VideoEntity!]
   findOneVideo(id: Int!): VideoEntity
-  findAllVieoByCategrory(categoryId: Int!): [VideoEntity!]!
+  findAllVideoByCategory(categoryId: Int!): [VideoEntity!]!
   findAllTag: [TagEntity!]
   findOneTag(id: Int!): TagEntity
   findAllCategory(categoryFilter: CategoryFilter): [CategoryEntity!]
@@ -282,6 +282,7 @@ input InitMultiPartDto {
 
 input MultiPartPreSignedUrlDto {
   parts: Int!
+  videoId: Int!
   fileKey: String!
   fileId: String!
 }
@@ -290,11 +291,11 @@ input MultiPartPreSignedUrlDto {
 scalar Void
 
 input MapMultiPartFinalDto {
+  videoId: Int!
   fileKey: String!
   fileId: String!
   parts: [MultiPartFinal!]!
   fieldType: String!
-  videoId: Float!
 }
 
 input MultiPartFinal {

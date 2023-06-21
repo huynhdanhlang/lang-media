@@ -81,7 +81,7 @@ export class VideoResolver {
   }
 
   @Query(() => [VideoEntity])
-  async findAllVieoByCategrory(
+  async findAllVideoByCategory(
     @Args('categoryId', { type: () => Int }) categoryId: number
   ) {
     return this.videoService.getVideoByCategory(categoryId);
