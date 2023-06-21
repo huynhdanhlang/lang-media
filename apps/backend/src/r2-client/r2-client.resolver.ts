@@ -63,9 +63,6 @@ export class R2ClientResolver {
     @Context() ctx: GraphQLContext
   ) {
     const { res } = ctx;
-    const result = await this.r2ClientService.finalizeMultipartUpload(
-      mapMultiPartFinalDto
-    );
-    return result;
+    await this.r2ClientService.finalizeMultipartUpload(mapMultiPartFinalDto);
   }
 }

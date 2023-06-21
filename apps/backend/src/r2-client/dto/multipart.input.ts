@@ -12,6 +12,8 @@ export class MultiPartPreSignedUrlDto {
   fileId: string;
   @Field(() => Int)
   parts: number;
+  @Field(() => Int)
+  videoId: number;
 }
 
 @InputType()
@@ -25,9 +27,9 @@ export class MultiPartFinal {
 export class MapMultiPartFinalDto extends PickType(MultiPartPreSignedUrlDto, [
   'fileId',
   'fileKey',
+  'videoId',
 ]) {
   @Field(() => [MultiPartFinal])
   parts: MultiPartFinal[];
   fieldType: string;
-  videoId: number;
 }

@@ -15,7 +15,7 @@ import { UpdateVideoInput } from './dto/update-video.input';
 export class VideoService {
   constructor(
     @InjectModel(Video) private videoService: typeof Video,
-    private categroryService: CategoryService,
+    private categoryService: CategoryService,
     private sequelize: Sequelize,
     private r2ClientService: R2ClientService
   ) {}
@@ -107,7 +107,7 @@ export class VideoService {
   }
 
   async getVideoByCategory(categoryId: number) {
-    const category = await this.categroryService.findOne(categoryId, {
+    const category = await this.categoryService.findOne(categoryId, {
       include: Video,
     });
     return await this.getSignedUrlVideo(category.videos);

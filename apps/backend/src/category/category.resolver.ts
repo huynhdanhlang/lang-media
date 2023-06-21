@@ -46,12 +46,7 @@ export class CategoryResolver {
   async videos(@Parent() parent: CategoryEntity) {
     const { id } = parent;
     const category = await this.categoryService.findOne(id, {
-      include: [
-        {
-          model: Video,
-        },
-      ],
-      attributes: [],
+      include: Video
     });
     return category.videos;
   }
