@@ -1,13 +1,10 @@
 import {
   EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
+  EllipsisOutlined
 } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
 import {
-  VideoEntity,
-  useFindAllVieoByCategroryQuery,
-  Loading,
+  useFindAllVideoByCategoryQuery
 } from '@training-project/data-access';
 import { Image, Space, notification } from 'antd';
 import {
@@ -20,7 +17,7 @@ interface IVideoList {
   categoryId: number;
 }
 const VideoCardList = (props: IVideoList) => {
-  const { loading, data, error } = useFindAllVieoByCategroryQuery({
+  const { loading, data, error } = useFindAllVideoByCategoryQuery({
     variables: {
       categoryId: props.categoryId,
     },
@@ -31,7 +28,7 @@ const VideoCardList = (props: IVideoList) => {
   return (
     <Space wrap size={'small'}>
       {data &&
-        data.findAllVieoByCategrory.map((video) => (
+        data.findAllVideoByCategory.map((video) => (
           <ProCard
             // title={video.name}
             className="video-list"

@@ -7,6 +7,9 @@ interface IOnProcess {
   total: number;
   percentage: number;
 }
+interface IXMLHttpRequest {
+  [key: number]: XMLHttpRequest;
+}
 interface IUploaderOptions {
   file: File;
   fileName: string;
@@ -27,7 +30,7 @@ export class Uploader {
   aborted: boolean;
   uploadedSize: number;
   progressCache: {};
-  activeConnections: {};
+  activeConnections: IXMLHttpRequest;
   parts: MapProcessingMultiPart[];
   uploadedParts: MultiPartFinal[];
   fileId: string;
@@ -99,12 +102,13 @@ export class Uploader {
       this.fileKey = AWSFileDataOutput.initializeMultipartUpload.fileKey;
 
       // retrieving the pre-signed URLs
-      const numberOfparts = Math.ceil(this.file.size / this.chunkSize);
+      const numberFarts = Math.ceil(this.file.size / this.chunkSize);
 
       const AWSMultipartFileDataInput = {
         fileId: this.fileId,
         fileKey: this.fileKey,
-        parts: numberOfparts,
+        parts: numberFarts,
+        videoId: this.videoId,
       };
 
       const { data: multiPartDataSigned } = await this.getMultipartPreSignedUrl(

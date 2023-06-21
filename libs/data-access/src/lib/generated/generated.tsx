@@ -126,7 +126,7 @@ export type MapMultiPartFinalDto = {
   fileId: Scalars['String']['input'];
   fileKey: Scalars['String']['input'];
   parts: Array<MultiPartFinal>;
-  videoId: Scalars['Float']['input'];
+  videoId: Scalars['Int']['input'];
 };
 
 export type MapProcessingMultiPart = {
@@ -144,6 +144,7 @@ export type MultiPartPreSignedUrlDto = {
   fileId: Scalars['String']['input'];
   fileKey: Scalars['String']['input'];
   parts: Scalars['Int']['input'];
+  videoId: Scalars['Int']['input'];
 };
 
 export type Mutation = {
@@ -277,7 +278,7 @@ export type Query = {
   findAllTag?: Maybe<Array<TagEntity>>;
   findAllUser?: Maybe<Array<UserEntity>>;
   findAllVideo?: Maybe<Array<VideoEntity>>;
-  findAllVieoByCategrory: Array<VideoEntity>;
+  findAllVideoByCategory: Array<VideoEntity>;
   findOneCategory?: Maybe<CategoryEntity>;
   findOneTag?: Maybe<TagEntity>;
   findOneUser?: Maybe<UserEntity>;
@@ -302,7 +303,7 @@ export type QueryFindAllVideoArgs = {
 };
 
 
-export type QueryFindAllVieoByCategroryArgs = {
+export type QueryFindAllVideoByCategoryArgs = {
   categoryId: Scalars['Int']['input'];
 };
 
@@ -586,12 +587,12 @@ export type FindOneVideoQueryVariables = Exact<{
 
 export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> } | null };
 
-export type FindAllVieoByCategroryQueryVariables = Exact<{
+export type FindAllVideoByCategoryQueryVariables = Exact<{
   categoryId: Scalars['Int']['input'];
 }>;
 
 
-export type FindAllVieoByCategroryQuery = { __typename?: 'Query', findAllVieoByCategrory: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> };
+export type FindAllVideoByCategoryQuery = { __typename?: 'Query', findAllVideoByCategory: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> };
 
 export type CreateVideoMutationVariables = Exact<{
   createVideoDto: CreateVideoDto;
@@ -1316,9 +1317,9 @@ export function useFindOneVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type FindOneVideoQueryHookResult = ReturnType<typeof useFindOneVideoQuery>;
 export type FindOneVideoLazyQueryHookResult = ReturnType<typeof useFindOneVideoLazyQuery>;
 export type FindOneVideoQueryResult = Apollo.QueryResult<FindOneVideoQuery, FindOneVideoQueryVariables>;
-export const FindAllVieoByCategroryDocument = gql`
-    query findAllVieoByCategrory($categoryId: Int!) {
-  findAllVieoByCategrory(categoryId: $categoryId) {
+export const FindAllVideoByCategoryDocument = gql`
+    query findAllVideoByCategory($categoryId: Int!) {
+  findAllVideoByCategory(categoryId: $categoryId) {
     id
     name
     url
@@ -1341,32 +1342,32 @@ export const FindAllVieoByCategroryDocument = gql`
     `;
 
 /**
- * __useFindAllVieoByCategroryQuery__
+ * __useFindAllVideoByCategoryQuery__
  *
- * To run a query within a React component, call `useFindAllVieoByCategroryQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindAllVieoByCategroryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindAllVideoByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllVideoByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindAllVieoByCategroryQuery({
+ * const { data, loading, error } = useFindAllVideoByCategoryQuery({
  *   variables: {
  *      categoryId: // value for 'categoryId'
  *   },
  * });
  */
-export function useFindAllVieoByCategroryQuery(baseOptions: Apollo.QueryHookOptions<FindAllVieoByCategroryQuery, FindAllVieoByCategroryQueryVariables>) {
+export function useFindAllVideoByCategoryQuery(baseOptions: Apollo.QueryHookOptions<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindAllVieoByCategroryQuery, FindAllVieoByCategroryQueryVariables>(FindAllVieoByCategroryDocument, options);
+        return Apollo.useQuery<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>(FindAllVideoByCategoryDocument, options);
       }
-export function useFindAllVieoByCategroryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllVieoByCategroryQuery, FindAllVieoByCategroryQueryVariables>) {
+export function useFindAllVideoByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindAllVieoByCategroryQuery, FindAllVieoByCategroryQueryVariables>(FindAllVieoByCategroryDocument, options);
+          return Apollo.useLazyQuery<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>(FindAllVideoByCategoryDocument, options);
         }
-export type FindAllVieoByCategroryQueryHookResult = ReturnType<typeof useFindAllVieoByCategroryQuery>;
-export type FindAllVieoByCategroryLazyQueryHookResult = ReturnType<typeof useFindAllVieoByCategroryLazyQuery>;
-export type FindAllVieoByCategroryQueryResult = Apollo.QueryResult<FindAllVieoByCategroryQuery, FindAllVieoByCategroryQueryVariables>;
+export type FindAllVideoByCategoryQueryHookResult = ReturnType<typeof useFindAllVideoByCategoryQuery>;
+export type FindAllVideoByCategoryLazyQueryHookResult = ReturnType<typeof useFindAllVideoByCategoryLazyQuery>;
+export type FindAllVideoByCategoryQueryResult = Apollo.QueryResult<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>;
 export const CreateVideoDocument = gql`
     mutation createVideo($createVideoDto: CreateVideoDto!) {
   createVideo(createVideoDto: $createVideoDto) {

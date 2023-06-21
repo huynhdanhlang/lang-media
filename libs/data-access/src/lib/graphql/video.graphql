@@ -42,8 +42,8 @@ query findOneVideo($id: Int!) {
   }
 }
 
-query findAllVieoByCategrory($categoryId: Int!) {
-  findAllVieoByCategrory(categoryId: $categoryId) {
+query findAllVideoByCategory($categoryId: Int!) {
+  findAllVideoByCategory(categoryId: $categoryId) {
     id
     name
     url
