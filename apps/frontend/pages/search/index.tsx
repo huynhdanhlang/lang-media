@@ -32,7 +32,11 @@ export const VideoSearch = () => {
           display: 'flex',
           justifyContent: 'center',
         }}
-      >{`Tìm kiếm liên quan đến '${router.query.name}'`}</div>
+      >
+        {data.findAllVideo.length
+          ? `Tìm kiếm liên quan đến '${router.query.name}'`
+          : `Không tìm thấy từ khóa ${router.query.name}`}
+      </div>
       <div
         style={{
           marginTop: 70,
