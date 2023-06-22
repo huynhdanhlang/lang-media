@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { HTTP_METHOD } from 'next/dist/server/web/http';
 
 const SERVER_PATH = process.env.NEXT_PUBLIC_BASE_API;
@@ -10,7 +10,7 @@ interface IFetcher {
 }
 export const fetcher = async (options: IFetcher) => {
   const { data, method, url, isApiServer } = options;
-  const config = {
+  const config: AxiosRequestConfig = {
     baseURL: isApiServer ? SERVER_PATH + url : url,
   };
 
