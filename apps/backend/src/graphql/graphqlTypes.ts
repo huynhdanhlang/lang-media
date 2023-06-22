@@ -69,6 +69,7 @@ export interface VideoFilter {
 }
 
 export interface VideoWhereClause {
+    name?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country?: Nullable<string>;
@@ -137,6 +138,7 @@ export interface CreateVideoDto {
 }
 
 export interface UpdateVideoInput {
+    name?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country?: Nullable<string>;

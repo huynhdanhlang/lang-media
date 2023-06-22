@@ -153,6 +153,7 @@ input VideoFilter {
 }
 
 input VideoWhereClause {
+  name: String
   language: String
   view: Int
   country: String
@@ -249,6 +250,7 @@ input CreateVideoDto {
 }
 
 input UpdateVideoInput {
+  name: String
   language: String
   view: Int
   country: String
