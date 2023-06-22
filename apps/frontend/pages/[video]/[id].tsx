@@ -1,16 +1,22 @@
 import {
   Loading,
+  fetcher,
+  getCountries,
   randomColor,
-  useFindOneVideoQuery
+  useFindOneVideoQuery,
 } from '@training-project/data-access';
 import { Button, Col, Divider, Image, Row, Tag, notification } from 'antd';
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { DefaultOptionType } from 'antd/es/select';
+
 interface IVideoDetail {
   // id: number;
 }
 const VideoDetail = (props: IVideoDetail) => {
   const router = useRouter();
+  const [countries, setCountries] = useState<DefaultOptionType[]>([]);
   const { data, loading, error } = useFindOneVideoQuery({
     variables: {
       id: Number(router.query.id),
@@ -55,7 +61,9 @@ const VideoDetail = (props: IVideoDetail) => {
               {data.findOneVideo.name}
             </Col>
             <Row style={{ width: '100%' }}>
-              <Col>Số tập: {'9/9'}</Col>
+              <Col>
+                Ngôn ngữ: {data.findOneVideo.language.split('|').join(', ')}
+              </Col>
               <Col>
                 <Divider
                   type="vertical"

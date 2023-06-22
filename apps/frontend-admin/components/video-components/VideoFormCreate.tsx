@@ -13,13 +13,14 @@ import {
   useFindAllTagQuery,
   useGetMultipartPreSignedUrlsMutation,
   useInitializeMultipartUploadMutation,
+  fetcher,
+  getCountries,
 } from '@training-project/data-access';
 import { Typography, Progress, notification } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useCallback, useEffect, useState } from 'react';
 import { titleFixed, titleStyle } from '@training-project/data-access';
 import { Uploader } from './Upload';
-import { fetcher } from 'apps/frontend-admin/utils/fetcher';
 import { FILE_FIELD_TYPE } from 'apps/frontend-admin/constant/upload.const';
 
 interface IFiles {
@@ -142,21 +143,7 @@ const VideoFormCreate = () => {
   };
 
   useEffect(() => {
-    async function getCountries() {
-      const { data } = await fetcher({
-        url: 'https://trial.mobiscroll.com/content/countries.json',
-        method: 'GET',
-        data: {},
-        isApiServer: false,
-      });
-      const countries: any = [];
-      for (let i = 0; i < data.length; ++i) {
-        const country = data[i];
-        countries.push({ label: country.text, value: country.value });
-      }
-      setCountries(countries);
-    }
-    getCountries();
+    getCountries().then(setCountries);
   }, []);
 
   const handleSubmit = async (values: any) => {
