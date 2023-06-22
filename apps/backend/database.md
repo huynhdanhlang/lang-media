@@ -9,7 +9,6 @@
 
 - [Follow nestjs docs](https://docs.nestjs.com/techniques/database#sequelize-integration)
 
-
 ## Init sequelize project: `npx sequelize init`
 
 ## Sequelize-cli
@@ -24,6 +23,7 @@
     - Create file into `database/models` and definition
 
 ## Seeders and migrations
+
 ### Migration
 
 - Create new change migration
@@ -38,8 +38,13 @@
 - Create new seed
   `npx sequelize seed:generate --name <file_name>` or
   `npx sequelize seed:create --name <file_name>`
+- Run a seed file
+  `npx sequelize db:seed --seed <file_name>`
+- RUn all seed
+  `npm run db:seed`
 
 ### References
+
 - [Sequelize migrations](https://sequelize.org/docs/v6/other-topics/migrations/)
 - [Decorators and some other features for sequelize](https://github.com/sequelize/sequelize-typescript)
 - [migration tool ( make migration ) for sequelize and typescript developers. (best forked projects conclusion)](https://github.com/mmRoshani/sequelize-typescript-migration)
