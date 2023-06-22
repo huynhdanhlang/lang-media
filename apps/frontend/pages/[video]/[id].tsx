@@ -3,7 +3,16 @@ import {
   randomColor,
   useFindOneVideoQuery,
 } from '@training-project/data-access';
-import { Button, Col, Divider, Image, Row, Tag, notification } from 'antd';
+import {
+  Button,
+  Col,
+  Divider,
+  Image,
+  Row,
+  Space,
+  Tag,
+  notification,
+} from 'antd';
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -14,6 +23,7 @@ interface IVideoDetail {
 const VideoDetail = (props: IVideoDetail) => {
   const router = useRouter();
   const [isPlay, setIsPlay] = useState(false);
+  const [isPlayTrailer, setIsPlayTrailer] = useState(false);
   const { data, loading, error } = useFindOneVideoQuery({
     variables: {
       id: Number(router.query.id),
@@ -33,11 +43,20 @@ const VideoDetail = (props: IVideoDetail) => {
             playing={isPlay}
             controls={true}
             width={'100%'}
-            height={600}
+            height={500}
+          />
+        )}
+        {isPlayTrailer && (
+          <ReactPlayer
+            url={data.findOneVideo.trailerUrl}
+            playing={isPlayTrailer}
+            controls={true}
+            width={'100%'}
+            height={500}
           />
         )}
         <Row>
-          {!isPlay && (
+          {!isPlay && !isPlayTrailer && (
             <>
               <Col className="text-style" span={5}>
                 {data.findOneVideo.description}
@@ -103,15 +122,30 @@ const VideoDetail = (props: IVideoDetail) => {
                 left: 0,
               }}
             >
-              {!isPlay && (
-                <Button
-                  type="primary"
-                  style={{ width: '50%' }}
-                  onClick={() => setIsPlay(true)}
-                >
-                  Xem phim
-                </Button>
-              )}
+              <Space size={'large'}>
+                {!isPlay && (
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setIsPlay(true);
+                      setIsPlayTrailer(false);
+                    }}
+                  >
+                    Xem phim
+                  </Button>
+                )}
+                {!isPlayTrailer && (
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setIsPlayTrailer(true);
+                      setIsPlay(false);
+                    }}
+                  >
+                    Xem trailer phim
+                  </Button>
+                )}
+              </Space>
             </Col>
           </Col>
           <Col style={{ marginTop: isPlay ? 35 : 0 }}>
