@@ -16,9 +16,14 @@ import {
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer, { ReactPlayerProps } from 'react-player';
 interface IVideoDetail {
   // id: number;
+}
+interface IVideoPlayer {
+  playing: boolean;
+  url: string;
+  props?: ReactPlayerProps;
 }
 const VideoDetail = (props: IVideoDetail) => {
   const router = useRouter();
@@ -30,6 +35,19 @@ const VideoDetail = (props: IVideoDetail) => {
     },
   });
 
+  const renderVideoPlayer = (options: IVideoPlayer) => {
+    return (
+      <ReactPlayer
+        url={options.url}
+        playing={options.playing}
+        controls={true}
+        width={'100%'}
+        height={500}
+        {...options.props}
+      />
+    );
+  };
+
   if (loading) return <Loading />;
   if (error) {
     notification.error(error);
@@ -37,24 +55,16 @@ const VideoDetail = (props: IVideoDetail) => {
   return (
     <>
       <div style={{ margin: 24 }}>
-        {isPlay && (
-          <ReactPlayer
-            url={data.findOneVideo.url}
-            playing={isPlay}
-            controls={true}
-            width={'100%'}
-            height={500}
-          />
-        )}
-        {isPlayTrailer && (
-          <ReactPlayer
-            url={data.findOneVideo.trailerUrl}
-            playing={isPlayTrailer}
-            controls={true}
-            width={'100%'}
-            height={500}
-          />
-        )}
+        {isPlay &&
+          renderVideoPlayer({
+            playing: isPlay,
+            url: data.findOneVideo.url,
+          })}
+        {isPlayTrailer &&
+          renderVideoPlayer({
+            playing: isPlayTrailer,
+            url: data.findOneVideo.trailerUrl,
+          })}
         <Row>
           {!isPlay && !isPlayTrailer && (
             <>
@@ -154,7 +164,9 @@ const VideoDetail = (props: IVideoDetail) => {
               <Tag
                 style={{
                   background: `#${randomColor()}`,
+                  cursor: 'pointer',
                 }}
+                // onClick={()=> push}
               >
                 {tag.name}
               </Tag>
