@@ -158,7 +158,7 @@ const VideoDetail = (props: IVideoDetail) => {
               </Space>
             </Col>
           </Col>
-          <Col style={{ marginTop: isPlay ? 35 : 0 }}>
+          <Col style={{ marginTop: isPlay || isPlayTrailer ? 35 : 0 }}>
             <span className="text-style">Tags : </span>
             {data.findOneVideo.tags.map((tag) => (
               <Tag
