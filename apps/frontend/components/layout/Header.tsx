@@ -33,9 +33,10 @@ export const MyHeader = (props: IHeaders) => {
   }, [data]);
 
   const handleOnSearch = (value: string) => {
-    router.push(`/search?name=${value}`);
+    if (value) {
+      router.push(`/search?name=${value}`);
+    }
   };
-
 
   const childCategories: MenuItem[] = categories?.findAllCategory?.map(
     (value) => {
@@ -73,11 +74,7 @@ export const MyHeader = (props: IHeaders) => {
       <Search
         placeholder="Nhập tên video muốn tìm"
         allowClear
-        enterButton={
-          <Button icon={<SearchOutlined />}>
-            Tìm kiếm
-          </Button>
-        }
+        enterButton={<Button icon={<SearchOutlined />}>Tìm kiếm</Button>}
         size="middle"
         styles={{
           input: {

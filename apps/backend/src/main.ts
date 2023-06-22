@@ -33,13 +33,11 @@ async function bootstrap() {
   const bot: Telegraf = app.get(getBotToken());
   bot
     .launch()
-    .then(() => {
-      app.use(bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
+    .then(async () => {
+      app.use(await bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
     })
-    .catch(() => {
-      bot.catch(() => {
-        app.use(bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
-      });
+    .catch((error) => {
+      console.log(error);
     });
   app.use(
     '/graphql',
