@@ -46,7 +46,13 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    const whereToQuery = {
+    if (options.where?.['name']) {
+      options.where['name'] = {
+        [Op.like]: `%${options.where['name']}%`,
+      };
+    }
+    
+    let whereToQuery = {
       ...options.where,
       url: {
         [Op.ne]: null,
@@ -58,8 +64,6 @@ export class VideoService {
         [Op.ne]: null,
       },
     };
-    console.log(options);
-    
     const videos = await this.videoService.findAll({
       ...options,
       where: whereToQuery,

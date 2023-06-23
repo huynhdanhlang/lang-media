@@ -1,28 +1,54 @@
 import {
   Loading,
-  fetcher,
-  getCountries,
   randomColor,
-  useFindOneVideoQuery,
+  useFindOneVideoQuery
 } from '@training-project/data-access';
-import { Button, Col, Divider, Image, Row, Tag, notification } from 'antd';
+import {
+  Button,
+  Col,
+  Divider,
+  Image,
+  Row,
+  Space,
+  Tag,
+  notification,
+} from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { DefaultOptionType } from 'antd/es/select';
-import ReactPlayer from 'react-player';
+import { useState } from 'react';
+import ReactPlayer, { ReactPlayerProps } from 'react-player';
 interface IVideoDetail {
   // id: number;
+}
+interface IVideoPlayer {
+  playing: boolean;
+  url: string;
+  props?: ReactPlayerProps;
 }
 const VideoDetail = (props: IVideoDetail) => {
   const router = useRouter();
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
   const [isPlay, setIsPlay] = useState(false);
+  const [isPlayTrailer, setIsPlayTrailer] = useState(false);
   const { data, loading, error } = useFindOneVideoQuery({
     variables: {
       id: Number(router.query.id),
     },
   });
+
+  const renderVideoPlayer = (options: IVideoPlayer) => {
+    return (
+      <ReactPlayer
+        url={options.url}
+        playing={options.playing}
+        controls={true}
+        width={'100%'}
+        height={500}
+        {...options.props}
+      />
+    );
+  };
 
   if (loading) return <Loading />;
   if (error) {
@@ -31,17 +57,18 @@ const VideoDetail = (props: IVideoDetail) => {
   return (
     <>
       <div style={{ margin: 24 }}>
-        {isPlay && (
-          <ReactPlayer
-            url={data.findOneVideo.url}
-            playing={isPlay}
-            controls={true}
-            width={'100%'}
-            height={600}
-          />
-        )}
+        {isPlay &&
+          renderVideoPlayer({
+            playing: isPlay,
+            url: data.findOneVideo.url,
+          })}
+        {isPlayTrailer &&
+          renderVideoPlayer({
+            playing: isPlayTrailer,
+            url: data.findOneVideo.trailerUrl,
+          })}
         <Row>
-          {!isPlay && (
+          {!isPlay && !isPlayTrailer && (
             <>
               <Col className="text-style" span={5}>
                 {data.findOneVideo.description}
@@ -109,24 +136,41 @@ const VideoDetail = (props: IVideoDetail) => {
                 left: 0,
               }}
             >
-              {!isPlay && (
-                <Button
-                  type="primary"
-                  style={{ width: '50%' }}
-                  onClick={() => setIsPlay(true)}
-                >
-                  Xem phim
-                </Button>
-              )}
+              <Space size={'large'}>
+                {!isPlay && (
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setIsPlay(true);
+                      setIsPlayTrailer(false);
+                    }}
+                  >
+                    Xem phim
+                  </Button>
+                )}
+                {!isPlayTrailer && (
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setIsPlayTrailer(true);
+                      setIsPlay(false);
+                    }}
+                  >
+                    Xem trailer phim
+                  </Button>
+                )}
+              </Space>
             </Col>
           </Col>
-          <Col style={{ marginTop: isPlay ? 35 : 0 }}>
+          <Col style={{ marginTop: isPlay || isPlayTrailer ? 35 : 0 }}>
             <span className="text-style">Tags : </span>
             {data.findOneVideo.tags.map((tag) => (
               <Tag
                 style={{
                   background: `#${randomColor()}`,
+                  cursor: 'pointer',
                 }}
+                // onClick={()=> push}
               >
                 {tag.name}
               </Tag>

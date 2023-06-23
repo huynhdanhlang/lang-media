@@ -1,5 +1,9 @@
-import { Menu, MenuProps, Typography } from 'antd';
-import { RightOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { Button, Menu, MenuProps, Typography } from 'antd';
+import {
+  RightOutlined,
+  SearchOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
 import { MenuItem, getItemComponent } from 'apps/frontend/utils/menu';
 import { HEADER_CONSTANT } from 'apps/frontend/constant/header.const';
 import { useEffect, useState } from 'react';
@@ -7,6 +11,7 @@ import {
   CNLogo,
   FindAllCategoryQuery,
   useFindAllCategoryQuery,
+  useFindAllVideoQuery,
 } from '@training-project/data-access';
 import { useRouter } from 'next/router';
 import Search from 'antd/es/input/Search';
@@ -26,6 +31,12 @@ export const MyHeader = (props: IHeaders) => {
       setCategories(data);
     }
   }, [data]);
+
+  const handleOnSearch = (value: string) => {
+    if (value) {
+      router.push(`/search?name=${value}`);
+    }
+  };
 
   const childCategories: MenuItem[] = categories?.findAllCategory?.map(
     (value) => {
@@ -63,9 +74,14 @@ export const MyHeader = (props: IHeaders) => {
       <Search
         placeholder="Nhập tên video muốn tìm"
         allowClear
-        enterButton="Tìm kiếm"
+        enterButton={<Button icon={<SearchOutlined />}>Tìm kiếm</Button>}
         size="middle"
-        onSearch={(e) => {}}
+        styles={{
+          input: {
+            lineHeight: '22.5px',
+          },
+        }}
+        onSearch={handleOnSearch}
       />,
       'logo',
       null,
