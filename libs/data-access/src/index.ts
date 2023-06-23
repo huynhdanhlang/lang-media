@@ -5,3 +5,4 @@ export * from './shared/theme';
 export * from './component/Loading';
 export * from './utils/util';
 export * from './utils/fetcher';
+export * from "./component/Card";

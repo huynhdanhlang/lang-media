@@ -5,6 +5,7 @@ import Head from 'next/head';
 import _JSXStyle from 'styled-jsx/style';
 import 'video.js/dist/video-js.css';
 import './styles.css';
+import { RecoilRoot } from 'recoil';
 if (typeof global !== 'undefined') {
   Object.assign(global, { _JSXStyle });
 }
@@ -21,9 +22,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to frontend!</title>
       </Head>
-      <LayoutCPN>
-        <Component {...pageProps} />
-      </LayoutCPN>
+      <RecoilRoot>
+        <LayoutCPN>
+          <Component {...pageProps} />
+        </LayoutCPN>
+      </RecoilRoot>
     </ApolloProvider>
   );
 }
