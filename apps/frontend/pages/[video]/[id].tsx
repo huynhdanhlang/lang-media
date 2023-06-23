@@ -10,13 +10,14 @@ import ImageSlider from 'apps/frontend/components/layout/Carousel';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { DefaultOptionType } from 'antd/es/select';
-
+import ReactPlayer from 'react-player';
 interface IVideoDetail {
   // id: number;
 }
 const VideoDetail = (props: IVideoDetail) => {
   const router = useRouter();
   const [countries, setCountries] = useState<DefaultOptionType[]>([]);
+  const [isPlay, setIsPlay] = useState(false);
   const { data, loading, error } = useFindOneVideoQuery({
     variables: {
       id: Number(router.query.id),
@@ -30,22 +31,36 @@ const VideoDetail = (props: IVideoDetail) => {
   return (
     <>
       <div style={{ margin: 24 }}>
+        {isPlay && (
+          <ReactPlayer
+            url={data.findOneVideo.url}
+            playing={isPlay}
+            controls={true}
+            width={'100%'}
+            height={600}
+          />
+        )}
         <Row>
-          <Col className="text-style" span={5}>
-            {data.findOneVideo.description}
-          </Col>
-          <Col style={{ height: '200px' }}>
-            <Divider type="vertical" style={{ height: '100%' }} />
-          </Col>
-          <Col span={5} className="text-style">
-            <Image
-              width={200}
-              height={250}
-              src={data.findOneVideo.poster}
-              preview={false}
-              className="card-image-static"
-            />{' '}
-          </Col>
+          {!isPlay && (
+            <>
+              <Col className="text-style" span={5}>
+                {data.findOneVideo.description}
+              </Col>
+              <Col style={{ height: '200px' }}>
+                <Divider type="vertical" style={{ height: '100%' }} />
+              </Col>
+              <Col span={5} className="text-style">
+                <Image
+                  width={200}
+                  height={250}
+                  src={data.findOneVideo.poster}
+                  preview={false}
+                  className="card-image-static"
+                />{' '}
+              </Col>
+            </>
+          )}
+
           <Col style={{ height: '200px' }}>
             <Divider type="vertical" style={{ height: '100%' }} />
           </Col>
@@ -94,12 +109,18 @@ const VideoDetail = (props: IVideoDetail) => {
                 left: 0,
               }}
             >
-              <Button type="primary" style={{ width: '50%' }}>
-                Xem phim
-              </Button>
+              {!isPlay && (
+                <Button
+                  type="primary"
+                  style={{ width: '50%' }}
+                  onClick={() => setIsPlay(true)}
+                >
+                  Xem phim
+                </Button>
+              )}
             </Col>
           </Col>
-          <Col>
+          <Col style={{ marginTop: isPlay ? 35 : 0 }}>
             <span className="text-style">Tags : </span>
             {data.findOneVideo.tags.map((tag) => (
               <Tag
