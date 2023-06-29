@@ -9,6 +9,8 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import JwtAuthenticationGuard from '../authentication/guard/jwt.guard';
+import { CategoryEntity } from '../category/entities/category.entity';
+import Category from '../database/models/Category';
 import Tag from '../database/models/Tag';
 import { TagEntity } from '../tag/entities/tag.entity';
 import { TagService } from '../tag/tag.service';
@@ -18,14 +20,12 @@ import { UpdateVideoInput } from './dto/update-video.input';
 import { VideoFilter } from './dto/video-filter.input';
 import { VideoEntity } from './entities/video.entity';
 import { VideoService } from './video.service';
-import { CategoryEntity } from '../category/entities/category.entity';
-import Category from '../database/models/Category';
 @Resolver(() => VideoEntity)
 export class VideoResolver {
   constructor(
     private readonly videoService: VideoService,
     private tagService: TagService,
-    private teleService: TeleClientService
+    // private teleService: TeleClientService
   ) {}
 
   @UseGuards(JwtAuthenticationGuard)
