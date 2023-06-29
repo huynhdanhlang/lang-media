@@ -5,7 +5,7 @@ services:
   rootDir: apps/backend
   buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
-  oregon: singapore
+  region: singapore
   startCommand: npm start backend
   envVars:
     - key: NX_DB_HOST
@@ -38,7 +38,7 @@ services:
   rootDir: apps/frontend
   buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
-  oregon: singapore
+  region: singapore
   startCommand: npm start frontend
 - type: web
   name: lang-media-admin
@@ -46,5 +46,5 @@ services:
   rootDir: apps/frontend-admin
   buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
-  oregon: singapore
+  region: singapore
   startCommand: npm start frontend-admin
