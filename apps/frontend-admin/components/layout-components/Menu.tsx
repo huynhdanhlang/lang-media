@@ -6,35 +6,50 @@ import {
   DashboardFilled,
   TrophyFilled,
   CodeSandboxCircleFilled,
-  TeamOutlined,
+  VideoCameraFilled,
   HistoryOutlined,
   MenuOutlined,
+  TagFilled,
 } from '@ant-design/icons';
 import { COMPONENTS } from 'apps/frontend-admin/constant/components.const';
-const keys = ['/', '/videos', '/categories'];
+import { backgroudBorder, layoutStyle } from '@training-project/data-access';
+const keys = [
+  // '/',
+   '/videos',
+  '/categories',
+  '/tags',
+];
 
 const menu = [
+  // <Menu.Item key={keys[0]}>
+  //   <Link legacyBehavior href={keys[0]}>
+  //     <a>
+  //       <DashboardFilled />
+  //       <span className="text-style">{COMPONENTS.DASHBOARD}</span>
+  //     </a>
+  //   </Link>
+  // </Menu.Item>,
   <Menu.Item key={keys[0]}>
     <Link legacyBehavior href={keys[0]}>
       <a>
-        <DashboardFilled />
-        <span>{COMPONENTS.DASHBOARD}</span>
+        <VideoCameraFilled />
+        <span className="text-style">{COMPONENTS.VIDEO_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[1]}>
     <Link legacyBehavior href={keys[1]}>
       <a>
-        <TeamOutlined />
-        <span>{COMPONENTS.VIDEO_MANAGEMENT}</span>
+        <MenuOutlined />
+        <span className="text-style">{COMPONENTS.CATEGORY_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
   <Menu.Item key={keys[2]}>
     <Link legacyBehavior href={keys[2]}>
       <a>
-        <MenuOutlined />
-        <span>{COMPONENTS.CATEGORY_MANAGEMENT}</span>
+        <TagFilled />
+        <span className="text-style">{COMPONENTS.TAG_MANAGEMENT}</span>
       </a>
     </Link>
   </Menu.Item>,
@@ -53,8 +68,6 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
   for (let i = keys.length - 1; i >= 0; i--) {
     if (currentPath.includes(keys[i])) {
       selectedKeys = [keys[i]];
-      console.log(selectedKeys);
-
       break;
     }
   }
@@ -65,7 +78,14 @@ const CNMenu = ({ style, closeDrawer }: IMenu) => {
       mode="inline"
       selectedKeys={selectedKeys}
       defaultSelectedKeys={[keys[0]]}
-      style={{ ...style, padding: '16px 0' }}
+      style={{
+        ...style,
+        padding: '16px 0',
+        ...backgroudBorder({
+          isSetBorder: false,
+          ...layoutStyle,
+        }),
+      }}
       onClick={({ key }) => {
         closeDrawer();
         router.push(key);

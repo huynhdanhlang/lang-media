@@ -408,3 +408,72 @@ body {
 #__next {
   height: 100%;
 }
+
+.text-style,
+.category-selection * {
+  color: #ffff !important;
+}
+
+.ant-pro-card-actions {
+  background: darkslategrey;
+}
+
+div.category-selection label {
+  background: bottom;
+}
+
+div.category-selection label span.ant-radio-button-checked {
+  background: purple;
+  box-shadow: 0 0 4px #eee;
+  transform: scale(1.2);
+  /* z-index: 5; */
+}
+
+.category-list,
+.video-list,
+.tag-list {
+  transition: transform 0.2s; /* Animation */
+}
+.category-list:hover,
+.video-list:hover,
+.tag-list:hover {
+  box-shadow: 0 0 4px #eee;
+  transform: scale(1.2);
+  z-index: 10;
+}
+
+.ant-notification-notice {
+  background: gray !important;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+  content: none;
+}
+
+.ant-select-selection-item-content,
+.ant-select-item-option-content {
+  color: black !important;
+}
+
+.ant-select-item-option-content span.anticon.anticon-check {
+  color: black;
+}
+
+:where(.css-dev-only-do-not-override-w8mnev).ant-select-dropdown
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: cadetblue;
+}
+
+.ant-tag-close-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ant-progress-text {
+  color: white !important;
+}
+
+.ant-divider-horizontal.ant-divider-with-text-center::before,
+.ant-divider-horizontal.ant-divider-with-text-center::after {
+  border-top: 1px solid lightblue;
+}

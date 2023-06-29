@@ -18,10 +18,10 @@ import TagVideo from './TagVideo';
   deletedAt: true,
 })
 export default class Video extends Model<Video> {
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   public name: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   public url: string;
 
   @Column({ type: DataType.STRING })
@@ -29,13 +29,14 @@ export default class Video extends Model<Video> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: true
   })
   trailerUrl: string;
 
   @Default('')
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   poster: string;
 

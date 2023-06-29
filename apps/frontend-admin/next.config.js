@@ -12,6 +12,14 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/videos',
+      },
+    ];
+  },
 };
 
 module.exports = withNx(nextConfig);

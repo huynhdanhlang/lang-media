@@ -21,6 +21,9 @@ import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheContr
 import { AuthenticationModule } from '../authentication/authentication.module';
 import * as Joi from 'joi';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { TeleClientModule } from '../tele-client/tele-client.module';
+import { R2ClientModule } from '../r2-client/r2-client.module';
+import { Void } from '../utils/graphql';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -63,11 +66,14 @@ import { ThrottlerModule } from '@nestjs/throttler';
         const apolloConfig: ApolloDriverConfig = {
           autoSchemaFile: join(
             process.cwd(),
-            'apps/backend/src/schema.graphql'
+            'apps/backend/src/graphql/schema.graphql'
           ),
           typePaths: ['./**/*.graphql'],
           definitions: {
-            path: join(process.cwd(), 'apps/backend/src/graphqlTypes.ts'),
+            path: join(
+              process.cwd(),
+              'apps/backend/src/graphql/graphqlTypes.ts'
+            ),
             outputAs: 'interface',
           },
           // schema.gql will automatically be created
@@ -90,6 +96,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
       ttl: 60,
       limit: 10,
     }),
+    TeleClientModule,
+    R2ClientModule,
   ],
   controllers: [AppController],
   providers: [

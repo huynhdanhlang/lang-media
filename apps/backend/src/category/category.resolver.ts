@@ -13,14 +13,11 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { VideoEntity } from '../video/entities/video.entity';
 import Video from '../database/models/Video';
-import { VideoService } from '../video/video.service';
+import { CategoryFilter } from './dto/category-filter.input';
 
 @Resolver(() => CategoryEntity)
 export class CategoryResolver {
-  constructor(
-    private readonly categoryService: CategoryService,
-    private videoService: VideoService
-  ) {}
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => CategoryEntity)
   createCategory(
@@ -30,8 +27,14 @@ export class CategoryResolver {
   }
 
   @Query(() => [CategoryEntity], { nullable: true })
-  findAllCategory() {
-    return this.categoryService.findAll();
+  findAllCategory(
+    @Args('categoryFilter', {
+      nullable: true,
+    })
+    categoryFilter?: CategoryFilter
+  ) {
+    // @ts-ignore
+    return this.categoryService.findAll({ ...categoryFilter });
   }
 
   @Query(() => CategoryEntity, { nullable: true })
@@ -43,12 +46,7 @@ export class CategoryResolver {
   async videos(@Parent() parent: CategoryEntity) {
     const { id } = parent;
     const category = await this.categoryService.findOne(id, {
-      include: [
-        {
-          model: Video,
-        },
-      ],
-      attributes: [],
+      include: Video
     });
     return category.videos;
   }

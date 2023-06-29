@@ -1,31 +1,90 @@
 import {
   EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
+  EllipsisOutlined
 } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
-import { VideoEntity } from '@training-project/data-access';
-import { Image, Space } from 'antd';
+import {
+  useFindAllVideoByCategoryQuery
+} from '@training-project/data-access';
+import { Image, Space, notification } from 'antd';
+import {
+  backgroudBorder,
+  profileStyle,
+} from '../../../../libs/data-access/src/shared/theme';
 interface IVideoList {
-  videos: Omit<VideoEntity, 'tags'>[];
+  videoIds?: number[];
+  isEachCategory?: boolean;
+  categoryId: number;
 }
 const VideoCardList = (props: IVideoList) => {
+  const { loading, data, error } = useFindAllVideoByCategoryQuery({
+    variables: {
+      categoryId: props.categoryId,
+    },
+  });
+  if (error) {
+    notification.error(error);
+  }
   return (
-    <Space wrap size={'large'}>
-      {props?.videos?.map((video) => (
-        <ProCard
-          title={video.name}
-          style={{ maxWidth: 500 }}
-          bordered
-          actions={[
-            <EditOutlined key="edit" />,
-            <EllipsisOutlined key="ellipsis" />,
-          ]}
-        >
-          <Image width={300} height={300} src={video.poster} />
-          <div>{video.url}</div>
-        </ProCard>
-      ))}
+    <Space wrap size={'small'}>
+      {data &&
+        data.findAllVideoByCategory.map((video) => (
+          <ProCard
+            // title={video.name}
+            className="video-list"
+            loading={loading}
+            style={{
+              maxWidth: 500,
+              ...backgroudBorder({
+                ...profileStyle,
+                isSetBorder: false,
+              }),
+            }}
+            bordered
+            bodyStyle={{
+              paddingInline: 'unset',
+              paddingBlock: 'unset',
+            }}
+            actions={[
+              <EditOutlined key="edit" className="text-style" />,
+              <EllipsisOutlined key="ellipsis" className="text-style" />,
+            ]}
+          >
+            <Image width={200} height={250} src={video.poster} />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: 150,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    minWidth: 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                    className="text-style"
+                  >
+                    {video.name}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ProCard>
+        ))}
     </Space>
   );
 };

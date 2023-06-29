@@ -17,6 +17,7 @@ const MainLayout = styled(({ collapsed: _, ...props }) => (
   @media (max-width: 575.98px) {
     margin-left: 0;
   }
+  background-color: rgb(21, 25, 33);
 `;
 interface IMain {
   children: React.ReactNode;

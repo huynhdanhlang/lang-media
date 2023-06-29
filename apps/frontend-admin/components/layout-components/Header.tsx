@@ -1,21 +1,19 @@
-import { Layout, Dropdown, Menu, Button, notification } from 'antd';
-const { Header } = Layout;
-import styled from 'styled-components';
-import { Logo } from './LogoTitle';
-import Link from 'next/link';
-import nookies from 'nookies';
-import Router, { useRouter } from 'next/router';
-import Icon, { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import Icon, {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { Dropdown, Layout, Menu } from 'antd';
 import { siderWidthState } from 'apps/frontend-admin/stores/sider';
-import {
-  LoginMutation,
-  LoginMutationResult,
-  LoginMutationVariables,
-  useLogoutMutation,
-} from '@training-project/data-access';
 import { userState } from 'apps/frontend-admin/stores/user';
-import Loading from '../Loading';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { backgroudBorder, layoutStyle, profileStyle } from '@training-project/data-access';
+import { AuthContext } from '../auth/AuthProvider';
+import { Logo } from '@training-project/data-access';
+const { Header } = Layout;
 const TriggerBlock = styled.div`
   display: inline-block;
   height: 100%;
@@ -45,32 +43,19 @@ const HeaderBlock = styled(TriggerBlock)`
 `;
 
 const MyMenu = () => {
-  const [logout, { data, loading, error }] = useLogoutMutation();
-  const [user, setUser] = useRecoilState(userState);
+  const { user, signOut } = useContext(AuthContext);
   const router = useRouter();
-  if (error) {
-    notification.error(error);
-  }
   return (
     <Menu
       onClick={(item) => {
         if (item.key == 'logout') {
-          // logout({
-          //   returnTo:
-          //     process.env.NODE_ENV === 'development'
-          //       ? 'http://localhost:3000'
-          //       : 'https://dashboard.uowac.now.sh',
-          //   client_id: process.env.AUTH0_CLIENT_ID,
-          // });
-          // nookies.destroy({}, 'auth0.is.authenticated');
-          // nookies.destroy({}, 'accessToken');
-          logout().then(() => {
-            setUser(null);
-            router.replace(router.asPath, '/');
-          });
+          signOut();
         } else if (item.key == 'profile') {
           router.push('/users/id/[id]', `/users/id/${user.id}`);
         }
+      }}
+      style={{
+        ...profileStyle,
       }}
     >
       <Menu.Item key="profile">
@@ -93,20 +78,28 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
   // const { isAuthenticated } = useAuth0();
   const siderWidth = useRecoilValue(siderWidthState);
   const [user, setUser] = useRecoilState(userState);
+  const router = useRouter();
 
+  if (!user) {
+    router.replace(router.asPath, '/login');
+  }
   return (
-    <Header
-      style={{
-        background: '#fff',
-        padding: 0,
-        boxShadow: '0 1px 4px rgba(0,21,41,.08)',
-        display: 'flex',
-        position: 'fixed',
-        zIndex: 100,
-        width: `calc(100% - ${siderWidth}px)`,
-      }}
-    >
-      {/* <Link legacyBehavior href="/">
+    user && (
+      <Header
+        style={{
+          padding: 0,
+          boxShadow: '0 1px 4px rgba(0,21,41,.08)',
+          display: 'flex',
+          position: 'fixed',
+          zIndex: 100,
+          width: `calc(100% - ${siderWidth}px)`,
+          ...backgroudBorder({
+            isSetBorder: true,
+            ...layoutStyle,
+          }),
+        }}
+      >
+        {/* <Link legacyBehavior href="/">
         <a>
           <StyledImageBlock>
             <MobileLogo src="/static/transparent-logo.png" alt="logo" />
@@ -114,29 +107,37 @@ const CNHeader = ({ collapsed, handleToggle }: IHeader) => {
         </a>
       </Link> */}
 
-      <TriggerBlock className="trigger" onClick={handleToggle}>
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </TriggerBlock>
+        <TriggerBlock
+          style={{
+            color: 'lightblue',
+          }}
+          className="trigger"
+          onClick={handleToggle}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </TriggerBlock>
 
-      {/* {isAuthenticated && ( */}
-      <div
-        style={{
-          marginLeft: 'auto',
-        }}
-      >
-        <Dropdown overlay={<MyMenu />} placement="bottomRight">
-          <HeaderBlock>
-            <Icon
-              type="user"
-              style={{ fontSize: 16, marginRight: 15 }}
-              title="User"
-            />
-            <span>{String(user.fullname)}</span>
-          </HeaderBlock>
-        </Dropdown>
-      </div>
-      {/* )}*/}
-    </Header>
+        {/* {isAuthenticated && ( */}
+        <div
+          style={{
+            marginLeft: 'auto',
+            color: 'lightblue',
+          }}
+        >
+          <Dropdown overlay={<MyMenu />} placement="bottomRight">
+            <HeaderBlock>
+              <UserOutlined
+                type="user"
+                style={{ fontSize: 16, marginRight: 15 }}
+                title="User"
+              />
+              <span className="text-style">{String(user.fullname)}</span>
+            </HeaderBlock>
+          </Dropdown>
+        </div>
+        {/* )}*/}
+      </Header>
+    )
   );
 };
 
