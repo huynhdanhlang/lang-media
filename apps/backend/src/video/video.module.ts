@@ -4,7 +4,7 @@ import { VideoResolver } from './video.resolver';
 import { SequelizeModule } from '@nestjs/sequelize';
 import Video from '../database/models/Video';
 import { TagModule } from '../tag/tag.module';
-import { TeleClientModule } from '../tele-client/tele-client.module';
+// import { TeleClientModule } from '../tele-client/tele-client.module';
 import { CategoryModule } from '../category/category.module';
 import { R2ClientModule } from '../r2-client/r2-client.module';
 
@@ -13,7 +13,7 @@ import { R2ClientModule } from '../r2-client/r2-client.module';
   imports: [
     SequelizeModule.forFeature([Video]),
     TagModule,
-    TeleClientModule,
+    // TeleClientModule,
     CategoryModule,
     forwardRef(() => R2ClientModule),
   ],

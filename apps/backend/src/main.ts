@@ -30,15 +30,15 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
-  const bot: Telegraf = app.get(getBotToken());
-  bot
-    .launch()
-    .then(async () => {
-      app.use(await bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // const bot: Telegraf = app.get(getBotToken());
+  // bot
+  //   .launch()
+  //   .then(async () => {
+  //     app.use(await bot.webhookCallback(process.env.TELE_WEBHOOK_PATH));
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
   app.use(
     '/graphql',
     graphqlUploadExpress({ maxFileSize: 50000000, maxFiles: 10 })

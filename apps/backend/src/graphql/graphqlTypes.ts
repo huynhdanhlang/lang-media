@@ -219,12 +219,6 @@ export interface TagEntity {
     name: string;
 }
 
-export interface CategoryEntity {
-    id: number;
-    name: string;
-    videos: VideoEntity[];
-}
-
 export interface VideoEntity {
     id: number;
     name: string;
@@ -237,6 +231,12 @@ export interface VideoEntity {
     categories: CategoryEntity[];
     description: string;
     poster?: Nullable<string>;
+}
+
+export interface CategoryEntity {
+    id: number;
+    name: string;
+    videos: VideoEntity[];
 }
 
 export interface InitMultiPartEntity {
