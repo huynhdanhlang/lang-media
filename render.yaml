@@ -1,10 +1,11 @@
 services:
 - type: web
-  name: app-backend
+  name: api-lang-media
   runtime: node
   rootDir: apps/backend
-  buildCommand: npm build --omit=dev
+  buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
+  oregon: singapore
   startCommand: npm start backend
   envVars:
     - key: NX_DB_HOST
@@ -32,22 +33,18 @@ services:
     - key: NX_JWT_EXPIRATION_TIME
       sync: false
 - type: web
-  name: app-frontend
+  name: lang-media
   runtime: node
   rootDir: apps/frontend
-  buildCommand: npm build --omit=dev
+  buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
+  oregon: singapore
   startCommand: npm start frontend
-  envVars: 
-    - key: NEXT_PUBLIC_BASE_API
-      sync: false
 - type: web
-  name: app-frontend-admin
+  name: lang-media-admin
   runtime: node
   rootDir: apps/frontend-admin
-  buildCommand: npm build --omit=dev
+  buildCommand: npm ci; npm build --omit=dev; npm test
   plan: free
+  oregon: singapore
   startCommand: npm start frontend-admin
-  envVars: 
-  - key: NEXT_PUBLIC_BASE_API
-    sync: false
