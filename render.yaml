@@ -36,7 +36,7 @@ services:
   name: lang-media
   runtime: node
   rootDir: apps
-  buildCommand: npm run build frontend
+  buildCommand: npm ci --force; npm run build frontend
   plan: free
   region: singapore
   startCommand: npm start frontend
@@ -44,7 +44,7 @@ services:
   name: lang-media-admin
   runtime: node
   rootDir: apps
-  buildCommand: npm run build frontend-admin
+  buildCommand: npm ci --force; npm run build frontend-admin
   plan: free
   region: singapore
   startCommand: npm start frontend-admin
