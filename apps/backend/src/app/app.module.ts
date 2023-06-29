@@ -37,12 +37,12 @@ import { Void } from '../utils/graphql';
     CacheModule.register({
       imports: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const cache = config.get('NX_CACHE');
-        const driver = config.get(cache.driver);
+        const ttl = config.get('NX_CACHE_TTL');
+        const driver = config.get('NX_CACHE_DRIVER');
         // Later, if needed, create a cache factory to instantiate different drivers based on config.
-        if (cache.driver === 'redis') {
+        if (driver === 'redis') {
           return {
-            ttl: ms(cache.ttl), // using ms package to parse 15m to timestamp.
+            ttl: ms(ttl), // using ms package to parse 15m to timestamp.
             store: require('cache-manager-redis-store'),
             host: driver.host,
             port: driver.port,
@@ -50,7 +50,7 @@ import { Void } from '../utils/graphql';
           };
         }
         return {
-          ttl: ms(cache.ttl),
+          ttl: ms(ttl),
           isGlobal: true,
         };
       },

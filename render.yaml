@@ -6,6 +6,31 @@ services:
   buildCommand: npm build --omit=dev
   plan: free
   startCommand: npm start backend
+  envVars:
+    - key: NX_DB_HOST
+      sync: false
+    - key: NX_DB_DIALECT
+      sync: false
+    - key: NX_DB_USERNAME
+      sync: false
+    - key: NX_DB_PASSWORD
+      sync: false
+    - key: NX_DB_NAME
+      sync: false
+    - key: NX_NODE_ENV
+      sync: false
+    - key: NX_CACHE_TTL
+      sync: false
+    - key: NX_CACHE_DRIVER
+      sync: false
+    - key: NX_GRAPHQL_CACHE_MAX_AGE
+      sync: false
+    - key: NX_HASH_NUMBER
+      sync: false
+    - key: NX_JWT_SECRET
+      sync: false
+    - key: NX_JWT_EXPIRATION_TIME
+      sync: false
 - type: web
   name: app-frontend
   runtime: node
@@ -13,6 +38,9 @@ services:
   buildCommand: npm build --omit=dev
   plan: free
   startCommand: npm start frontend
+  envVars: 
+    - key: NEXT_PUBLIC_BASE_API
+      sync: false
 - type: web
   name: app-frontend-admin
   runtime: node
@@ -20,3 +48,6 @@ services:
   buildCommand: npm build --omit=dev
   plan: free
   startCommand: npm start frontend-admin
+  envVars: 
+  - key: NEXT_PUBLIC_BASE_API
+    sync: false
