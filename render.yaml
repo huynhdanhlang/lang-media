@@ -3,7 +3,7 @@ services:
   name: api-lang-media
   runtime: node
   rootDir: apps
-  buildCommand: npm i; npm run build backend
+  buildCommand: npm ci; npm run build backend
   plan: free
   region: singapore
   startCommand: npm start backend
