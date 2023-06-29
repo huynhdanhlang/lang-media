@@ -1,6 +1,4 @@
-
-
-import { Spin } from 'antd'
+import { Spin } from 'antd';
 
 const Loading = () => (
   <div
@@ -8,11 +6,11 @@ const Loading = () => (
       height: 350,
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     }}
   >
     <Spin size="large" />
   </div>
-)
+);
 
-export default Loading
+export { Loading };

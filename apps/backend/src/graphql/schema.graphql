@@ -1,0 +1,311 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type RoleEntity {
+  id: Int!
+  name: String!
+}
+
+type UserEntity {
+  id: Int!
+
+  """user's name"""
+  username: String!
+  fullname: String!
+  email: String!
+  address: String
+  phone: String
+  role: RoleEntity!
+  roleId: Int!
+  createdAt: DateTime!
+  accessToken: String
+  refreshToken: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type TagEntity {
+  id: Int!
+  name: String!
+}
+
+type CategoryEntity {
+  id: Int!
+  name: String!
+  videos: [VideoEntity!]!
+}
+
+type VideoEntity {
+  id: Int!
+  name: String!
+  url: String
+  trailerUrl: String
+  language: String
+  view: Int
+  country: String!
+  tags: [TagEntity!]!
+  categories: [CategoryEntity!]!
+  description: String!
+  poster: String
+}
+
+type InitMultiPartEntity {
+  fileId: String!
+  fileKey: String!
+}
+
+type MapProcessingMultiPart {
+  PartNumber: Int!
+  signedUrl: String!
+}
+
+type IProcessingMultipartUploadEntity {
+  parts: [MapProcessingMultiPart!]!
+}
+
+type ObjectMessage {
+  statusCode: Int
+  message: String!
+}
+
+type Query {
+  findAllUser(userFilter: UserFilter): [UserEntity!]
+  findOneUser(id: Int!): UserEntity
+  role(id: Int!): RoleEntity!
+  findAllVideo(videoFilter: VideoFilter): [VideoEntity!]
+  findOneVideo(id: Int!): VideoEntity
+  findAllVideoByCategory(categoryId: Int!): [VideoEntity!]!
+  findAllTag: [TagEntity!]
+  findOneTag(id: Int!): TagEntity
+  findAllCategory(categoryFilter: CategoryFilter): [CategoryEntity!]
+  findOneCategory(id: Int!): CategoryEntity
+  refreshToken: UserEntity!
+}
+
+input UserFilter {
+  order: [[String!]!]
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: UserWherClause
+}
+
+input FAttributeOptions {
+  exclude: [String!]
+  include: [String!]
+}
+
+input IncludeModel {
+  where: JSON
+  association: String
+  as: String
+  model: String
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input UserWherClause {
+  """user's password"""
+  password: String
+  fullname: String
+  email: String
+  currentHashedRefreshToken: String
+  id: [Int!]
+}
+
+input VideoFilter {
+  order: [[String!]!]
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: VideoWhereClause
+}
+
+input VideoWhereClause {
+  name: String
+  language: String
+  view: Int
+  country: String
+  description: String
+  trailerUrl: String
+  url: String
+  poster: String
+  id: [Int!]
+}
+
+input CategoryFilter {
+  order: [[String!]!]
+  attributes: FAttributeOptions
+  include: [IncludeModel!]
+  group: String
+  limit: Float
+  mapToModel: Boolean
+  nest: Boolean
+  offset: Float
+  paranoid: Boolean
+  plain: Boolean
+  raw: Boolean
+  skipLocked: Boolean
+  subQuery: Boolean
+  type: String
+  useMaster: Boolean
+  where: CategoryWherClause
+}
+
+input CategoryWherClause {
+  id: [Int!]
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserEntity!
+  updateUser(updateUserInput: UpdateUserInput!): UserEntity!
+  removeUser(id: Int!): UserEntity!
+  createRole(createRoleInput: CreateRoleInput!): RoleEntity!
+  updateRole(updateRoleInput: UpdateRoleInput!): RoleEntity!
+  removeRole(id: Int!): RoleEntity!
+  createVideo(createVideoDto: CreateVideoDto!): VideoEntity!
+  updateVideo(updateVideoInput: UpdateVideoInput!): VideoEntity!
+  removeVideo(id: Int!): VideoEntity!
+  createTag(createTagInput: CreateTagInput!): TagEntity!
+  updateTag(updateTagInput: UpdateTagInput!): TagEntity!
+  removeTag(id: Int!): TagEntity!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
+  removeCategory(id: Int!): CategoryEntity!
+  initializeMultipartUpload(initMultiPartDto: InitMultiPartDto!): InitMultiPartEntity!
+  getMultipartPreSignedUrls(multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!): IProcessingMultipartUploadEntity!
+  finalizeMultipartUpload(mapMultiPartFinalDto: MapMultiPartFinalDto!): Void
+  login(loginInput: LoginInput!): UserEntity!
+  logout: ObjectMessage!
+}
+
+input CreateUserInput {
+  """user's name"""
+  username: String!
+
+  """user's password"""
+  password: String!
+  fullname: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  """user's password"""
+  password: String!
+  fullname: String!
+  email: String!
+  id: Int!
+  currentHashedRefreshToken: String
+}
+
+input CreateRoleInput {
+  """Name of role"""
+  name: String!
+}
+
+input UpdateRoleInput {
+  id: Int!
+}
+
+input CreateVideoDto {
+  name: String!
+  language: String
+  view: Int
+  country: String!
+  categories: [Int!]!
+  tags: [Int!]!
+  description: String!
+  trailerUrl: String!
+}
+
+input UpdateVideoInput {
+  name: String
+  language: String
+  view: Int
+  country: String
+  description: String
+  trailerUrl: String
+  url: String
+  poster: String
+  id: Int
+}
+
+input CreateTagInput {
+  name: String!
+}
+
+input UpdateTagInput {
+  id: Int!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input UpdateCategoryInput {
+  id: Int!
+}
+
+input InitMultiPartDto {
+  filename: String!
+  fileExt: String!
+}
+
+input MultiPartPreSignedUrlDto {
+  parts: Int!
+  videoId: Int!
+  fileKey: String!
+  fileId: String!
+}
+
+"""Represents NULL values"""
+scalar Void
+
+input MapMultiPartFinalDto {
+  videoId: Int!
+  fileKey: String!
+  fileId: String!
+  parts: [MultiPartFinal!]!
+  fieldType: String!
+}
+
+input MultiPartFinal {
+  PartNumber: Int!
+  ETag: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}

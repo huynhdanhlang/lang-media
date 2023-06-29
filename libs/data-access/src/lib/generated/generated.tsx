@@ -17,6 +17,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: { input: any; output: any; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { input: any; output: any; }
+  /** Represents NULL values */
+  Void: { input: any; output: any; }
 };
 
 export type CategoryEntity = {
@@ -24,6 +28,29 @@ export type CategoryEntity = {
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   videos: Array<VideoEntity>;
+};
+
+export type CategoryFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<CategoryWherClause>;
+};
+
+export type CategoryWherClause = {
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type CreateCategoryInput = {
@@ -48,19 +75,76 @@ export type CreateUserInput = {
   username: Scalars['String']['input'];
 };
 
-export type CreateVideoInput = {
+export type CreateVideoDto = {
+  categories: Array<Scalars['Int']['input']>;
   country: Scalars['String']['input'];
+  description: Scalars['String']['input'];
   language?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  poster?: InputMaybe<Scalars['String']['input']>;
-  trailerUrl?: InputMaybe<Scalars['String']['input']>;
-  url: Scalars['String']['input'];
+  tags: Array<Scalars['Int']['input']>;
+  trailerUrl: Scalars['String']['input'];
   view?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type FAttributeOptions = {
+  exclude?: InputMaybe<Array<Scalars['String']['input']>>;
+  include?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type IProcessingMultipartUploadEntity = {
+  __typename?: 'IProcessingMultipartUploadEntity';
+  parts: Array<MapProcessingMultiPart>;
+};
+
+export type IncludeModel = {
+  as?: InputMaybe<Scalars['String']['input']>;
+  association?: InputMaybe<Scalars['String']['input']>;
+  attributes?: InputMaybe<FAttributeOptions>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  model?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+export type InitMultiPartDto = {
+  fileExt: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+};
+
+export type InitMultiPartEntity = {
+  __typename?: 'InitMultiPartEntity';
+  fileId: Scalars['String']['output'];
+  fileKey: Scalars['String']['output'];
 };
 
 export type LoginInput = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type MapMultiPartFinalDto = {
+  fieldType: Scalars['String']['input'];
+  fileId: Scalars['String']['input'];
+  fileKey: Scalars['String']['input'];
+  parts: Array<MultiPartFinal>;
+  videoId: Scalars['Int']['input'];
+};
+
+export type MapProcessingMultiPart = {
+  __typename?: 'MapProcessingMultiPart';
+  PartNumber: Scalars['Int']['output'];
+  signedUrl: Scalars['String']['output'];
+};
+
+export type MultiPartFinal = {
+  ETag: Scalars['String']['input'];
+  PartNumber: Scalars['Int']['input'];
+};
+
+export type MultiPartPreSignedUrlDto = {
+  fileId: Scalars['String']['input'];
+  fileKey: Scalars['String']['input'];
+  parts: Scalars['Int']['input'];
+  videoId: Scalars['Int']['input'];
 };
 
 export type Mutation = {
@@ -70,6 +154,9 @@ export type Mutation = {
   createTag: TagEntity;
   createUser: UserEntity;
   createVideo: VideoEntity;
+  finalizeMultipartUpload?: Maybe<Scalars['Void']['output']>;
+  getMultipartPreSignedUrls: IProcessingMultipartUploadEntity;
+  initializeMultipartUpload: InitMultiPartEntity;
   login: UserEntity;
   logout: ObjectMessage;
   removeCategory: CategoryEntity;
@@ -106,7 +193,22 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationCreateVideoArgs = {
-  createVideoInput: CreateVideoInput;
+  createVideoDto: CreateVideoDto;
+};
+
+
+export type MutationFinalizeMultipartUploadArgs = {
+  mapMultiPartFinalDto: MapMultiPartFinalDto;
+};
+
+
+export type MutationGetMultipartPreSignedUrlsArgs = {
+  multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto;
+};
+
+
+export type MutationInitializeMultipartUploadArgs = {
+  initMultiPartDto: InitMultiPartDto;
 };
 
 
@@ -176,12 +278,33 @@ export type Query = {
   findAllTag?: Maybe<Array<TagEntity>>;
   findAllUser?: Maybe<Array<UserEntity>>;
   findAllVideo?: Maybe<Array<VideoEntity>>;
+  findAllVideoByCategory: Array<VideoEntity>;
   findOneCategory?: Maybe<CategoryEntity>;
   findOneTag?: Maybe<TagEntity>;
   findOneUser?: Maybe<UserEntity>;
   findOneVideo?: Maybe<VideoEntity>;
   refreshToken: UserEntity;
   role: RoleEntity;
+};
+
+
+export type QueryFindAllCategoryArgs = {
+  categoryFilter?: InputMaybe<CategoryFilter>;
+};
+
+
+export type QueryFindAllUserArgs = {
+  userFilter?: InputMaybe<UserFilter>;
+};
+
+
+export type QueryFindAllVideoArgs = {
+  videoFilter?: InputMaybe<VideoFilter>;
+};
+
+
+export type QueryFindAllVideoByCategoryArgs = {
+  categoryId: Scalars['Int']['input'];
 };
 
 
@@ -243,42 +366,105 @@ export type UpdateUserInput = {
 };
 
 export type UpdateVideoInput = {
-  country: Scalars['String']['input'];
-  id: Scalars['Int']['input'];
+  country?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
-  url: Scalars['String']['input'];
+  url?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UserEntity = {
   __typename?: 'UserEntity';
+  accessToken?: Maybe<Scalars['String']['output']>;
   address?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   fullname: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  /** user's password */
-  password: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
   role: RoleEntity;
   roleId: Scalars['Int']['output'];
   /** user's name */
   username: Scalars['String']['output'];
 };
 
+export type UserFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<UserWherClause>;
+};
+
+export type UserWherClause = {
+  currentHashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  fullname?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** user's password */
+  password?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type VideoEntity = {
   __typename?: 'VideoEntity';
+  categories: Array<CategoryEntity>;
   country: Scalars['String']['output'];
+  description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   language?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   poster?: Maybe<Scalars['String']['output']>;
   tags: Array<TagEntity>;
   trailerUrl?: Maybe<Scalars['String']['output']>;
-  url: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
   view?: Maybe<Scalars['Int']['output']>;
+};
+
+export type VideoFilter = {
+  attributes?: InputMaybe<FAttributeOptions>;
+  group?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<IncludeModel>>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mapToModel?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Boolean']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  order?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
+  paranoid?: InputMaybe<Scalars['Boolean']['input']>;
+  plain?: InputMaybe<Scalars['Boolean']['input']>;
+  raw?: InputMaybe<Scalars['Boolean']['input']>;
+  skipLocked?: InputMaybe<Scalars['Boolean']['input']>;
+  subQuery?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  useMaster?: InputMaybe<Scalars['Boolean']['input']>;
+  where?: InputMaybe<VideoWhereClause>;
+};
+
+export type VideoWhereClause = {
+  country?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Array<Scalars['Int']['input']>>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  poster?: InputMaybe<Scalars['String']['input']>;
+  trailerUrl?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -286,38 +472,77 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserEntity', id: number, username: string, createdAt: any, fullname: string, email: string, phone?: string | null, address?: string | null, roleId: number, role: { __typename?: 'RoleEntity', name: string, id: number } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserEntity', id: number, username: string, createdAt: any, fullname: string, email: string, phone?: string | null, address?: string | null, accessToken?: string | null, roleId: number, role: { __typename?: 'RoleEntity', name: string, id: number } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'ObjectMessage', statusCode?: number | null, message: string } };
 
-export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllCategoryQueryVariables = Exact<{
+  categoryFilter?: InputMaybe<CategoryFilter>;
+}>;
 
 
-export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> }> | null };
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategory?: Array<{ __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> }> | null };
 
 export type FindOneCategoryQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null }> } | null };
+export type FindOneCategoryQuery = { __typename?: 'Query', findOneCategory?: { __typename?: 'CategoryEntity', name: string, id: number, videos: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, description: string }> } | null };
+
+export type CreateCategoryMutationVariables = Exact<{
+  createCategoryInput: CreateCategoryInput;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'CategoryEntity', name: string, id: number } };
+
+export type InitializeMultipartUploadMutationVariables = Exact<{
+  initMultiPartDto: InitMultiPartDto;
+}>;
+
+
+export type InitializeMultipartUploadMutation = { __typename?: 'Mutation', initializeMultipartUpload: { __typename?: 'InitMultiPartEntity', fileId: string, fileKey: string } };
+
+export type GetMultipartPreSignedUrlsMutationVariables = Exact<{
+  multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto;
+}>;
+
+
+export type GetMultipartPreSignedUrlsMutation = { __typename?: 'Mutation', getMultipartPreSignedUrls: { __typename?: 'IProcessingMultipartUploadEntity', parts: Array<{ __typename?: 'MapProcessingMultiPart', PartNumber: number, signedUrl: string }> } };
+
+export type FinalizeMultipartUploadMutationVariables = Exact<{
+  mapMultiPartFinalDto: MapMultiPartFinalDto;
+}>;
+
+
+export type FinalizeMultipartUploadMutation = { __typename?: 'Mutation', finalizeMultipartUpload?: any | null };
 
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string }> | null };
+export type FindAllTagQuery = { __typename?: 'Query', findAllTag?: Array<{ __typename?: 'TagEntity', name: string, id: number }> | null };
 
 export type FindOneTagQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string } | null };
+export type FindOneTagQuery = { __typename?: 'Query', findOneTag?: { __typename?: 'TagEntity', name: string, id: number } | null };
 
-export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateTagMutationVariables = Exact<{
+  createTagInput: CreateTagInput;
+}>;
+
+
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'TagEntity', name: string, id: number } };
+
+export type FindAllUserQueryVariables = Exact<{
+  userFilter?: InputMaybe<UserFilter>;
+}>;
 
 
 export type FindAllUserQuery = { __typename?: 'Query', findAllUser?: Array<{ __typename?: 'UserEntity', id: number, username: string, email: string, fullname: string, address?: string | null, phone?: string | null, createdAt: any, role: { __typename?: 'RoleEntity', id: number, name: string } }> | null };
@@ -350,17 +575,33 @@ export type RemoveUserMutationVariables = Exact<{
 
 export type RemoveUserMutation = { __typename?: 'Mutation', removeUser: { __typename?: 'UserEntity', username: string, fullname: string, email: string, address?: string | null, phone?: string | null, id: number } };
 
-export type FindAllVideoQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllVideoQueryVariables = Exact<{
+  videoFilter?: InputMaybe<VideoFilter>;
+}>;
 
 
-export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> }> | null };
+export type FindAllVideoQuery = { __typename?: 'Query', findAllVideo?: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> | null };
 
 export type FindOneVideoQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url: string, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }> } | null };
+export type FindOneVideoQuery = { __typename?: 'Query', findOneVideo?: { __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, description: string, language?: string | null, view?: number | null, country: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> } | null };
+
+export type FindAllVideoByCategoryQueryVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+}>;
+
+
+export type FindAllVideoByCategoryQuery = { __typename?: 'Query', findAllVideoByCategory: Array<{ __typename?: 'VideoEntity', id: number, name: string, url?: string | null, trailerUrl?: string | null, language?: string | null, view?: number | null, country: string, description: string, poster?: string | null, tags: Array<{ __typename?: 'TagEntity', id: number, name: string }>, categories: Array<{ __typename?: 'CategoryEntity', id: number, name: string }> }> };
+
+export type CreateVideoMutationVariables = Exact<{
+  createVideoDto: CreateVideoDto;
+}>;
+
+
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'VideoEntity', id: number, name: string, url?: string | null, language?: string | null, view?: number | null, description: string, poster?: string | null } };
 
 
 export const LoginDocument = gql`
@@ -373,6 +614,7 @@ export const LoginDocument = gql`
     email
     phone
     address
+    accessToken
     role {
       name
       id
@@ -441,8 +683,8 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const FindAllCategoryDocument = gql`
-    query findAllCategory {
-  findAllCategory {
+    query findAllCategory($categoryFilter: CategoryFilter) {
+  findAllCategory(categoryFilter: $categoryFilter) {
     name
     id
     videos {
@@ -454,6 +696,7 @@ export const FindAllCategoryDocument = gql`
       view
       country
       poster
+      description
     }
   }
 }
@@ -471,6 +714,7 @@ export const FindAllCategoryDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllCategoryQuery({
  *   variables: {
+ *      categoryFilter: // value for 'categoryFilter'
  *   },
  * });
  */
@@ -499,6 +743,7 @@ export const FindOneCategoryDocument = gql`
       view
       country
       poster
+      description
     }
   }
 }
@@ -531,10 +776,146 @@ export function useFindOneCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FindOneCategoryQueryHookResult = ReturnType<typeof useFindOneCategoryQuery>;
 export type FindOneCategoryLazyQueryHookResult = ReturnType<typeof useFindOneCategoryLazyQuery>;
 export type FindOneCategoryQueryResult = Apollo.QueryResult<FindOneCategoryQuery, FindOneCategoryQueryVariables>;
+export const CreateCategoryDocument = gql`
+    mutation createCategory($createCategoryInput: CreateCategoryInput!) {
+  createCategory(createCategoryInput: $createCategoryInput) {
+    name
+    id
+  }
+}
+    `;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+
+/**
+ * __useCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ *   variables: {
+ *      createCategoryInput: // value for 'createCategoryInput'
+ *   },
+ * });
+ */
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+      }
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const InitializeMultipartUploadDocument = gql`
+    mutation initializeMultipartUpload($initMultiPartDto: InitMultiPartDto!) {
+  initializeMultipartUpload(initMultiPartDto: $initMultiPartDto) {
+    fileId
+    fileKey
+  }
+}
+    `;
+export type InitializeMultipartUploadMutationFn = Apollo.MutationFunction<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>;
+
+/**
+ * __useInitializeMultipartUploadMutation__
+ *
+ * To run a mutation, you first call `useInitializeMultipartUploadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitializeMultipartUploadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initializeMultipartUploadMutation, { data, loading, error }] = useInitializeMultipartUploadMutation({
+ *   variables: {
+ *      initMultiPartDto: // value for 'initMultiPartDto'
+ *   },
+ * });
+ */
+export function useInitializeMultipartUploadMutation(baseOptions?: Apollo.MutationHookOptions<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>(InitializeMultipartUploadDocument, options);
+      }
+export type InitializeMultipartUploadMutationHookResult = ReturnType<typeof useInitializeMultipartUploadMutation>;
+export type InitializeMultipartUploadMutationResult = Apollo.MutationResult<InitializeMultipartUploadMutation>;
+export type InitializeMultipartUploadMutationOptions = Apollo.BaseMutationOptions<InitializeMultipartUploadMutation, InitializeMultipartUploadMutationVariables>;
+export const GetMultipartPreSignedUrlsDocument = gql`
+    mutation getMultipartPreSignedUrls($multiPartPreSignedUrlDto: MultiPartPreSignedUrlDto!) {
+  getMultipartPreSignedUrls(multiPartPreSignedUrlDto: $multiPartPreSignedUrlDto) {
+    parts {
+      PartNumber
+      signedUrl
+    }
+  }
+}
+    `;
+export type GetMultipartPreSignedUrlsMutationFn = Apollo.MutationFunction<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>;
+
+/**
+ * __useGetMultipartPreSignedUrlsMutation__
+ *
+ * To run a mutation, you first call `useGetMultipartPreSignedUrlsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetMultipartPreSignedUrlsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getMultipartPreSignedUrlsMutation, { data, loading, error }] = useGetMultipartPreSignedUrlsMutation({
+ *   variables: {
+ *      multiPartPreSignedUrlDto: // value for 'multiPartPreSignedUrlDto'
+ *   },
+ * });
+ */
+export function useGetMultipartPreSignedUrlsMutation(baseOptions?: Apollo.MutationHookOptions<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>(GetMultipartPreSignedUrlsDocument, options);
+      }
+export type GetMultipartPreSignedUrlsMutationHookResult = ReturnType<typeof useGetMultipartPreSignedUrlsMutation>;
+export type GetMultipartPreSignedUrlsMutationResult = Apollo.MutationResult<GetMultipartPreSignedUrlsMutation>;
+export type GetMultipartPreSignedUrlsMutationOptions = Apollo.BaseMutationOptions<GetMultipartPreSignedUrlsMutation, GetMultipartPreSignedUrlsMutationVariables>;
+export const FinalizeMultipartUploadDocument = gql`
+    mutation finalizeMultipartUpload($mapMultiPartFinalDto: MapMultiPartFinalDto!) {
+  finalizeMultipartUpload(mapMultiPartFinalDto: $mapMultiPartFinalDto)
+}
+    `;
+export type FinalizeMultipartUploadMutationFn = Apollo.MutationFunction<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>;
+
+/**
+ * __useFinalizeMultipartUploadMutation__
+ *
+ * To run a mutation, you first call `useFinalizeMultipartUploadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFinalizeMultipartUploadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [finalizeMultipartUploadMutation, { data, loading, error }] = useFinalizeMultipartUploadMutation({
+ *   variables: {
+ *      mapMultiPartFinalDto: // value for 'mapMultiPartFinalDto'
+ *   },
+ * });
+ */
+export function useFinalizeMultipartUploadMutation(baseOptions?: Apollo.MutationHookOptions<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>(FinalizeMultipartUploadDocument, options);
+      }
+export type FinalizeMultipartUploadMutationHookResult = ReturnType<typeof useFinalizeMultipartUploadMutation>;
+export type FinalizeMultipartUploadMutationResult = Apollo.MutationResult<FinalizeMultipartUploadMutation>;
+export type FinalizeMultipartUploadMutationOptions = Apollo.BaseMutationOptions<FinalizeMultipartUploadMutation, FinalizeMultipartUploadMutationVariables>;
 export const FindAllTagDocument = gql`
     query findAllTag {
   findAllTag {
     name
+    id
   }
 }
     `;
@@ -569,6 +950,7 @@ export const FindOneTagDocument = gql`
     query findOneTag($id: Int!) {
   findOneTag(id: $id) {
     name
+    id
   }
 }
     `;
@@ -600,9 +982,43 @@ export function useFindOneTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type FindOneTagQueryHookResult = ReturnType<typeof useFindOneTagQuery>;
 export type FindOneTagLazyQueryHookResult = ReturnType<typeof useFindOneTagLazyQuery>;
 export type FindOneTagQueryResult = Apollo.QueryResult<FindOneTagQuery, FindOneTagQueryVariables>;
+export const CreateTagDocument = gql`
+    mutation createTag($createTagInput: CreateTagInput!) {
+  createTag(createTagInput: $createTagInput) {
+    name
+    id
+  }
+}
+    `;
+export type CreateTagMutationFn = Apollo.MutationFunction<CreateTagMutation, CreateTagMutationVariables>;
+
+/**
+ * __useCreateTagMutation__
+ *
+ * To run a mutation, you first call `useCreateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTagMutation, { data, loading, error }] = useCreateTagMutation({
+ *   variables: {
+ *      createTagInput: // value for 'createTagInput'
+ *   },
+ * });
+ */
+export function useCreateTagMutation(baseOptions?: Apollo.MutationHookOptions<CreateTagMutation, CreateTagMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument, options);
+      }
+export type CreateTagMutationHookResult = ReturnType<typeof useCreateTagMutation>;
+export type CreateTagMutationResult = Apollo.MutationResult<CreateTagMutation>;
+export type CreateTagMutationOptions = Apollo.BaseMutationOptions<CreateTagMutation, CreateTagMutationVariables>;
 export const FindAllUserDocument = gql`
-    query findAllUser {
-  findAllUser {
+    query findAllUser($userFilter: UserFilter) {
+  findAllUser(userFilter: $userFilter) {
     id
     username
     email
@@ -630,6 +1046,7 @@ export const FindAllUserDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllUserQuery({
  *   variables: {
+ *      userFilter: // value for 'userFilter'
  *   },
  * });
  */
@@ -801,8 +1218,8 @@ export type RemoveUserMutationHookResult = ReturnType<typeof useRemoveUserMutati
 export type RemoveUserMutationResult = Apollo.MutationResult<RemoveUserMutation>;
 export type RemoveUserMutationOptions = Apollo.BaseMutationOptions<RemoveUserMutation, RemoveUserMutationVariables>;
 export const FindAllVideoDocument = gql`
-    query findAllVideo {
-  findAllVideo {
+    query findAllVideo($videoFilter: VideoFilter) {
+  findAllVideo(videoFilter: $videoFilter) {
     id
     name
     url
@@ -810,8 +1227,13 @@ export const FindAllVideoDocument = gql`
     language
     view
     country
+    description
     poster
     tags {
+      id
+      name
+    }
+    categories {
       id
       name
     }
@@ -831,6 +1253,7 @@ export const FindAllVideoDocument = gql`
  * @example
  * const { data, loading, error } = useFindAllVideoQuery({
  *   variables: {
+ *      videoFilter: // value for 'videoFilter'
  *   },
  * });
  */
@@ -852,11 +1275,16 @@ export const FindOneVideoDocument = gql`
     name
     url
     trailerUrl
+    description
     language
     view
     country
     poster
     tags {
+      id
+      name
+    }
+    categories {
       id
       name
     }
@@ -891,3 +1319,93 @@ export function useFindOneVideoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type FindOneVideoQueryHookResult = ReturnType<typeof useFindOneVideoQuery>;
 export type FindOneVideoLazyQueryHookResult = ReturnType<typeof useFindOneVideoLazyQuery>;
 export type FindOneVideoQueryResult = Apollo.QueryResult<FindOneVideoQuery, FindOneVideoQueryVariables>;
+export const FindAllVideoByCategoryDocument = gql`
+    query findAllVideoByCategory($categoryId: Int!) {
+  findAllVideoByCategory(categoryId: $categoryId) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    description
+    poster
+    tags {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllVideoByCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindAllVideoByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllVideoByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllVideoByCategoryQuery({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useFindAllVideoByCategoryQuery(baseOptions: Apollo.QueryHookOptions<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>(FindAllVideoByCategoryDocument, options);
+      }
+export function useFindAllVideoByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>(FindAllVideoByCategoryDocument, options);
+        }
+export type FindAllVideoByCategoryQueryHookResult = ReturnType<typeof useFindAllVideoByCategoryQuery>;
+export type FindAllVideoByCategoryLazyQueryHookResult = ReturnType<typeof useFindAllVideoByCategoryLazyQuery>;
+export type FindAllVideoByCategoryQueryResult = Apollo.QueryResult<FindAllVideoByCategoryQuery, FindAllVideoByCategoryQueryVariables>;
+export const CreateVideoDocument = gql`
+    mutation createVideo($createVideoDto: CreateVideoDto!) {
+  createVideo(createVideoDto: $createVideoDto) {
+    id
+    name
+    url
+    language
+    view
+    description
+    poster
+  }
+}
+    `;
+export type CreateVideoMutationFn = Apollo.MutationFunction<CreateVideoMutation, CreateVideoMutationVariables>;
+
+/**
+ * __useCreateVideoMutation__
+ *
+ * To run a mutation, you first call `useCreateVideoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVideoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVideoMutation, { data, loading, error }] = useCreateVideoMutation({
+ *   variables: {
+ *      createVideoDto: // value for 'createVideoDto'
+ *   },
+ * });
+ */
+export function useCreateVideoMutation(baseOptions?: Apollo.MutationHookOptions<CreateVideoMutation, CreateVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVideoMutation, CreateVideoMutationVariables>(CreateVideoDocument, options);
+      }
+export type CreateVideoMutationHookResult = ReturnType<typeof useCreateVideoMutation>;
+export type CreateVideoMutationResult = Apollo.MutationResult<CreateVideoMutation>;
+export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<CreateVideoMutation, CreateVideoMutationVariables>;

@@ -1,5 +1,5 @@
-query findAllCategory {
-  findAllCategory {
+query findAllCategory($categoryFilter: CategoryFilter) {
+  findAllCategory(categoryFilter: $categoryFilter) {
     name
     id
     videos {
@@ -11,6 +11,7 @@ query findAllCategory {
       view
       country
       poster
+      description
     }
   }
 }
@@ -28,6 +29,14 @@ query findOneCategory($id: Int!) {
       view
       country
       poster
+      description
     }
+  }
+}
+
+mutation createCategory($createCategoryInput: CreateCategoryInput!) {
+  createCategory(createCategoryInput: $createCategoryInput) {
+    name
+    id
   }
 }

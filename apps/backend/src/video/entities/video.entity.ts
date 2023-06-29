@@ -1,14 +1,16 @@
-import { CreateVideoInput } from '@graphqlTypes';
-import { Field, Int, ObjectType, PartialType } from '@nestjs/graphql';
+import { UpdateVideoInput } from '@graphqlTypes';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { TagEntity } from '../../tag/entities/tag.entity';
+import { CategoryEntity } from '../../category/entities/category.entity';
 @ObjectType()
-export class VideoEntity implements CreateVideoInput {
+export class VideoEntity implements UpdateVideoInput {
+  description: string;
   @Field(() => Int)
   id: number;
   @Field(() => String)
   name: string;
   @Field(() => String)
-  url: string;
+  url?: string;
   @Field(() => String, { nullable: true })
   trailerUrl?: string;
   @Field(() => String, { nullable: true })
@@ -19,5 +21,7 @@ export class VideoEntity implements CreateVideoInput {
   country: string;
   @Field(() => [TagEntity])
   tags: TagEntity[];
+  @Field(() => [CategoryEntity])
+  categories: CategoryEntity[];
   poster?: string;
 }
