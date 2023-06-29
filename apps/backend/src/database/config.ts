@@ -34,5 +34,6 @@ const sequelize = new Sequelize({
     alter: true,
   },
 });
+console.log(__dirname);
 
 export { sequelize, config };
