@@ -10,7 +10,7 @@ if (typeof global !== 'undefined') {
   Object.assign(global, { _JSXStyle });
 }
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: `${process.env.NEXT_PUBLIC_BASE_API}/graphql`,
   cache: new InMemoryCache(),
 });
 function CustomApp({ Component, pageProps }: AppProps) {
