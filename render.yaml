@@ -1,0 +1,22 @@
+services:
+- type: web
+  name: app-backend
+  runtime: node
+  rootDir: apps/backend
+  buildCommand: npm build --omit=dev
+  plan: free
+  startCommand: npm start backend
+- type: web
+  name: app-frontend
+  runtime: node
+  rootDir: apps/frontend
+  buildCommand: npm build --omit=dev
+  plan: free
+  startCommand: npm start frontend
+- type: web
+  name: app-frontend-admin
+  runtime: node
+  rootDir: apps/frontend-admin
+  buildCommand: npm build --omit=dev
+  plan: free
+  startCommand: npm start frontend-admin
