@@ -14,7 +14,7 @@ import { resolve } from 'path';
     SequelizeModule.forRootAsync({
       useFactory: () => ({
         ...config.development,
-        models: [resolve(__dirname,'database','*.ts')],
+        models: getModels,
         synchronize: true,
       }),
     }),
