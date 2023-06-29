@@ -2,8 +2,8 @@ services:
 - type: web
   name: api-lang-media
   runtime: node
-  rootDir: apps/backend
-  buildCommand: npm install --package-lock-only; npm ci; npm build --omit=dev;
+  rootDir: apps
+  buildCommand: npm run build backend
   plan: free
   region: singapore
   startCommand: npm start backend
@@ -35,16 +35,16 @@ services:
 - type: web
   name: lang-media
   runtime: node
-  rootDir: apps/frontend
-  buildCommand: npm build --omit=dev;
+  rootDir: apps
+  buildCommand: npm run build frontend
   plan: free
   region: singapore
   startCommand: npm start frontend
 - type: web
   name: lang-media-admin
   runtime: node
-  rootDir: apps/frontend-admin
-  buildCommand: npm build --omit=dev;
+  rootDir: apps
+  buildCommand: npm run build frontend-admin
   plan: free
   region: singapore
   startCommand: npm start frontend-admin
