@@ -33,12 +33,6 @@ type TagEntity {
   name: String!
 }
 
-type CategoryEntity {
-  id: Int!
-  name: String!
-  videos: [VideoEntity!]!
-}
-
 type VideoEntity {
   id: Int!
   name: String!
@@ -51,6 +45,12 @@ type VideoEntity {
   categories: [CategoryEntity!]!
   description: String!
   poster: String
+}
+
+type CategoryEntity {
+  id: Int!
+  name: String!
+  videos: [VideoEntity!]!
 }
 
 type InitMultiPartEntity {
