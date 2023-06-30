@@ -153,7 +153,6 @@ input VideoFilter {
 }
 
 input VideoWhereClause {
-  name: String
   language: String
   view: Int
   country: String
@@ -162,7 +161,11 @@ input VideoWhereClause {
   url: String
   poster: String
   id: [Int!]
+  name: AnyOrObject
 }
+
+"""Object | String"""
+scalar AnyOrObject
 
 input CategoryFilter {
   order: [[String!]!]
@@ -185,6 +188,7 @@ input CategoryFilter {
 
 input CategoryWherClause {
   id: [Int!]
+  name: AnyOrObject
 }
 
 type Mutation {
@@ -275,6 +279,7 @@ input CreateCategoryInput {
 
 input UpdateCategoryInput {
   id: Int!
+  name: String
 }
 
 input InitMultiPartDto {

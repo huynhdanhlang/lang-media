@@ -34,7 +34,7 @@ export const MyHeader = (props: IHeaders) => {
 
   const handleOnSearch = (value: string) => {
     if (value) {
-      router.push(`/search?name=${value}`);
+      router.push(`/search?type=video&name=${value}`);
     }
   };
 
@@ -42,7 +42,7 @@ export const MyHeader = (props: IHeaders) => {
     (value) => {
       return getItemComponent(
         value.name,
-        value.id,
+        value.name,
         <RightOutlined />,
         null,
         null,
@@ -102,7 +102,7 @@ export const MyHeader = (props: IHeaders) => {
         {...props}
         mode="horizontal"
         items={items}
-        onClick={(e) => console.log(e.key)}
+        onClick={(e) => router.push(`/search?type=category&name=${e.key}`)}
       ></Menu>
       <style jsx global>
         {`
