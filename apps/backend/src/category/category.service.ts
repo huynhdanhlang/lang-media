@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import Category from '../database/models/Category';
 import { Attributes, FindOptions, Model } from 'sequelize';
 import { checkIsExisted } from '../helper/model';
+import { injectSequelizeFunc } from '../utils/sequelize';
 
 @Injectable()
 export class CategoryService {
@@ -29,7 +30,10 @@ export class CategoryService {
   async findAll<M extends Model<Category>>(
     options?: FindOptions<Attributes<M>>
   ) {
-    return this.categoryService.findAll(options);
+    return this.categoryService.findAll({
+      ...options,
+      where: injectSequelizeFunc(options.where),
+    });
   }
 
   async findOne(id: number, options?: Omit<FindOptions<Category>, 'where'>) {

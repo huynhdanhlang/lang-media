@@ -10,6 +10,7 @@ import { checkIsExisted } from '../helper/model';
 import { R2ClientService } from '../r2-client/r2-client.service';
 import { CreateVideoDto } from './dto/create-video.input';
 import { UpdateVideoInput } from './dto/update-video.input';
+import { injectSequelizeFunc } from '../utils/sequelize';
 
 @Injectable()
 export class VideoService {
@@ -46,27 +47,14 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    if (options.where?.['name']) {
-      options.where['name'] = {
-        [Op.like]: `%${options.where['name']}%`,
-      };
-    }
-    
-    let whereToQuery = {
-      ...options.where,
-      url: {
-        [Op.ne]: null,
-      },
-      trailerUrl: {
-        [Op.ne]: null,
-      },
-      poster: {
-        [Op.ne]: null,
-      },
-    };
+    console.log("🚀 ~ file: video.service.ts:50 ~ VideoService ~ options:", options.where)
     const videos = await this.videoService.findAll({
       ...options,
-      where: whereToQuery,
+      where: injectSequelizeFunc(options.where, [
+        'url',
+        'poster',
+        'trailerUrl',
+      ]),
     });
     return await this.getSignedUrlVideo(videos);
   }
