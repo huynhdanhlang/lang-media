@@ -1,23 +1,28 @@
+import { Inject, forwardRef } from '@nestjs/common';
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
+import { VideoEntity } from '../video/entities/video.entity';
+import { VideoService } from '../video/video.service';
 import { CategoryService } from './category.service';
-import { CategoryEntity } from './entities/category.entity';
+import { CategoryFilter } from './dto/category-filter.input';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
-import { VideoEntity } from '../video/entities/video.entity';
-import Video from '../database/models/Video';
-import { CategoryFilter } from './dto/category-filter.input';
+import { CategoryEntity } from './entities/category.entity';
 
 @Resolver(() => CategoryEntity)
 export class CategoryResolver {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    @Inject(forwardRef(() => VideoService))
+    private videoService: VideoService
+  ) {}
 
   @Mutation(() => CategoryEntity)
   createCategory(
@@ -45,10 +50,7 @@ export class CategoryResolver {
   @ResolveField(() => VideoEntity, { nullable: true })
   async videos(@Parent() parent: CategoryEntity) {
     const { id } = parent;
-    const category = await this.categoryService.findOne(id, {
-      include: Video
-    });
-    return category.videos;
+    return this.videoService.getVideoByCategory(id);
   }
 
   @Mutation(() => CategoryEntity)

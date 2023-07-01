@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Attributes, FindOptions, Model, Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
@@ -18,6 +23,7 @@ export class VideoService {
     @InjectModel(Video) private videoService: typeof Video,
     private categoryService: CategoryService,
     private sequelize: Sequelize,
+    @Inject(forwardRef(() => R2ClientService))
     private r2ClientService: R2ClientService
   ) {}
   async create(createVideoDto: CreateVideoDto) {
@@ -47,14 +53,12 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    console.log("🚀 ~ file: video.service.ts:50 ~ VideoService ~ options:", options.where)
     const videos = await this.videoService.findAll({
       ...options,
-      where: injectSequelizeFunc(options.where, [
-        'url',
-        'poster',
-        'trailerUrl',
-      ]),
+      where: injectSequelizeFunc({
+        where: options.where,
+        notNulls: ['url', 'poster', 'trailerUrl'],
+      }),
     });
     return await this.getSignedUrlVideo(videos);
   }
@@ -87,6 +91,7 @@ export class VideoService {
   }
 
   async getSignedUrlVideo<T>(video: T): Promise<T> {
+    if (!video) return <T>[];
     if (Array.isArray(video)) {
       const videos = await Promise.all(
         video.map(async (video) => {
@@ -100,7 +105,15 @@ export class VideoService {
 
   async getVideoByCategory(categoryId: number) {
     const category = await this.categoryService.findOne(categoryId, {
-      include: Video,
+      include: [
+        {
+          model: Video,
+          where: injectSequelizeFunc({
+            notNulls: ['poster', 'url', 'trailerUrl'],
+          }),
+          required: false,
+        },
+      ],
     });
     return await this.getSignedUrlVideo(category.videos);
   }

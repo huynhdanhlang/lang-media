@@ -14,7 +14,7 @@ import { R2ClientModule } from '../r2-client/r2-client.module';
     SequelizeModule.forFeature([Video]),
     TagModule,
     // TeleClientModule,
-    CategoryModule,
+    forwardRef(() => CategoryModule),
     forwardRef(() => R2ClientModule),
   ],
   exports: [SequelizeModule.forFeature([Video]), VideoService],
