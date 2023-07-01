@@ -7,4 +7,5 @@ export class UpdateCategoryInput extends OmitType(CreateCategoryInput, [
 ]) {
   @Field(() => Int)
   id: number;
+  name?: string;
 }

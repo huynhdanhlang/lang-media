@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Attributes, FindOptions, Model, Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
@@ -10,6 +15,7 @@ import { checkIsExisted } from '../helper/model';
 import { R2ClientService } from '../r2-client/r2-client.service';
 import { CreateVideoDto } from './dto/create-video.input';
 import { UpdateVideoInput } from './dto/update-video.input';
+import { injectSequelizeFunc } from '../utils/sequelize';
 
 @Injectable()
 export class VideoService {
@@ -17,6 +23,7 @@ export class VideoService {
     @InjectModel(Video) private videoService: typeof Video,
     private categoryService: CategoryService,
     private sequelize: Sequelize,
+    @Inject(forwardRef(() => R2ClientService))
     private r2ClientService: R2ClientService
   ) {}
   async create(createVideoDto: CreateVideoDto) {
@@ -46,27 +53,12 @@ export class VideoService {
   }
 
   async findAll<M extends Model<Video>>(options?: FindOptions<Attributes<M>>) {
-    if (options.where?.['name']) {
-      options.where['name'] = {
-        [Op.like]: `%${options.where['name']}%`,
-      };
-    }
-    
-    let whereToQuery = {
-      ...options.where,
-      url: {
-        [Op.ne]: null,
-      },
-      trailerUrl: {
-        [Op.ne]: null,
-      },
-      poster: {
-        [Op.ne]: null,
-      },
-    };
     const videos = await this.videoService.findAll({
       ...options,
-      where: whereToQuery,
+      where: injectSequelizeFunc({
+        where: options.where,
+        notNulls: ['url', 'poster', 'trailerUrl'],
+      }),
     });
     return await this.getSignedUrlVideo(videos);
   }
@@ -99,6 +91,7 @@ export class VideoService {
   }
 
   async getSignedUrlVideo<T>(video: T): Promise<T> {
+    if (!video) return <T>[];
     if (Array.isArray(video)) {
       const videos = await Promise.all(
         video.map(async (video) => {
@@ -112,7 +105,15 @@ export class VideoService {
 
   async getVideoByCategory(categoryId: number) {
     const category = await this.categoryService.findOne(categoryId, {
-      include: Video,
+      include: [
+        {
+          model: Video,
+          where: injectSequelizeFunc({
+            notNulls: ['poster', 'url', 'trailerUrl'],
+          }),
+          required: false,
+        },
+      ],
     });
     return await this.getSignedUrlVideo(category.videos);
   }

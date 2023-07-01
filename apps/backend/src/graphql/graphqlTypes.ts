@@ -69,7 +69,6 @@ export interface VideoFilter {
 }
 
 export interface VideoWhereClause {
-    name?: Nullable<string>;
     language?: Nullable<string>;
     view?: Nullable<number>;
     country?: Nullable<string>;
@@ -78,6 +77,7 @@ export interface VideoWhereClause {
     url?: Nullable<string>;
     poster?: Nullable<string>;
     id?: Nullable<number[]>;
+    name?: Nullable<AnyOrObject>;
 }
 
 export interface CategoryFilter {
@@ -101,6 +101,7 @@ export interface CategoryFilter {
 
 export interface CategoryWherClause {
     id?: Nullable<number[]>;
+    name?: Nullable<AnyOrObject>;
 }
 
 export interface CreateUserInput {
@@ -163,6 +164,7 @@ export interface CreateCategoryInput {
 
 export interface UpdateCategoryInput {
     id: number;
+    name?: Nullable<string>;
 }
 
 export interface InitMultiPartDto {
@@ -297,5 +299,6 @@ export interface IMutation {
 
 export type DateTime = any;
 export type JSON = any;
+export type AnyOrObject = any;
 export type Void = any;
 type Nullable<T> = T | null;
