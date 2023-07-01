@@ -1,23 +1,55 @@
 import {
   Loading,
   VideoCard,
+  useFindAllCategoryQuery,
   useFindAllVideoQuery,
 } from '@training-project/data-access';
 import { Space, notification } from 'antd';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export const VideoSearch = () => {
   const router = useRouter();
-
-  const { data, error, loading } = useFindAllVideoQuery({
-    variables: {
-      videoFilter: {
-        where: {
-          name: String(router.query.name),
-        },
+  const [videos, setVideos] = useState([]);
+  const filter = {
+    where: {
+      name: {
+        like: String(router.query.name),
       },
     },
-  });
+  };
+  console.log(router.query);
+
+  const { data, error, loading } =
+    router.query.type === 'category'
+      ? useFindAllCategoryQuery({
+          variables: {
+            categoryFilter: {
+              ...filter,
+              include: [
+                {
+                  association: 'videos',
+                },
+              ],
+            },
+          },
+        })
+      : useFindAllVideoQuery({
+          variables: {
+            videoFilter: filter,
+          },
+        });
+
+  useEffect(() => {
+    if (data) {
+      if (data['findAllCategory'][0]['videos']) {
+        setVideos(data['findAllCategory'][0]['videos']);
+      }
+      if (data['findAllVideo']) {
+        setVideos(data['findAllVideo']);
+      }
+    }
+  }, [data]);
 
   if (loading) return <Loading />;
   if (error) {
@@ -33,20 +65,19 @@ export const VideoSearch = () => {
           justifyContent: 'center',
         }}
       >
-        {data.findAllVideo.length
+        {videos.length
           ? `Tìm kiếm liên quan đến '${router.query.name}'`
           : `Không tìm thấy từ khóa ${router.query.name}`}
       </div>
       <div
         style={{
           marginTop: 70,
-          marginLeft: 70,
           display: 'flex',
           justifyContent: 'start',
         }}
       >
-        <Space size={'small'} style={{ marginBottom: 30 }}>
-          {data.findAllVideo.map((video) => (
+        <Space size={'small'} style={{ marginBottom: 30, flexWrap: 'wrap' }}>
+          {videos.map((video) => (
             <VideoCard video={video} />
           ))}
         </Space>

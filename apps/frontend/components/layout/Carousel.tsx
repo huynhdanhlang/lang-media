@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Carousel, Image } from 'antd';
-import { IBase } from './Header';
-import { CSSProperties } from 'styled-components';
-import styled from 'styled-components';
 import {
   Logo,
   VideoEntity,
   useFindAllVideoQuery,
 } from '@training-project/data-access';
+import { Carousel } from 'antd';
 import { chunk } from 'lodash';
 import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import styled, { CSSProperties } from 'styled-components';
+import { IBase } from './Header';
 const contentStyle: CSSProperties = {
   height: '160px',
   color: '#fff',

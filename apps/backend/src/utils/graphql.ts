@@ -1,5 +1,10 @@
 import { ExecutionContext } from '@nestjs/common';
-import { GqlExecutionContext, registerEnumType } from '@nestjs/graphql';
+import {
+  GqlExecutionContext,
+  Int,
+  createUnionType,
+  registerEnumType,
+} from '@nestjs/graphql';
 import { GraphQLScalarType } from 'graphql';
 
 function getRequestGraphQL(context: ExecutionContext, args: any[]) {
@@ -39,4 +44,19 @@ export enum FileFiledType {
   TRAILER_URL = 'trailerUrl',
 }
 
-export { Void, getRequestGraphQL };
+const AnyOrObject = new GraphQLScalarType({
+  name: 'AnyOrObject',
+  description: 'Object | String',
+  serialize() {
+    throw new Error('AnyOrObject is an input type.');
+  },
+  parseValue(value) {
+    if (typeof value === 'string') return value;
+    else if(typeof value == "number") return value;
+    return value;
+  },
+  parseLiteral() {
+    throw new Error('AnyOrObject.parseLiteral not implemented');
+  },
+});
+export { Void, getRequestGraphQL, AnyOrObject };

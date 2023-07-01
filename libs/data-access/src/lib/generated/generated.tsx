@@ -15,6 +15,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Object | String */
+  AnyOrObject: { input: any; output: any; }
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: { input: any; output: any; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -51,6 +53,7 @@ export type CategoryFilter = {
 
 export type CategoryWherClause = {
   id?: InputMaybe<Array<Scalars['Int']['input']>>;
+  name?: InputMaybe<Scalars['AnyOrObject']['input']>;
 };
 
 export type CreateCategoryInput = {
@@ -346,6 +349,7 @@ export type TagEntity = {
 
 export type UpdateCategoryInput = {
   id: Scalars['Int']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRoleInput = {
@@ -460,7 +464,7 @@ export type VideoWhereClause = {
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Array<Scalars['Int']['input']>>;
   language?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['AnyOrObject']['input']>;
   poster?: InputMaybe<Scalars['String']['input']>;
   trailerUrl?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;

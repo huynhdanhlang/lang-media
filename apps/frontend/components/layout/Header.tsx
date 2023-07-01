@@ -1,20 +1,19 @@
-import { Button, Menu, MenuProps, Typography } from 'antd';
 import {
   RightOutlined,
   SearchOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { MenuItem, getItemComponent } from 'apps/frontend/utils/menu';
-import { HEADER_CONSTANT } from 'apps/frontend/constant/header.const';
-import { useEffect, useState } from 'react';
 import {
   CNLogo,
   FindAllCategoryQuery,
-  useFindAllCategoryQuery,
-  useFindAllVideoQuery,
+  useFindAllCategoryQuery
 } from '@training-project/data-access';
-import { useRouter } from 'next/router';
+import { Button, Menu, MenuProps, Typography } from 'antd';
 import Search from 'antd/es/input/Search';
+import { HEADER_CONSTANT } from 'apps/frontend/constant/header.const';
+import { MenuItem, getItemComponent } from 'apps/frontend/utils/menu';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 export interface IBase {
   style?: React.CSSProperties;
 }
@@ -34,7 +33,7 @@ export const MyHeader = (props: IHeaders) => {
 
   const handleOnSearch = (value: string) => {
     if (value) {
-      router.push(`/search?name=${value}`);
+      router.push(`/search?type=video&name=${value}`);
     }
   };
 
@@ -42,7 +41,7 @@ export const MyHeader = (props: IHeaders) => {
     (value) => {
       return getItemComponent(
         value.name,
-        value.id,
+        value.name,
         <RightOutlined />,
         null,
         null,
@@ -102,7 +101,7 @@ export const MyHeader = (props: IHeaders) => {
         {...props}
         mode="horizontal"
         items={items}
-        onClick={(e) => console.log(e.key)}
+        onClick={(e) => router.push(`/search?type=category&name=${e.key}`)}
       ></Menu>
       <style jsx global>
         {`
