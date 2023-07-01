@@ -42,7 +42,7 @@ export const VideoSearch = () => {
 
   useEffect(() => {
     if (data) {
-      if (data['findAllCategory'][0]['videos']) {
+      if (data['findAllCategory'] && data['findAllCategory'][0]['videos']) {
         setVideos(data['findAllCategory'][0]['videos']);
       }
       if (data['findAllVideo']) {
