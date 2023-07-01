@@ -113,7 +113,7 @@ const CategoryFormCreate = () => {
             rules={[
               {
                 required: true,
-                message: 'Tên người dùng không hợp lệ!',
+                message: 'Tên thể loại không hợp lệ!',
               },
             ]}
           />
