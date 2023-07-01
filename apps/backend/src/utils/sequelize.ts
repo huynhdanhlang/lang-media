@@ -1,26 +1,40 @@
-import { Attributes, Model, Op, WhereOptions } from 'sequelize';
+import { isEmpty } from 'lodash';
+import { Op } from 'sequelize';
 const sequelizeSymbol = ['like', 'in', 'ne', 'eq', 'iLike'];
-function injectSequelizeFunc(where: any, notNulls = []) {
-  if (!where) return where;
-  let whereToQuery = Object.assign(where, {});
+interface IInjectSequelizeFunc {
+  where?: any;
+  notNulls?: any[];
+}
 
-  Object.entries(where).forEach(([key, value]) => {
-    notNulls.forEach((key) => {
-      whereToQuery = Object.assign(whereToQuery, {
-        [key]: {
-          [Op.ne]: null,
-        },
-      });
+function setNotNullField(where: any, notNulls: any[]) {
+  if(!notNulls) return where;
+  notNulls.forEach((key) => {
+    where = Object.assign(where, {
+      [key]: {
+        [Op.ne]: null,
+      },
     });
+  });
+  return where;
+}
+
+function injectSequelizeFunc(options: IInjectSequelizeFunc) {
+  const { notNulls, where = {} } = options;
+  let whereToQuery = Object.assign(where, {});
+  whereToQuery = setNotNullField(whereToQuery, notNulls);
+  if (isEmpty(whereToQuery)) {
+    return whereToQuery;
+  }
+  Object.entries(whereToQuery).forEach(([key, value]) => {
     if (typeof value !== 'string') {
       sequelizeSymbol.forEach((symbol) => {
         if (value[symbol]) {
           if (symbol === 'like' || symbol === 'iLike') {
-            where[key] = {
+            whereToQuery[key] = {
               [Op[symbol]]: `%${value[symbol]}%`,
             };
           } else {
-            where[key] = {
+            whereToQuery[key] = {
               [Op[symbol]]: value[symbol],
             };
           }
@@ -28,7 +42,7 @@ function injectSequelizeFunc(where: any, notNulls = []) {
       });
     }
   });
-  return where;
+  return whereToQuery;
 }
 
 export { injectSequelizeFunc };

@@ -72,12 +72,11 @@ export const VideoSearch = () => {
       <div
         style={{
           marginTop: 70,
-          marginLeft: 70,
           display: 'flex',
           justifyContent: 'start',
         }}
       >
-        <Space size={'small'} style={{ marginBottom: 30 }}>
+        <Space size={'small'} style={{ marginBottom: 30, flexWrap: 'wrap' }}>
           {videos.map((video) => (
             <VideoCard video={video} />
           ))}

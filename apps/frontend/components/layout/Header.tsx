@@ -1,20 +1,19 @@
-import { Button, Menu, MenuProps, Typography } from 'antd';
 import {
   RightOutlined,
   SearchOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { MenuItem, getItemComponent } from 'apps/frontend/utils/menu';
-import { HEADER_CONSTANT } from 'apps/frontend/constant/header.const';
-import { useEffect, useState } from 'react';
 import {
   CNLogo,
   FindAllCategoryQuery,
-  useFindAllCategoryQuery,
-  useFindAllVideoQuery,
+  useFindAllCategoryQuery
 } from '@training-project/data-access';
-import { useRouter } from 'next/router';
+import { Button, Menu, MenuProps, Typography } from 'antd';
 import Search from 'antd/es/input/Search';
+import { HEADER_CONSTANT } from 'apps/frontend/constant/header.const';
+import { MenuItem, getItemComponent } from 'apps/frontend/utils/menu';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 export interface IBase {
   style?: React.CSSProperties;
 }

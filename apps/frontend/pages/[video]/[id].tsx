@@ -183,7 +183,7 @@ const VideoDetail = (props: IVideoDetail) => {
             categoryIds={data.findOneVideo.categories.map(
               (catefory) => catefory.id
             )}
-            limit={10}
+            limit={15}
             numberOfCol={5}
             style={{
               height: 300,

@@ -32,7 +32,9 @@ export class CategoryService {
   ) {
     return this.categoryService.findAll({
       ...options,
-      where: injectSequelizeFunc(options.where),
+      where: injectSequelizeFunc({
+        where: options.where,
+      }),
     });
   }
 
