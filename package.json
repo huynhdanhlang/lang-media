@@ -8,6 +8,7 @@
     "test": "nx test",
     "build:all": "npx nx run-many --target=build --all --maxParallel=100",
     "run:all": "npx nx run-many --target=serve --prod --all --maxParallel=100",
+    "run:all:prod": "npx nx run-many --target=serve --prod --all --maxParallel=100",
     "migrate": "ts-node ./apps/backend/src/database/db_migrate.ts %npm_config_command%",
     "db": "npm run db:create && npm run db:migrate && npm run db:seed",
     "db:migrate:apply": "sequelize db:migrate",
