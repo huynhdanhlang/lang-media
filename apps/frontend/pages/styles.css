@@ -398,3 +398,30 @@ summary svg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color: #424040;
+}
+
+#__next {
+  height: 100%;
+}
+
+.text-style {
+  color: #ffff !important;
+}
+
+.ant-menu-sub .ant-menu-item-active {
+  background-color: #313131 !important;
+}
+.ant-menu-sub .ant-menu-item-selected {
+  background-color: cadetblue !important;
+}
+
+.ant-divider-horizontal.ant-divider-with-text-center::before,
+.ant-divider-horizontal.ant-divider-with-text-center::after {
+  border-top: 1px solid lightblue;
+}

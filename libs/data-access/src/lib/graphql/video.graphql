@@ -1,0 +1,77 @@
+query findAllVideo($videoFilter: VideoFilter) {
+  findAllVideo(videoFilter: $videoFilter) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    description
+    poster
+    tags {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+
+query findOneVideo($id: Int!) {
+  findOneVideo(id: $id) {
+    id
+    name
+    url
+    trailerUrl
+    description
+    language
+    view
+    country
+    poster
+    tags {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+
+query findAllVideoByCategory($categoryId: Int!) {
+  findAllVideoByCategory(categoryId: $categoryId) {
+    id
+    name
+    url
+    trailerUrl
+    language
+    view
+    country
+    description
+    poster
+    tags {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+  }
+}
+
+mutation createVideo($createVideoDto: CreateVideoDto!) {
+  createVideo(createVideoDto: $createVideoDto) {
+    id
+    name
+    url
+    language
+    view
+    description
+    poster
+  }
+}

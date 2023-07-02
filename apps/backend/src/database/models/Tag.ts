@@ -5,8 +5,10 @@ import {
   Table,
   ForeignKey,
   BelongsTo,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import Video from './Video';
+import TagVideo from './TagVideo';
 @Table({
   timestamps: true,
   tableName: 'tag',
@@ -14,14 +16,11 @@ import Video from './Video';
 })
 export default class Tag extends Model<Tag> {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  public name: string;
+  name: string;
 
-  @BelongsTo(() => Video)
-  public video: Video;
-
-  @ForeignKey(() => Video)
-  @Column({
-    type: DataType.NUMBER,
+  @BelongsToMany(() => Video, {
+    through: () => TagVideo,
+    as: 'videos',
   })
-  public videoId: number;
+  videos: Video[];
 }

@@ -1,0 +1,24 @@
+mutation login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    id
+    username
+    createdAt
+    fullname
+    email
+    phone
+    address
+    accessToken
+    role {
+      name
+      id
+    }
+    roleId
+  }
+}
+
+mutation logout {
+  logout {
+    statusCode
+    message
+  }
+}

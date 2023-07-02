@@ -6,9 +6,11 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "YjFmMmMyMzctYTAxOS00ZDg5LThjZWItMDA3ZGYxNWIzZjdkfHJlYWQtd3JpdGU=",
+        "cacheDirectory": "/tmp/nx-cache"
       }
     }
   },
@@ -46,6 +48,9 @@
     "@nrwl/react": {
       "application": {
         "babel": true
+      },
+      "library": {
+        "unitTestRunner": "jest"
       }
     },
     "@nrwl/next": {

@@ -17,5 +17,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
+    "paths": {
+      "*": ["../../../node_modules/*"],
+      "@graphqlTypes": ["apps/backend/src/graphql/graphqlTypes.ts"],
+      "@share": ["apps/backend/src/shared"],
+      "@helper": ["apps/backend/src/helper"],
+      "@utils": ["apps/backend/src/utils"]
+    }
   }
 }
