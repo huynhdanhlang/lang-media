@@ -3,7 +3,7 @@
   "ts-node": {
     "esm": true,
     "compilerOptions": {
-      "module": "CommonJS",
+      "module": "CommonJS"
     }
   },
   "compilerOptions": {
@@ -14,13 +14,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2021",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom", "ES2021.String"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@training-project/data-access": ["libs/data-access/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

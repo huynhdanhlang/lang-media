@@ -1,0 +1,42 @@
+query findAllCategory($categoryFilter: CategoryFilter) {
+  findAllCategory(categoryFilter: $categoryFilter) {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+      poster
+      description
+    }
+  }
+}
+
+query findOneCategory($id: Int!) {
+  findOneCategory(id: $id) {
+    name
+    id
+    videos {
+      id
+      name
+      url
+      trailerUrl
+      language
+      view
+      country
+      poster
+      description
+    }
+  }
+}
+
+mutation createCategory($createCategoryInput: CreateCategoryInput!) {
+  createCategory(createCategoryInput: $createCategoryInput) {
+    name
+    id
+  }
+}

@@ -6,20 +6,22 @@ import {
   BelongsToMany,
   ForeignKey,
   HasMany,
+  Default,
 } from 'sequelize-typescript';
 import Category from './Category';
 import Tag from './Tag';
-import VideoUser from './VideoUser';
+import VideoCategory from './VideoCategory';
+import TagVideo from './TagVideo';
 @Table({
   timestamps: true,
   tableName: 'video',
   deletedAt: true,
 })
 export default class Video extends Model<Video> {
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   public name: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   public url: string;
 
   @Column({ type: DataType.STRING })
@@ -27,21 +29,35 @@ export default class Video extends Model<Video> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: true
   })
   trailerUrl: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  public language: string;
+  @Default('')
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  poster: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  public country: string;
+  language: string;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  country: string;
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
-  public view: number;
+  view: number;
 
-  @HasMany(() => Category, 'categoryId')
-  public category: Category[];
+  @BelongsToMany(() => Category, {
+    through: () => VideoCategory,
+    as: 'categories',
+  })
+  categories: Category[];
 
-  @HasMany(() => Tag)
-  public tag: Tag[];
+  @BelongsToMany(() => Tag, {
+    through: () => TagVideo,
+    as: 'tags',
+  })
+  tags: Tag[];
 }
