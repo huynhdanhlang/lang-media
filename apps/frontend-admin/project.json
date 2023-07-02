@@ -24,16 +24,19 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "frontend-admin:build",
-        "dev": true
+        "dev": true,
+        "port": 4201
       },
       "configurations": {
         "development": {
           "buildTarget": "frontend-admin:build:development",
-          "dev": true
+          "dev": true,
+          "port": 4201
         },
         "production": {
           "buildTarget": "frontend-admin:build:production",
-          "dev": false
+          "dev": false,
+          "port": 4201
         }
       }
     },
