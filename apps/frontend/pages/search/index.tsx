@@ -42,7 +42,7 @@ export const VideoSearch = () => {
 
   useEffect(() => {
     if (data) {
-      if (data['findAllCategory'][0]['videos']) {
+      if (data['findAllCategory'] && data['findAllCategory'][0]['videos']) {
         setVideos(data['findAllCategory'][0]['videos']);
       }
       if (data['findAllVideo']) {
@@ -72,12 +72,11 @@ export const VideoSearch = () => {
       <div
         style={{
           marginTop: 70,
-          marginLeft: 70,
           display: 'flex',
           justifyContent: 'start',
         }}
       >
-        <Space size={'small'} style={{ marginBottom: 30 }}>
+        <Space size={'small'} style={{ marginBottom: 30, flexWrap: 'wrap' }}>
           {videos.map((video) => (
             <VideoCard video={video} />
           ))}

@@ -20,7 +20,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Head>
-        <title>Welcome to frontend!</title>
+        <title>Welcome to Làng Media</title>
       </Head>
       <RecoilRoot>
         <LayoutCPN>
