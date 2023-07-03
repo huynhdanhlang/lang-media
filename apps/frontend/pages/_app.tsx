@@ -3,7 +3,6 @@ import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import _JSXStyle from 'styled-jsx/style';
-import 'video.js/dist/video-js.css';
 import './styles.css';
 import { RecoilRoot } from 'recoil';
 if (typeof global !== 'undefined') {
