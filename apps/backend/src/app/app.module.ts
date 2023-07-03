@@ -77,7 +77,9 @@ import { Void } from '../utils/graphql';
             outputAs: 'interface',
           },
           // schema.gql will automatically be created
-          playground: true,
+          playground: {
+            subscriptionEndpoint: configService.get("GRAPHQL_ENDPOINT")
+          },
           plugins: [
             ApolloServerPluginCacheControl({ defaultMaxAge: maxAge }),
             responseCachePlugin(),
