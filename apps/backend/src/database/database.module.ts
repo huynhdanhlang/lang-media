@@ -16,6 +16,9 @@ import { resolve } from 'path';
         ...config.development,
         models: getModels,
         synchronize: true,
+        dialectOptions: {
+          ssl: true,
+        },
       }),
     }),
   ],
