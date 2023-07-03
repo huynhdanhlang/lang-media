@@ -36,7 +36,8 @@
         "production": {
           "buildTarget": "frontend-admin:build:production",
           "dev": false,
-          "port": 4201
+          "port": 4201,
+          "hostname": "0.0.0.0"
         }
       }
     },
