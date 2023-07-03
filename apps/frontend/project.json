@@ -33,7 +33,8 @@
         },
         "production": {
           "buildTarget": "frontend:build:production",
-          "dev": false
+          "dev": false,
+          "hostname": "0.0.0.0"
         }
       }
     },
