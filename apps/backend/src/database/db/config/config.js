@@ -11,6 +11,9 @@ const config = {
     host: process.env['NX_DB_HOST'],
     dialect: process.env['NX_DB_DIALECT'],
     logging: true,
+    dialectOptions: {
+      ssl: true,
+    },
     dialectModule: require('pg'),
     timezone: '+07:00',
     pool: {
