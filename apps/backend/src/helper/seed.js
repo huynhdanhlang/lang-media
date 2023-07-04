@@ -6,4 +6,10 @@ const mapTimeDataDto = (data) => {
   }));
 };
 
-module.exports = { mapTimeDataDto };
+const pathDependPlatform = (filename) => {
+  return typeof window !== 'undefined' && window.navigator.userAgent.indexOf('Linux')
+    ? `/../${filename}`
+    : `\\..\\${filename}`;
+};
+
+module.exports = { mapTimeDataDto, pathDependPlatform };
