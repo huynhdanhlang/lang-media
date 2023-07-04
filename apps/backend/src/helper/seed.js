@@ -1,3 +1,4 @@
+var os = require('os');
 const mapTimeDataDto = (data) => {
   return data.map((dt) => ({
     ...dt,
@@ -7,9 +8,7 @@ const mapTimeDataDto = (data) => {
 };
 
 const pathDependPlatform = (filename) => {
-  return typeof window !== 'undefined' && window.navigator.userAgent.indexOf('Linux')
-    ? `/../${filename}`
-    : `\\..\\${filename}`;
+  return os.platform() == 'linux' ? `/../${filename}` : `\\..\\${filename}`;
 };
 
 module.exports = { mapTimeDataDto, pathDependPlatform };
