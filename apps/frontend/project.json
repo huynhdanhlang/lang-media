@@ -38,6 +38,13 @@
         }
       }
     },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "options": {
+        "command": "frontend:serve:production",
+        "name": "frontend"
+      }
+    },
     "export": {
       "executor": "@nrwl/next:export",
       "options": {
