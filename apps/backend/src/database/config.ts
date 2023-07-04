@@ -33,7 +33,8 @@ const sequelize = new Sequelize({
   sync: {
     alter: true,
   },
+  dialectOptions: {
+    ssl: true,
+  },
 });
-console.log(__dirname);
-
 export { sequelize, config };
