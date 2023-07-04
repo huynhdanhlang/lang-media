@@ -1,14 +1,14 @@
 'use strict';
 const fs = require('fs');
-const categoryJson = fs.readFileSync(__dirname + '\\..\\category.json', 'utf8');
+const { mapTimeDataDto } = require('../../../helper/seed');
+const categoryJson = fs.readFileSync(__dirname + mapTimeDataDto('category.json'), 'utf8');
 const categoryData = JSON.parse(categoryJson).data;
-const videoJson = fs.readFileSync(__dirname + '\\..\\video.json', 'utf8');
+const videoJson = fs.readFileSync(__dirname + mapTimeDataDto('video.json'), 'utf8');
 const videoData = JSON.parse(videoJson).data;
-const tagJson = fs.readFileSync(__dirname + '\\..\\tag.json', 'utf8');
+const tagJson = fs.readFileSync(__dirname + mapTimeDataDto('tag.json'), 'utf8');
 const tagData = JSON.parse(tagJson).data;
 
 const { Op } = require('sequelize');
-const { mapTimeDataDto } = require('../../../helper/seed');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {

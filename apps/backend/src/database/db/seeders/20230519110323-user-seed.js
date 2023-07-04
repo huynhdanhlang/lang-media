@@ -1,8 +1,8 @@
 'use strict';
 const fs = require('fs');
 const { genSaltSync, hash } = require('bcrypt');
-const { mapTimeDataDto } = require('../../../helper/seed');
-const roleJson = fs.readFileSync(__dirname + '\\..\\role.json', 'utf8');
+const { mapTimeDataDto, pathDependPlatform } = require('../../../helper/seed');
+const roleJson = fs.readFileSync(__dirname + pathDependPlatform('role.json'), 'utf8');
 const roleData = JSON.parse(roleJson).data;
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
