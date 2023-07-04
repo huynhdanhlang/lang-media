@@ -8,7 +8,7 @@ const mapTimeDataDto = (data) => {
 
 const pathDependPlatform = (filename) => {
   return typeof window !== 'undefined' && window.navigator.userAgent.indexOf('Linux')
-    ? `${filename}`
+    ? `/../${filename}`
     : `\\..\\${filename}`;
 };
 
