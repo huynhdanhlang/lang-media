@@ -6,8 +6,7 @@ import { CNLogo as LogoTitle } from '@training-project/data-access';
 import { backgroudBorder, layoutStyle } from '@training-project/data-access';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { isSupported } from 'firebase/messaging';
-import { onMessageListener, requestForToken } from '../public/firebase-messaging-sw';
+import { firebaseCloudMessaging } from '../firebase';
 
 interface ILayout {
   children: React.ReactNode;
@@ -16,15 +15,10 @@ const LayoutCPN = (props: ILayout) => {
   const router = useRouter();
   const [isShowImageSidler, setIsShowImageSidler] = useState(false);
   useEffect(() => {
-    (async () => {
-      const hasFirebaseMessagingSupport = await isSupported();
-      if (hasFirebaseMessagingSupport) {
-        await requestForToken();
-      }
-    })();
-  }, []);
+    firebaseCloudMessaging.init();
+  },[])
   useEffect(() => {
-    onMessageListener().then((data: any) => {
+    firebaseCloudMessaging.onMessageListener().then((data: any) => {
       console.log("🚀 ~ file: Layout.tsx:28 ~ onMessageListener ~ data:", data)
       notification.info({
         message: data,
