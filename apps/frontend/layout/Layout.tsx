@@ -1,4 +1,4 @@
-import { Layout, theme } from 'antd';
+import { Layout, notification, theme } from 'antd';
 import { MyHeader } from '../components/layout/Header';
 import ImageSlider from '../components/layout/Carousel';
 import { Content, Footer } from 'antd/es/layout/layout';
@@ -6,6 +6,8 @@ import { CNLogo as LogoTitle } from '@training-project/data-access';
 import { backgroudBorder, layoutStyle } from '@training-project/data-access';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { isSupported } from 'firebase/messaging';
+import { onMessageListener, requestForToken } from '../public/firebase-messaging-sw';
 
 interface ILayout {
   children: React.ReactNode;
@@ -13,7 +15,22 @@ interface ILayout {
 const LayoutCPN = (props: ILayout) => {
   const router = useRouter();
   const [isShowImageSidler, setIsShowImageSidler] = useState(false);
-
+  useEffect(() => {
+    (async () => {
+      const hasFirebaseMessagingSupport = await isSupported();
+      if (hasFirebaseMessagingSupport) {
+        await requestForToken();
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    onMessageListener().then((data: any) => {
+      console.log("🚀 ~ file: Layout.tsx:28 ~ onMessageListener ~ data:", data)
+      notification.info({
+        message: data,
+      });
+    });
+  });
   useEffect(() => {
     console.log(router.asPath);
 
