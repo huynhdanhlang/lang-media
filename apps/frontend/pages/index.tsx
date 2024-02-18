@@ -1,7 +1,6 @@
 import { Layout, theme, Divider } from 'antd';
 import styled from 'styled-components';
 import VideoCardList from '../components/video/VideoCardList';
-
 const StyledPage = styled.div`
   .page {
   }
