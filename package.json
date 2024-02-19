@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "backend:dev:docker": "nx serve backend",
+    "frontend:dev:docker": "nx serve frontend --host=0.0.0.0",
+    "frontend-admin:dev:docker": "nx serve frontend-admin --host=0.0.0.0",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
