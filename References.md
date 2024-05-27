@@ -11,3 +11,4 @@
 - [Issue][Graphql-upload issue](https://github.com/jaydenseric/graphql-upload/issues/358)
 - [Issue][Variable "$file" got invalid value {}; Upload value invalid](https://stackoverflow.com/questions/64658321/variable-file-got-invalid-value-upload-value-invalid)
 - [Knowledge][Multipart uploads with S3 in Node.js and React](https://blog.logrocket.com/multipart-uploads-s3-node-js-react/)
+- [Knowledge][Guide to Running a Node Server in Nx Monorepo using PM2 Process Manager](https://jonascodeblog.vercel.app/blog/nx-pm2-plugin)
