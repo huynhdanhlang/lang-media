@@ -1,14 +1,15 @@
 importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
+require("dotenv").config();
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyApoey26jibvdgCAv-wpV_XUGgev_eSUv4',
-  authDomain: 'chatbot-ynuf.firebaseapp.com',
-  projectId: 'chatbot-ynuf',
-  storageBucket: 'chatbot-ynuf.appspot.com',
-  messagingSenderId: '962628463512',
-  appId: '1:962628463512:web:f8dda2f36e857b00a599ed',
-  measurementId: 'G-V2Q6BB73R4',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_I,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 });
 
 const messaging = firebase.messaging();
